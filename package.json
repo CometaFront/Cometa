@@ -1,0 +1,37 @@
+{
+  "name": "cometa",
+  "version": "1.0.0",
+  "description": "On-demand, on-the-fly, image resizing.",
+  "main": "app/index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iBrag/Cometa.git"
+  },
+  "author": "Stefan Aichholzer <play@analogbird.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iBrag/Cometa/issues"
+  },
+  "homepage": "https://github.com/iBrag/Cometa#readme",
+  "dependencies": {
+    "aws-sdk": "^2.2.33",
+    "express": "^4.13.4",
+    "grunt": "^0.4.5",
+    "map-stream": "0.0.6",
+    "serve-favicon": "^2.3.0",
+    "sharp": "^0.12.2",
+    "stream": "0.0.2"
+  },
+  "devDependencies": {
+    "dotenv": "^2.0.0",
+    "grunt-contrib-jshint": "^0.12.0",
+    "grunt-mocha-test": "^0.12.7",
+    "grunt-nodemon": "^0.4.1",
+    "jscs": "^2.9.0",
+    "mocha": "^2.4.5",
+    "request": "^2.69.0"
+  }
+}

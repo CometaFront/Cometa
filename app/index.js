@@ -14,7 +14,7 @@ app.use(
     favicon(__dirname + '/public/favicon.png'),
     router(express),
     function errorHandler(error, req, res, next) {
-        res.status(500).end();
+        res.status(error.code || 404).end();
         next = null;
     }
 );

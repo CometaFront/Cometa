@@ -4,6 +4,7 @@
 ```
 On-demand, on-the-fly, image resizing.
 ```
+*Please note that this is work in progress, just ask if you need help with anything.*
 
 ## Requirements
 

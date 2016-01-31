@@ -24,6 +24,19 @@ Cometa uses [sharp](https://github.com/lovell/sharp) for super-fast image manipu
 Your application should now be running on the port you specified in your `.env` file.<br />
 Currently it's only possible to fetch images from an `AWS S3` bucket.
 
+#### Environment variables
+
+Defined in your `.env` variable or locally exported.
+
+- `NODE_ENV`: How the application is run, currently has no effect.
+- `PORT`: Port on which your application will listen.
+- `COMETA_KEY`: A unique key used for authenticated request validation.
+
+- `AWS_ACCESS_KEY`: You AWS access key.
+- `AWS_ACCESS_SECRET`: You AWS access secret.
+- `AWS_REGION`: Region of your S3 bucket.
+- `AWS_BUCKET`: Name of your S3 bucket.
+
 
 
 ## Usage
@@ -33,7 +46,6 @@ If your `AWS S3` bucket is called `cometa` and inside it your image is called `s
 [http://localhost:5050/noauth/cometa/superlight.jpg](http://localhost:5050/noauth/cometa/superlight.jpg)
 
 This will only optimize the image and return it as `webp`, no resizing will happen.
-
 
 #### Query parameters
 
@@ -48,7 +60,50 @@ Supported output formats are: `webp`, `png`, and `jpeg`.
 
 ## Authentication
 
-To be documented.
+Look at this URL:
+
+```
+http://cdn.ibrag.it/noauth/cometa/superlight.jpg?width=200&height=200
+```
+
+A malicious user could easily overload your service by making thousands of different size requests.
+
+Consider the following snipped of pseudocode:
+
+```
+for (int requestWidth = 1; requestWidth < 100000; requestWidth++) {
+	for (int requestHeight = 1; requestHeight < 100000; requestHeight++) {
+    	http://cdn.ibrag.it/cometa/superlight.jpg?width={requestWidth}&height={requestHeight}
+	}
+}
+```
+
+That's almost 10 billion requests. Most certaily your service is dead by now.
+
+In order to prevent this, **Cometa** offers an authentication option and we strongly recommend you use it. In order to authenticate a request you must compute a `SHA-1 hmac` signature and include it in your request URL.
+
+#### Signature generation
+
+Again, let's look at this URL:
+
+```
+http://cdn.ibrag.it/noauth/cometa/superlight.jpg?width=200&height=200
+```
+
+From this URL, in order to generate a valid signature, you will need:
+
+- The hostname `cdn.ibrag.it`
+- the query string `/cometa/superlight.jpg?width=200&height=200`
+
+Your "signature" URL will be: `cdn.ibrag.it/cometa/superlight.jpg?width=200&height=200`
+
+Generate a `SHA-1 hmac` from the above URL with your `COMETA_KEY`. This is your signature. Append this signature to your URL, between the hostname and the query string (instead of the `noauth` in the example URLs used above):
+
+```
+http://cdn.ibrag.it/{SIGNAURE-GOES-HERE}/cometa/superlight.jpg?width=200&height=200
+```
+
+**Note:** Using `noauth` in your URL stands for no request authentication whatsoever. (*Recommended only for local testing*)
 
 
 

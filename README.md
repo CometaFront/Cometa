@@ -1,4 +1,4 @@
-<img src="./app/public/cometa.png" width="120">
+<img src="./app/public/cometa.png" width="350">
 
 ## Cometa
 ```
@@ -6,9 +6,12 @@ On-demand, on-the-fly, image resizing.
 ```
 *Please note that this is work in progress, just ask if you need help with anything.*
 
+
+
 ## Requirements
 
 Cometa uses [sharp](https://github.com/lovell/sharp) for super-fast image manipulation. In order to install `sharp` you will need to make sure all dependencies are satisfied. See its [installation instructions](http://sharp.dimens.io/en/stable/install/).
+
 
 
 ## Installation
@@ -20,6 +23,7 @@ Cometa uses [sharp](https://github.com/lovell/sharp) for super-fast image manipu
 
 Your application should now be running on the port you specified in your `.env` file.<br />
 Currently it's only possible to fetch images from an `AWS S3` bucket.
+
 
 
 ## Usage
@@ -40,6 +44,11 @@ This will only optimize the image and return it as `webp`, no resizing will happ
 
 Supported output formats are: `webp`, `png`, and `jpeg`.
 
+
+
+## Authentication
+
+To be documented.
 
 
 

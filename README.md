@@ -41,7 +41,7 @@ Defined in your `.env` variable or locally exported.
 
 ## Usage
 
-If your `AWS S3` bucket is called `cometa` and inside it your image is called `superlight.jpg`, then you can request with:
+If, inside your `AWS S3` bucket, you have a folder called `cometa` and inside it your image is called `superlight.jpg`, then you can request with:
 
 [http://localhost:5050/noauth/cometa/superlight.jpg](http://localhost:5050/noauth/cometa/superlight.jpg)
 

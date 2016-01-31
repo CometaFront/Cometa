@@ -71,9 +71,9 @@ A malicious user could easily overload your service by making thousands of diffe
 Consider the following snipped of pseudocode:
 
 ```
-for (int requestWidth = 1; requestWidth < 100000; requestWidth++) {
-	for (int requestHeight = 1; requestHeight < 100000; requestHeight++) {
-    	http://cdn.ibrag.it/cometa/superlight.jpg?width={requestWidth}&height={requestHeight}
+for (int reqWidth = 1; reqWidth < 100000; reqWidth++) {
+	for (int reqHeight = 1; reqHeight < 100000; reqHeight++) {
+    	GET http://cdn.ibrag.it/cometa/superlight.jpg?width={reqWidth}&height={reqHeight}
 	}
 }
 ```

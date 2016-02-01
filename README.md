@@ -32,8 +32,8 @@ Defined in your `.env` variable or locally exported.
 - `PORT`: Port on which your application will listen.
 - `COMETA_KEY`: A unique key used for authenticated request validation.
 
-- `AWS_ACCESS_KEY`: You AWS access key.
-- `AWS_ACCESS_SECRET`: You AWS access secret.
+- `AWS_ACCESS_KEY`: Your AWS access key.
+- `AWS_ACCESS_SECRET`: Your AWS access secret.
 - `AWS_REGION`: Region of your S3 bucket.
 - `AWS_BUCKET`: Name of your S3 bucket.
 
@@ -78,7 +78,7 @@ for (int reqWidth = 1; reqWidth < 100000; reqWidth++) {
 }
 ```
 
-That's almost 10 billion requests. Most certaily your service is dead by now.
+That's almost 10 billion requests. Most certainly your service is dead by now.
 
 In order to prevent this, **Cometa** offers an authentication option and we strongly recommend you use it. In order to authenticate a request you must compute a `SHA-1 hmac` signature and include it in your request URL.
 

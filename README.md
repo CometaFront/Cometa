@@ -73,7 +73,7 @@ Consider the following snipped of pseudocode:
 ```
 for (int reqWidth = 1; reqWidth < 100000; reqWidth++) {
 	for (int reqHeight = 1; reqHeight < 100000; reqHeight++) {
-    	GET http://cdn.ibrag.it/cometa/superlight.jpg?width={reqWidth}&height={reqHeight}
+    	GET http://cdn.ibrag.it/noauth/cometa/superlight.jpg?width={reqWidth}&height={reqHeight}
 	}
 }
 ```

@@ -121,7 +121,7 @@ Your *signature URL* will be: `localhost:5050/cometa/superlight.jpg?width=200&he
 - Generate a `SHA-1 hmac` of this URL with your `COMETA_KEY`,
 - encode your signature to `hexadecimal`.
 
-Append the signature to your URL, between the hostname and the query string (instead of the `noauth` in the example URLs used above):
+Append the signature to your URL, between the hostname and the query string (instead of `noauth` in the example URLs used above):
 
 ```
 http://localhost:5050/{SIGNAURE-GOES-HERE}/cometa/superlight.jpg?width=200&height=200

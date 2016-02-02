@@ -116,7 +116,7 @@ From this URL, in order to generate a valid signature, you will need:
 - The hostname `localhost:5050`
 - the query string `/cometa/superlight.jpg?width=200&height=200`
 
-Your *signature* URL will be: `localhost:5050/cometa/superlight.jpg?width=200&height=200`
+Your *signature URL* will be: `localhost:5050/cometa/superlight.jpg?width=200&height=200`
 
 - Generate a `SHA-1 hmac` of this URL with your `COMETA_KEY`,
 - encode your signature to `hexadecimal`.

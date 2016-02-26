@@ -17,21 +17,21 @@
   },
   "homepage": "https://github.com/iBrag/Cometa#readme",
   "dependencies": {
-    "aws-sdk": "^2.2.33",
+    "aws-sdk": "^2.2.39",
     "express": "^4.13.4",
     "map-stream": "0.0.6",
-    "serve-favicon": "^2.3.0",
-    "sharp": "^0.12.2"
+    "serve-favicon": "^2.3.0"
   },
   "devDependencies": {
     "dotenv": "^2.0.0",
     "grunt": "^0.4.5",
-    "grunt-contrib-jshint": "^0.12.0",
+    "grunt-contrib-jshint": "^1.0.0",
     "grunt-mocha-test": "^0.12.7",
     "grunt-nodemon": "^0.4.1",
-    "jscs": "^2.9.0",
+    "jscs": "^2.10.1",
     "mocha": "^2.4.5",
+    "nodemon": "^1.9.1",
     "request": "^2.69.0",
-    "v8-profiler": "^5.5.0"
+    "v8-profiler": "^5.6.0"
   }
 }

@@ -4,11 +4,11 @@
 let sharp = require('sharp'),
     mapStream = require('map-stream');
 
-module.exports = function () {
+module.exports = function meta() {
 
-    return mapStream(function (image, callback) {
+    return mapStream((image, callback) => {
 
-        sharp(image.body).metadata(function (error, metadata) {
+        sharp(image.body).metadata((error, metadata) => {
             if (error) {
                 image.error = new Error(error);
             } else {

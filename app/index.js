@@ -6,19 +6,21 @@ let express = require('express'),
     favicon = require('serve-favicon'),
     app = express();
 
+require('./dump.js').init(__dirname);
+
 app.use(
-    function setHeaders(req, res, next) {
+    (req, res, next) => {
         res.set('X-Powered-By', 'analogbird.com');
         return next();
     },
     favicon(__dirname + '/public/favicon.png'),
     router(express),
-    function errorHandler(error, req, res, next) {
+    (error, req, res, next) => {
         res.status(error.code || 404).end();
         next = null;
     }
 );
 
-app.listen(process.env.PORT, function () {
+app.listen(process.env.PORT, () => {
     console.log('Up on port:', process.env.PORT);
 });

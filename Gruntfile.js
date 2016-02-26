@@ -2,7 +2,7 @@
 
 
 require('dotenv').load();
-module.exports = function (grunt) {
+module.exports = grunt => {
 
     process.env.NODE_ENV = grunt.option('env') || 'local';
     if (grunt.option('with') === 'app') {

@@ -1,19 +1,16 @@
 'use strict';
 
 
-let util = require('util'),
-    aws = require('aws-sdk'),
+let aws = require('aws-sdk'),
     stream = require('stream'),
-    parse = require('../parse'),
     config = require('../../config'),
-    S3 = function S3(req) {
+    S3 = function S3(params) {
         if (!(this instanceof S3)) {
-            return new S3(req);
+            return new S3(params);
         }
 
         stream.Readable.call(this, { objectMode: true });
 
-        let params = parse(req);
         this.imageKey = params.imagePath;
         this.output = params.output;
         this.image = {};
@@ -23,6 +20,7 @@ let util = require('util'),
 aws.config = config.aws;
 S3.prototype._read = function S3$read() {
     if (this.isComplete) {
+        this.image = null;
         return;
     }
 
@@ -45,5 +43,5 @@ S3.prototype._read = function S3$read() {
     });
 };
 
-util.inherits(S3, stream.Readable);
+require('util').inherits(S3, stream.Readable);
 module.exports = S3;

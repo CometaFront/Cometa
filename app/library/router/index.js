@@ -7,9 +7,9 @@ let fs = require('fs'),
         let schemaPath = __dirname + '/routes/',
             control = __dirname + '/../../controllers/';
 
-        fs.readdirSync(schemaPath).forEach(function (file) {
+        fs.readdirSync(schemaPath).forEach(file => {
             if (file.match(/(.+)\.js(on)?$/)) {
-                fs.stat(control + file, function (err) {
+                fs.stat(control + file, err => {
                     if (!err) {
                         router = require(schemaPath + file)(router, require(control + file));
                     } else {
@@ -18,9 +18,11 @@ let fs = require('fs'),
                 });
             }
         });
+
         return router;
     };
 
-module.exports = function (express) {
+module.exports = function router(express) {
     return setup(express.Router());
 };
+

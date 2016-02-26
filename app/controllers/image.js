@@ -8,8 +8,7 @@ module.exports = {
 
     download: (req, res) => {
 
-        let params = parse(req);
-        new stream.S3(params)
+        new stream.S3(parse(req))
             .pipe(stream.meta())
             .pipe(stream.resize())
             .pipe(stream.response(req, res));

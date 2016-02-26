@@ -6,11 +6,9 @@ let express = require('express'),
     favicon = require('serve-favicon'),
     app = express();
 
-require('./dump.js').init(__dirname);
-
 app.use(
     (req, res, next) => {
-        res.set('X-Powered-By', 'analogbird.com');
+        res.set('X-Powered-By', 'ibrag.it');
         return next();
     },
     favicon(__dirname + '/public/favicon.png'),

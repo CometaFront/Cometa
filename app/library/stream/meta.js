@@ -4,7 +4,7 @@
 let sharp = require('sharp'),
     mapStream = require('map-stream');
 
-module.exports = function meta() {
+module.exports = () => {
 
     return mapStream((image, callback) => {
 

@@ -5,7 +5,7 @@ var crypto = require('crypto'),
     query = require('querystring'),
     config = require('../config/index');
 
-module.exports = function validateSignature(req, res, next) {
+module.exports = (req, res, next) => {
 
     if (req.params.signature === 'noauth') {
         return next();

@@ -1,9 +1,7 @@
 'use strict';
 
 
-let env = function env(variableName) {
-    return process.env[variableName];
-};
+let env = variableName => process.env[variableName];
 
 module.exports = {
     env: env('NODE_ENV'),

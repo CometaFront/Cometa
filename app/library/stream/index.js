@@ -9,10 +9,7 @@ let S3 = require('./s3'),
 module.exports = {
 
     S3: S3,
-
     meta: meta,
-
     resize: resize,
-
     response: response
 };

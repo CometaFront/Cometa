@@ -6,7 +6,7 @@ let stream = require('../library/stream'),
 
 module.exports = {
 
-    download: function image$download(req, res) {
+    download: (req, res) => {
 
         let params = parse(req);
         new stream.S3(params)

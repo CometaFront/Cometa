@@ -16,7 +16,7 @@
  */
 let v = require('../../validateSignature');
 
-module.exports = function commonRoute(router, control) {
+module.exports = (router, control) => {
 
     router.get('/:signature/*?', v, control.download);
     return router;

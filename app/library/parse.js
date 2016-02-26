@@ -1,7 +1,7 @@
 'use strict';
 
 
-module.exports = function parse(req) {
+module.exports = req => {
 
     let supportedOutput = ['webp', 'png', 'jpeg'],
         path = req.params[0],

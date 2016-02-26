@@ -2,7 +2,7 @@
 
 
 let fs = require('fs'),
-    setup = function router$setup(router) {
+    setup = router => {
 
         let schemaPath = __dirname + '/routes/',
             control = __dirname + '/../../controllers/';
@@ -22,7 +22,4 @@ let fs = require('fs'),
         return router;
     };
 
-module.exports = function router(express) {
-    return setup(express.Router());
-};
-
+module.exports = express => setup(express.Router());

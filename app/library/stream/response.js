@@ -15,12 +15,16 @@ let crypto = require('crypto'),
 
 Response.prototype._write = function Response$write(image) {
 
+    let expirationDate = new Date();
+    expirationDate.setDate(expirationDate.getDate() + 30);
+
     this.res.set({
         'Content-Type': 'image/' + image.output.format,
-        'Cache-Control': 'public, max-age=2592000, no-transform',
+        'Cache-Control': 'max-age=2592000,public',
+        'Expires': expirationDate.toGMTString(),
         'Content-Length': image.body.length,
         'Last-Modified': (new Date()).toGMTString(),
-        'Etag': crypto.createHash('md5').update(image.body, 'utf8').digest('hex'),
+        'Etag': crypto.createHash('sha1').update(image.body, 'utf8').digest('hex'),
         'Vary': 'Accept-Encoding'
     });
     this.res.send(image.body);

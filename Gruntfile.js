@@ -34,8 +34,8 @@ module.exports = grunt => {
         nodemon: {
             script: 'app/index.js',
             options: {
-                callback: function (nodemon) {
-                    nodemon.on('log', function (event) {
+                callback: nodemon => {
+                    nodemon.on('log', event => {
                         console.log(event.colour);
                     });
                 },

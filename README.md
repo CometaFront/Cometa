@@ -34,7 +34,6 @@ Defined in your `.env` variable or locally exported.
 - `NODE_ENV`: How the application is run, currently has no effect.
 - `PORT`: Port on which your application will listen.
 - `COMETA_KEY`: A unique key used for request signature validation.
-
 - `AWS_ACCESS_KEY`: Your AWS access key.
 - `AWS_ACCESS_SECRET`: Your AWS access secret.
 - `AWS_REGION`: Region of your S3 bucket.

@@ -23,20 +23,25 @@ HTTP.prototype._read = function HTTP$read() {
         return;
     }
 
-    request.get(this.imageURL, (error, res, body) => {
-        if (error) {
-            this.image.error = error;
-        } else {
-            this.image.output = this.output;
-            this.image.body = body;
-            this.image.originalBodyLength = body.length;
-        }
+    request({
+            method: 'GET',
+            url: this.imageURL,
+            timeout: config.requestTimeout
+        }, (error, res, body) => {
+            if (error || res.statusCode >= 400) {
+                console.error(`Provider error: ${error.code}`);
+                this.emit('error', { status: res ? res.statusCode : 404 });
+            } else {
+                this.image.output = this.output;
+                this.image.body = body;
+                this.image.originalBodyLength = body.length;
+            }
 
-        this.isComplete = true;
-        this.push(this.image);
-        this.push(null);
-        this.image = null;
-    });
+            this.isComplete = true;
+            this.push(this.image);
+            this.push(null);
+            this.image = null;
+        });
 };
 
 require('util').inherits(HTTP, stream.Readable);

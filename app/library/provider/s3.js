@@ -29,7 +29,8 @@ S3.prototype._read = function S3$read() {
 
     s3.getObject(params, (error, data) => {
         if (error) {
-            this.image.error = error;
+            console.error(`Provider error: ${error}`);
+            this.emit('error', { status: 404 });
         } else {
             this.image.output = this.output;
             this.image.body = data.Body;

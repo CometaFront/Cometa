@@ -24,10 +24,10 @@ module.exports = req => {
         throw { status: 400, code: 10 };
     }
 
-    if (imageParts[2] && supportedOutput.indexOf(imageParts[2]) >= 0) {
+    if (supportedOutput.indexOf(imageParts[2]) >= 0) {
         outputFormat = imageParts[2];
         path = path.replace('.' + outputFormat, '');
-    } else if (imageParts[2]) {
+    } else {
         path = path.replace('.' + imageParts[2], '');
     }
 

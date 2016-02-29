@@ -14,8 +14,9 @@ let env = variableName => {
 module.exports = {
     env: env('NODE_ENV'),
     key: env('COMETA_KEY'),
-    cluster: env('APP_CLUSTER'),
-    noAuthAllowed: env('NOAUTH_ALLOWED'),
+    cluster: env('APP_CLUSTER') || false,
+    noAuthAllowed: env('NOAUTH_ALLOWED') || false,
+    requestTimeout: parseInt(env('REQUEST_TIMEOUT')) || 2500,
     aws: {
         accessKeyId: env('AWS_ACCESS_KEY'),
         secretAccessKey: env('AWS_ACCESS_SECRET'),

@@ -6,9 +6,9 @@ let stream = require('../library/stream'),
 
 module.exports = {
 
-    download: (req, res) => {
+    download: (req, res, next) => {
 
-        provider.init(req)
+        provider.init(req).on('error', next)
             .pipe(stream.meta())
             .pipe(stream.resize())
             .pipe(stream.response(req, res));

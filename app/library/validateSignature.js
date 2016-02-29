@@ -7,7 +7,7 @@ var crypto = require('crypto'),
 
 module.exports = (req, res, next) => {
 
-    if (req.params.signature === 'noauth') {
+    if (config.noAuthAllowed && req.params.signature === 'noauth') {
         return next();
     }
 

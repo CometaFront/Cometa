@@ -6,7 +6,7 @@ let cluster = require('cluster'),
 
 module.exports = (app, port) => {
 
-    if (cluster.isMaster && process.env.APP_CLUSTER === 'yes') {
+    if (cluster.isMaster && process.env.APP_CLUSTER) {
         for (let cpu = 0; cpu < cores.length; cpu += 1) {
             cluster.fork();
         }
@@ -18,7 +18,7 @@ module.exports = (app, port) => {
 
     } else {
         app.listen(port, () => {
-            console.log('Up on port:', port);
+            console.log(`Up on port: ${port}`);
         });
     }
 };

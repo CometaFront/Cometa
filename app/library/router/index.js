@@ -13,7 +13,7 @@ let fs = require('fs'),
                     if (!err) {
                         router = require(schemaPath + file)(router, require(control + file));
                     } else {
-                        console.error('I was not able to find a controller for the', file, 'route.');
+                        console.error(`I was not able to find a controller for the ${file} route.`);
                     }
                 });
             }

@@ -2,9 +2,9 @@
 
 
 let express = require('express'),
+    favicon = require('serve-favicon'),
     router = require('./library/router'),
     cluster = require('./library/cluster'),
-    favicon = require('serve-favicon'),
     app = express();
 
 app.use(

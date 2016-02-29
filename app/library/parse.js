@@ -4,7 +4,7 @@
 module.exports = req => {
 
     let supportedOutput = ['webp', 'png', 'jpeg'],
-        path = null,
+        path = '',
         provider = null;
 
     if (req.params[0]) {
@@ -36,7 +36,7 @@ module.exports = req => {
             quality: outputQuality,
             format: outputFormat
         },
-        imagePath: path,
+        imagePath: path || null,
         provider: provider
     };
 };

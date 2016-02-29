@@ -6,6 +6,7 @@ let env = variableName => process.env[variableName];
 module.exports = {
     env: env('NODE_ENV'),
     key: env('COMETA_KEY'),
+    cluster: env('APP_CLUSTER'),
     aws: {
         accessKeyId: env('AWS_ACCESS_KEY'),
         secretAccessKey: env('AWS_ACCESS_SECRET'),

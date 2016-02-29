@@ -1,8 +1,8 @@
 'use strict';
 
 
-let stream = require('../library/stream'),
-    parse = require('../library/parse');
+let parse = require('../library/parse'),
+    stream = require('../library/stream');
 
 module.exports = {
 

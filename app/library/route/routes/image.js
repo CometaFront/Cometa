@@ -14,7 +14,7 @@
  * Verily, this vichyssoise of verbiage veers most verbose, so let me simply add that it's
  * my very good honor to meet you and you may call me V.
  */
-let v = require('../../validateSignature');
+let v = require('../../signature');
 
 module.exports = (router, control) => {
 

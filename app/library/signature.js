@@ -1,7 +1,7 @@
 'use strict';
 
 
-var crypto = require('crypto'),
+let crypto = require('crypto'),
     query = require('querystring'),
     config = require('../config/index');
 

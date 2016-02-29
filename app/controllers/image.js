@@ -1,15 +1,14 @@
 'use strict';
 
 
-let parse = require('../library/parse'),
-    stream = require('../library/stream'),
-    provider = require('../library/providers');
+let stream = require('../library/stream'),
+    provider = require('../library/provider');
 
 module.exports = {
 
     download: (req, res) => {
 
-        provider.init(parse(req))
+        provider.init(req)
             .pipe(stream.meta())
             .pipe(stream.resize())
             .pipe(stream.response(req, res));

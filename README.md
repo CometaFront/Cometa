@@ -1,6 +1,7 @@
 <img src="./app/public/cometa.png" width="350">
 
 
+
 ## Cometa
 ```
 On-demand, on-the-fly, image resizing.
@@ -42,14 +43,6 @@ Defined in your `.env` variable or locally exported.
 - `AWS_BUCKET`: Name of your S3 bucket.
 
 
-#### Query parameters
-
-- `w` or `width` *{integer}*: Output width,
-- `h` or `height` *{integer}*: Output height, 
-- `q` or `quality` *{integer}*: Output image quality (defaults to `80`, ignored with `png`)
-- `url` *{string}*: The URL from which to request the image. (Not needed when using with AWS)
-
-
 
 ## Usage
 
@@ -71,6 +64,14 @@ http://localhost:5050/noauth/?url=http%3A%2F%2Fimages.google.com%2Fcars.jpg
 ```
 
 The `url` should be properly *URL encoded*.
+
+
+#### Query parameters
+
+- `w` or `width` *{integer}*: Output width,
+- `h` or `height` *{integer}*: Output height, 
+- `q` or `quality` *{integer}*: Output image quality (defaults to `80`, ignored with `png`)
+- `url` *{string}*: The URL from which to request the image. (Not needed when using with AWS)
 
 
 #### Input formats

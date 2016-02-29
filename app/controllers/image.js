@@ -9,8 +9,8 @@ module.exports = {
     download: (req, res, next) => {
 
         provider.init(req).on('error', next)
-            .pipe(stream.meta())
-            .pipe(stream.resize())
+            .pipe(stream.meta()).on('error', next)
+            .pipe(stream.resize()).on('error', next)
             .pipe(stream.response(req, res));
     }
 };

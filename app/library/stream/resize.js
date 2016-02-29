@@ -35,11 +35,10 @@ module.exports = () => {
 
         sharpImage.quality(image.output.quality).toFormat(image.output.format).toBuffer((error, buffer) => {
             if (error) {
-                image.error = new Error(error);
-            } else {
-                image.body = buffer;
+                return callback(new Error(error));
             }
 
+            image.body = buffer;
             callback(null, image);
         });
     });

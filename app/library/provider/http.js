@@ -30,7 +30,7 @@ HTTP.prototype._read = function HTTP$read() {
         }, (error, res, body) => {
             if (error || res.statusCode >= 400) {
                 console.error(`Provider error: ${error.code}`);
-                this.emit('error', { status: res ? res.statusCode : 404 });
+                this.emit('error', new Error({ status: res ? res.statusCode : 404 }));
             } else {
                 this.image.output = this.output;
                 this.image.body = body;

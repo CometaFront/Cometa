@@ -37,6 +37,7 @@ Defined in your `.env` variable or locally exported.
 - `PORT`: Port on which your application will listen.
 - `COMETA_KEY`: A unique key used for request signature validation.
 - `NOAUTH_ALLOWED`: Whether `noauth` requests are allowed or not.
+- `REQUEST_TIMEOUT`: When using with an image URL, the time (in milliseconds) before timing out.
 - `AWS_ACCESS_KEY`: Your AWS access key.
 - `AWS_ACCESS_SECRET`: Your AWS access secret.
 - `AWS_REGION`: Region of your S3 bucket.
@@ -76,7 +77,7 @@ The `url` should be properly *URL encoded*.
 
 #### Input formats
 
-Currently only `jpg` is supported.
+Supported input formats are: `webp`, `png`, and `jpeg` (same as `jpg`).
 
 
 #### Output formats

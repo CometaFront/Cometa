@@ -10,11 +10,10 @@ module.exports = () => {
 
         sharp(image.body).metadata((error, metadata) => {
             if (error) {
-                image.error = new Error(error);
-            } else {
-                image.metadata = metadata;
+                return callback(new Error(error));
             }
 
+            image.metadata = metadata;
             callback(null, image);
         });
     });

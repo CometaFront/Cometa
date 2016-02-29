@@ -11,7 +11,7 @@ On-demand, on-the-fly, image resizing.
 
 ## Requirements
 
-Cometa uses [sharp](https://github.com/lovell/sharp) for super-fast image manipulation.<br />
+*Cometa* uses [sharp](https://github.com/lovell/sharp) for super-fast image manipulation.<br />
 In order to install `sharp` you will need to make sure all dependencies are satisfied. See its [installation instructions](http://sharp.dimens.io/en/stable/install/).
 
 
@@ -64,7 +64,7 @@ http://localhost:5050/noauth/cometa/superlight.jpg
 
 #### With an URL
 
-It's also possible to use `Cometa` without an AWS S3 bucket. Just provide the `url` of the image being requested.
+It's also possible to use *Cometa* without an AWS S3 bucket. Just provide the `url` of the image being requested.
 
 ```
 http://localhost:5050/noauth/?url=http%3A%2F%2Fimages.google.com%2Fcars.jpg
@@ -113,7 +113,7 @@ for (int reqWidth = 1; reqWidth < 100000; reqWidth++) {
 
 That's almost 10 billion requests. Most certainly your service is dead by now.
 
-In order to prevent this, **Cometa** offers an authentication option -and we strongly recommend you use it. In order to authenticate a request you must compute a `SHA-1 hmac` signature and include it in your URL.
+In order to prevent this, *Cometa* offers an authentication option -and we strongly recommend you use it. In order to authenticate a request you must compute a `SHA-1 hmac` signature and include it in your URL.
 
 
 #### Signature generation

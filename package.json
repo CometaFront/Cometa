@@ -20,6 +20,7 @@
     "aws-sdk": "^2.2.39",
     "express": "^4.13.4",
     "map-stream": "0.0.6",
+    "request": "^2.69.0",
     "serve-favicon": "^2.3.0",
     "sharp": "^0.13.0"
   },

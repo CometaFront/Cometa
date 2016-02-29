@@ -18,5 +18,5 @@ module.exports = (req, res, next) => {
         return next();
     }
 
-    next({ code: 403 });
+    next({ status: 403 });
 };

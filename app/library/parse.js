@@ -3,7 +3,8 @@
 
 module.exports = req => {
 
-    let supportedOutput = ['webp', 'png', 'jpeg'],
+    let supportedInput = ['webp', 'png', 'jpeg', 'jpg'],
+        supportedOutput = ['webp', 'png', 'jpeg'],
         path = '',
         provider = null,
         outputFormat = 'jpeg',
@@ -19,12 +20,15 @@ module.exports = req => {
 
     let imageParts = path.split('/').pop().split('.');
 
-    // TODO: Error on invalid input - imageParts[1]
-    // let supportedInput = ['webp', 'png', 'jpeg', 'jpg']
+    if (supportedInput.indexOf(imageParts[1]) < 0) {
+        throw { status: 400, code: 10 };
+    }
 
     if (imageParts[2] && supportedOutput.indexOf(imageParts[2]) >= 0) {
         outputFormat = imageParts[2];
         path = path.replace('.' + outputFormat, '');
+    } else if (imageParts[2]) {
+        path = path.replace('.' + imageParts[2], '');
     }
 
     return {

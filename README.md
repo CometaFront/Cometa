@@ -31,25 +31,15 @@ Currently it's only possible to fetch images from `AWS S3` buckets.
 
 Defined in your `.env` variable or locally exported.
 
+- `APP_CLUSTER`: Whether the application should make use of all available CPUs or not. 
 - `NODE_ENV`: How the application is run, currently has no effect.
 - `PORT`: Port on which your application will listen.
 - `COMETA_KEY`: A unique key used for request signature validation.
+- `NOAUTH_ALLOWED`: Whether `noauth` requests are allowed or not.
 - `AWS_ACCESS_KEY`: Your AWS access key.
 - `AWS_ACCESS_SECRET`: Your AWS access secret.
 - `AWS_REGION`: Region of your S3 bucket.
 - `AWS_BUCKET`: Name of your S3 bucket.
-
-
-
-## Usage
-
-If, inside your `AWS S3` bucket, you have a folder called `cometa` and inside it your image is called `superlight.jpg`, then you can request it like:
-
-```
-http://localhost:5050/noauth/cometa/superlight.jpg
-```
-
-This will only optimize the image and return it as `Content-Type: image/jpeg`. No image resizing.
 
 
 #### Query parameters
@@ -57,6 +47,30 @@ This will only optimize the image and return it as `Content-Type: image/jpeg`. N
 - `w` or `width` *{integer}*: Output width,
 - `h` or `height` *{integer}*: Output height, 
 - `q` or `quality` *{integer}*: Output image quality (defaults to `80`, ignored with `png`)
+- `url` *{string}*: The URL from which to request the image. (Not needed when using with AWS)
+
+
+
+## Usage
+
+#### With AWS S3
+
+If, inside your `AWS S3` bucket, you have a folder called `cometa` and inside it your image is called `superlight.jpg`, then you can request it like:
+
+```
+http://localhost:5050/noauth/cometa/superlight.jpg
+```
+
+
+#### With an URL
+
+It's also possible to use `Cometa` without an AWS S3 bucket. Just provide the `url` of the image being requested.
+
+```
+http://localhost:5050/noauth/?url=http%3A%2F%2Fimages.google.com%2Fcars.jpg
+```
+
+The `url` should be properly *URL encoded*.
 
 
 #### Input formats

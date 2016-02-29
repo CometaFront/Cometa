@@ -3,17 +3,17 @@
 
 let express = require('express'),
     favicon = require('serve-favicon'),
-    router = require('./library/router'),
+    route = require('./library/route'),
     cluster = require('./library/cluster'),
     app = express();
 
 app.use(
     (req, res, next) => {
-        res.set('x-powered-by', 'ibrag.it');
+        res.set('X-Powered-By', 'ibrag.it');
         return next();
     },
     favicon(__dirname + '/public/favicon.png'),
-    router(express),
+    route(express.Router()),
     (error, req, res, next) => {
         res.status(error.status || 404).end();
         next = null;

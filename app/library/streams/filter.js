@@ -6,7 +6,7 @@ let fs = require('fs'),
     filters = (() => {
 
         let filters = {},
-            filterPath = __dirname + '/filters/';
+            filterPath = __dirname + '/../filters/';
 
         fs.readdirSync(filterPath).forEach(filter => {
             if (filter.match(/(.+)\.js(on)?$/)) {

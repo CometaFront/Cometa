@@ -35,6 +35,7 @@ module.exports = req => {
         output: {
             width: parseInt(req.query.w || req.query.width) || 0,
             height: parseInt(req.query.h || req.query.height) || 0,
+            filter: req.query.f || req.query.filter || null,
             quality: outputQuality > 0 && outputQuality <= 100 ? outputQuality : 80,
             format: outputFormat
         },

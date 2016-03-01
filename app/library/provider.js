@@ -1,9 +1,9 @@
 'use strict';
 
 
-let S3 = require('./s3'),
-    HTTP = require('./http'),
-    parse = require('../parse');
+let parse = require('./parse'),
+    S3 = require('./providers/s3'),
+    HTTP = require('./providers/http');
 
 module.exports = {
 

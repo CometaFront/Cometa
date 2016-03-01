@@ -32,7 +32,7 @@ Currently it's only possible to fetch images from `AWS S3` buckets.
 
 Defined in your `.env` variable or locally exported.
 
-- `APP_CLUSTER`: Whether the application should make use of all available CPUs or not. 
+- `APP_CLUSTER`: Whether the application should make use of all available CPUs or not.
 - `NODE_ENV`: How the application is run, currently has no effect.
 - `PORT`: Port on which your application will listen.
 - `COMETA_KEY`: A unique key used for request signature validation.
@@ -70,8 +70,9 @@ The `url` should be properly *URL encoded*.
 #### Query parameters
 
 - `w` or `width` *{integer}*: Output width,
-- `h` or `height` *{integer}*: Output height, 
+- `h` or `height` *{integer}*: Output height,
 - `q` or `quality` *{integer}*: Output image quality (defaults to `80`, ignored with `png`)
+- `f` or `filter` *{string}*: Filter to apply to the image (sepia, grayscale, etc.)
 - `url` *{string}*: The URL from which to request the image. (Not needed when using with AWS)
 
 

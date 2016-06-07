@@ -4,7 +4,7 @@
 
 ## Cometa
 ```
-On-demand, on-the-fly, image resizing.
+Super fast on demand and on the fly image resizing.
 ```
 *Please note that this is work in progress, just ask if you need help with anything.*
 
@@ -12,7 +12,7 @@ On-demand, on-the-fly, image resizing.
 
 ## Requirements
 
-*Cometa* uses [sharp](https://github.com/lovell/sharp) for super-fast image manipulation.<br />
+*Cometa* uses [sharp](https://github.com/lovell/sharp) for super fast image manipulation.<br />
 In order to install `sharp` you will need to make sure all dependencies are satisfied. See its [installation instructions](http://sharp.dimens.io/en/stable/install/).
 
 

@@ -1,7 +1,7 @@
 {
   "name": "cometa",
   "version": "1.0.0",
-  "description": "On-demand, on-the-fly, image resizing.",
+  "description": "Super fast on demand and on the fly image resizing.",
   "main": "app/index.js",
   "scripts": {
     "test": "npm test"
@@ -17,23 +17,21 @@
   },
   "homepage": "https://github.com/iBrag/Cometa#readme",
   "dependencies": {
-    "aws-sdk": "^2.2.39",
+    "aws-sdk": "^2.3.17",
     "express": "^4.13.4",
     "map-stream": "0.0.6",
-    "request": "^2.69.0",
+    "request": "^2.72.0",
     "serve-favicon": "^2.3.0",
-    "sharp": "^0.13.0"
+    "sharp": "^0.15.0"
   },
   "devDependencies": {
     "dotenv": "^2.0.0",
-    "grunt": "^0.4.5",
+    "grunt": "^1.0.1",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-mocha-test": "^0.12.7",
-    "grunt-nodemon": "^0.4.1",
-    "jscs": "^2.10.1",
+    "grunt-nodemon": "^0.4.2",
+    "jscs": "^3.0.4",
     "mocha": "^2.4.5",
-    "nodemon": "^1.9.1",
-    "request": "^2.69.0",
-    "v8-profiler": "^5.6.0"
+    "nodemon": "^1.9.1"
   }
 }

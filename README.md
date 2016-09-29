@@ -1,20 +1,11 @@
 <img src="./app/public/cometa.png" width="350">
 
-
-
 ## Cometa
+Super fast on demand and on the fly image resizing powered by [sharp](https://github.com/lovell/sharp)
+
 ```
-Super fast on demand and on the fly image resizing.
+Please note that this is work in progress, just ask if you need help with anything.
 ```
-*Please note that this is work in progress, just ask if you need help with anything.*
-
-
-
-## Requirements
-
-*Cometa* uses [sharp](https://github.com/lovell/sharp) for super fast image manipulation.<br />
-In order to install `sharp` you will need to make sure all dependencies are satisfied. See its [installation instructions](http://sharp.dimens.io/en/stable/install/).
-
 
 
 ## Installation
@@ -33,11 +24,12 @@ Currently it's only possible to fetch images from `AWS S3` buckets.
 Defined in your `.env` variable or locally exported.
 
 - `APP_CLUSTER`: Whether the application should make use of all available CPUs or not.
-- `NODE_ENV`: How the application is run, currently has no effect.
-- `PORT`: Port on which your application will listen.
+- `PORT`: Port on which your application will listen. `Defaults to 5050`.
 - `COMETA_KEY`: A unique key used for request signature validation.
 - `NOAUTH_ALLOWED`: Whether `noauth` requests are allowed or not.
 - `REQUEST_TIMEOUT`: When using with an image URL, the time (in milliseconds) before timing out.
+
+#### If you are fetching images from S3:
 - `AWS_ACCESS_KEY`: Your AWS access key.
 - `AWS_ACCESS_SECRET`: Your AWS access secret.
 - `AWS_REGION`: Region of your S3 bucket.
@@ -49,19 +41,21 @@ Defined in your `.env` variable or locally exported.
 
 #### With AWS S3
 
-If, inside your `AWS S3` bucket, you have a folder called `cometa` and inside it your image is called `superlight.jpg`, then you can request it like:
+If, for example, inside your `AWS_BUCKET` bucket, you have a folder called `cometa` and inside it an image called `superlight.jpg`, then request it like this:
 
 ```
-http://localhost:5050/noauth/cometa/superlight.jpg
+HTTP 1.1
+GET http://localhost:5050/noauth/cometa/superlight.jpg
 ```
 
 
 #### With an URL
 
-It's also possible to use *Cometa* without an AWS S3 bucket. Just provide the `url` of the image being requested.
+It's also possible to use *Cometa* without an AWS S3 bucket. Just provide the `url` of the image being requested:
 
 ```
-http://localhost:5050/noauth/?url=http%3A%2F%2Fimages.google.com%2Fcars.jpg
+HTTP 1.1
+GET http://localhost:5050/noauth/?url=http%3A%2F%2Fimages.google.com%2Fcars.jpg
 ```
 
 The `url` should be properly *URL encoded*.
@@ -88,8 +82,13 @@ Supported output formats are: `webp`, `png`, and `jpeg`.
 Simply append the required format to the image URL:
 
 ```
-http://localhost:5050/noauth/cometa/superlight.jpg.webp
-http://localhost:5050/noauth/cometa/superlight.jpg.png
+HTTP 1.1
+GET http://localhost:5050/noauth/cometa/superlight.jpg.webp
+// Outputs webp
+
+HTTP 1.1
+GET http://localhost:5050/noauth/cometa/superlight.jpg.png
+// Outputs png
 ```
 
 
@@ -99,7 +98,8 @@ http://localhost:5050/noauth/cometa/superlight.jpg.png
 Look at this URL:
 
 ```
-http://localhost:5050/noauth/cometa/superlight.jpg?width=200&height=200
+HTTP 1.1
+GET http://localhost:5050/noauth/cometa/superlight.jpg?width=200&height=200
 ```
 
 A malicious user could easily overload your service by making thousands of different size requests.
@@ -108,43 +108,44 @@ Consider the following snipped of pseudocode:
 
 ```
 for (int reqWidth = 1; reqWidth < 100000; reqWidth++) {
-	for (int reqHeight = 1; reqHeight < 100000; reqHeight++) {
-    	GET http://localhost:5050/noauth/cometa/superlight.jpg?width={reqWidth}&height={reqHeight}
-	}
+  for (int reqHeight = 1; reqHeight < 100000; reqHeight++) {
+    GET http://localhost:5050/noauth/cometa/superlight.jpg?width={reqWidth}&height={reqHeight}
+  }
 }
 ```
 
-That's almost 10 billion requests. Most certainly your service is dead by now.
+That's almost 10 billion requests, most certainly your service is dead by now.
 
-In order to prevent this, *Cometa* offers an authentication option -and we strongly recommend you use it. In order to authenticate a request you must compute a `SHA-1 hmac` signature and include it in your URL.
+To prevent this, *Cometa* offers an authentication option -and we strongly recommend you use it. In order to authenticate a request you must compute a `SHA-1 hmac` signature and include it in your URL.
 
 
 #### Signature generation
 
-Again, let's look at this URL:
+Again, let's look at the following URL:
 
 ```
-http://localhost:5050/noauth/cometa/superlight.jpg?width=200&height=200
+HTTP 1.1
+GET http://localhost:5050/[signature]/cometa/superlight.jpg?width=200&height=200
 ```
 
-From this URL, in order to generate a valid signature, you will need:
+In order to generate a valid signature from this example URL, you will need:
 
-- The hostname `localhost:5050`
-- the query string `/cometa/superlight.jpg?width=200&height=200`
+- The hostname: `localhost:5050`,
+- The query string: `/cometa/superlight.jpg?width=200&height=200`
 
-Your *signature URL* will be: `localhost:5050/cometa/superlight.jpg?width=200&height=200`
+Thus, your *signature URL* will be: `localhost:5050/cometa/superlight.jpg?width=200&height=200`
 
-- Generate a `SHA-1 hmac` of this URL with your `COMETA_KEY`,
+- Generate a `SHA-1 hmac` of this URL using your key: `COMETA_KEY`,
 - encode your signature to `hexadecimal`.
 
-Append the signature to your URL, between the hostname and the query string (instead of `noauth` in the example URLs used above):
+The signature must be made part of the URL. Place it between the hostname and the query string (instead of the `[signature]` in the example above). You signed URL will look something like this:
 
 ```
-http://localhost:5050/{SIGNAURE-GOES-HERE}/cometa/superlight.jpg?width=200&height=200
+HTTP 1.1
+GET http://localhost:5050/a9c619705e8fcaa770885cac1837ae950f5c8ba5/cometa/superlight.jpg?width=200&height=200
 ```
 
-**Note:** Using `noauth` in your URL stands for no request authentication whatsoever. (*Use at your own discretion*)
-
+**Note:** Allowing `noauth` requests can be dangerous. *Use at your own discretion*
 
 
 ## License

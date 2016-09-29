@@ -1,15 +1,15 @@
 'use strict';
 
 
-let parse = require('./parse'),
-    S3 = require('./providers/s3'),
-    HTTP = require('./providers/http');
+const parse = _require('library/parse');
+const S3 = _require('library/providers/s3');
+const HTTP = _require('library/providers/http');
 
 module.exports = {
 
     init: req => {
 
-        let params = parse(req);
+        const params = parse(req);
         switch (params.provider) {
             case 'S3': return new S3(params);
                 break;

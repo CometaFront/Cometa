@@ -1,9 +1,9 @@
 'use strict';
 
 
-let crypto = require('crypto'),
-    query = require('querystring'),
-    config = require('../config/index');
+const crypto = require('crypto');
+const query = require('querystring');
+const config = _require('config');
 
 module.exports = (req, res, next) => {
 

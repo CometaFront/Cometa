@@ -1,8 +1,8 @@
 'use strict';
 
 
-let stream = require('../library/stream'),
-    provider = require('../library/provider');
+const stream = _require('library/stream');
+const provider = _require('library/provider');
 
 module.exports = {
 

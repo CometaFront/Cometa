@@ -1,31 +1,34 @@
 'use strict';
 
 
-let aws = require('aws-sdk'),
-    stream = require('stream'),
-    config = require('../../config'),
-    S3 = function S3(params) {
-        if (!(this instanceof S3)) {
-            return new S3(params);
-        }
+const aws = require('aws-sdk');
+const stream = require('stream');
+const config = _require('config');
+const S3 = function (params) {
+    if (!(this instanceof S3)) {
+        return new S3(params);
+    }
 
-        stream.Readable.call(this, { objectMode: true });
+    stream.Readable.call(this, { objectMode: true });
 
-        this.imageKey = params.imagePath;
-        this.output = params.output;
-        this.image = {};
-        this.isComplete = false;
-    };
+    this.imageKey = params.inputURL;
+    this.output = params.output;
+    this.image = {};
+    this.isComplete = false;
+};
 
 aws.config = config.aws;
-S3.prototype._read = function S3$read() {
+S3.prototype._read = function () {
     if (this.isComplete) {
         this.image = null;
         return;
     }
 
-    let s3 = new aws.S3(),
-        params = { Bucket: config.aws.bucket, Key: this.imageKey };
+    const s3 = new aws.S3();
+    const params = {
+        Bucket: config.aws.bucket,
+        Key: this.imageKey
+    };
 
     s3.getObject(params, (error, data) => {
         if (error) {

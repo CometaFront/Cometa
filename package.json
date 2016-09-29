@@ -1,37 +1,49 @@
 {
-  "name": "cometa",
-  "version": "1.0.0",
-  "description": "Super fast on demand and on the fly image resizing.",
-  "main": "app/index.js",
-  "scripts": {
-    "test": "npm test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/iBrag/Cometa.git"
-  },
-  "author": "Stefan Aichholzer <play@analogbird.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/iBrag/Cometa/issues"
-  },
-  "homepage": "https://github.com/iBrag/Cometa#readme",
-  "dependencies": {
-    "aws-sdk": "^2.3.17",
-    "express": "^4.13.4",
-    "map-stream": "0.0.6",
-    "request": "^2.72.0",
-    "serve-favicon": "^2.3.0",
-    "sharp": "^0.15.0"
-  },
-  "devDependencies": {
-    "dotenv": "^2.0.0",
-    "grunt": "^1.0.1",
-    "grunt-contrib-jshint": "^1.0.0",
-    "grunt-mocha-test": "^0.12.7",
-    "grunt-nodemon": "^0.4.2",
-    "jscs": "^3.0.4",
-    "mocha": "^2.4.5",
-    "nodemon": "^1.9.1"
-  }
+    "name": "Cometa",
+    "version": "1.0.0",
+    "description": "Super fast on demand and on the fly image resizing.",
+    "main": "app/index.js",
+    "engines": {
+        "node": ">=6.2"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:aichholzer/Cometa.git"
+    },
+    "contributors": [],
+    "maintainers": [],
+    "author": {
+        "name": "Stefan Aichholzer",
+        "email": "play@analogbird.com",
+        "url": "https://github.com/aichholzer"
+    },
+    "license": "MIT",
+    "homepage": "https://github.com/aichholzer/Cometa",
+    "dependencies": {
+        "aws-sdk": "^2.3.17",
+        "express": "^4.13.4",
+        "map-stream": "0.0.6",
+        "request": "^2.72.0",
+        "serve-favicon": "^2.3.0",
+        "sharp": "^0.16.0"
+    },
+    "devDependencies": {
+        "dotenv": "^2.0.0",
+        "grunt": "^1.0.1",
+        "grunt-contrib-jshint": "^1.0.0",
+        "grunt-mocha-test": "^0.13.2",
+        "grunt-nodemon": "^0.4.2",
+        "jscs": "^3.0.4",
+        "mocha": "^3.1.0",
+        "nodemon": "^1.9.1"
+    },
+    "directories": {
+        "test": "test"
+    },
+    "bugs": {
+        "url": "https://github.com/aichholzer/Cometa/issues"
+    },
+    "scripts": {
+        "test": "./node_modules/mocha/bin/mocha -R progress -t 5000"
+    }
 }

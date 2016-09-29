@@ -1,21 +1,21 @@
 'use strict';
 
 
-let crypto = require('crypto'),
-    stream = require('stream'),
-    Response = function Response(req, res) {
-        if (!(this instanceof Response)) {
-            return new Response(req, res);
-        }
+const crypto = require('crypto');
+const stream = require('stream');
+const Response = function (req, res) {
+    if (!(this instanceof Response)) {
+        return new Response(req, res);
+    }
 
-        stream.Writable.call(this, { objectMode: true });
-        this.req = req;
-        this.res = res;
-    };
+    stream.Writable.call(this, { objectMode: true });
+    this.req = req;
+    this.res = res;
+};
 
-Response.prototype._write = function Response$write(image) {
+Response.prototype._write = function (image) {
 
-    let expirationDate = new Date();
+    const expirationDate = new Date();
     expirationDate.setDate(expirationDate.getDate() + 30);
 
     this.res.set({

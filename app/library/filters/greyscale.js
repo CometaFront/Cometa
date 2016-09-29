@@ -1,7 +1,7 @@
 'use strict';
 
 
-let sharp = require('sharp');
+const sharp = require('sharp');
 
 module.exports = (image, callback) => {
 

@@ -1,15 +1,14 @@
 'use strict';
 
 
-let sharp = require('sharp'),
-    mapStream = require('map-stream');
+const sharp = require('sharp');
+const mapStream = require('map-stream');
 
 module.exports = () => {
 
     return mapStream((image, callback) => {
 
-        let sharpImage = sharp(image.body);
-
+        const sharpImage = sharp(image.body);
         if (image.output.width > 0 || image.output.height > 0) {
             sharpImage.resize(image.output.width, image.output.height).withoutEnlargement();
         }

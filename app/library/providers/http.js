@@ -1,29 +1,30 @@
 'use strict';
 
 
-let stream = require('stream'),
-    config = require('../../config'),
-    request = require('request').defaults({ encoding: null }),
-    HTTP = function HTTP(params) {
-        if (!(this instanceof HTTP)) {
-            return new HTTP(params);
-        }
+const stream = require('stream');
+const config = _require('config');
+const request = require('request').defaults({ encoding: null });
+const HTTP = function (params) {
+    if (!(this instanceof HTTP)) {
+        return new HTTP(params);
+    }
 
-        stream.Readable.call(this, { objectMode: true });
+    stream.Readable.call(this, { objectMode: true });
 
-        this.imageURL = params.imagePath;
-        this.output = params.output;
-        this.image = {};
-        this.isComplete = false;
-    };
+    this.imageURL = params.inputURL;
+    this.output = params.output;
+    this.image = {};
+    this.isComplete = false;
+};
 
-HTTP.prototype._read = function HTTP$read() {
+HTTP.prototype._read = function () {
     if (this.isComplete) {
         this.image = null;
         return;
     }
 
-    request({
+    request(
+        {
             method: 'GET',
             url: this.imageURL,
             timeout: config.requestTimeout

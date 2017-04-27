@@ -19,19 +19,19 @@
   "dependencies": {
     "aws-sdk": "^2.2.41",
     "express": "^4.13.4",
-    "map-stream": "0.0.6",
+    "map-stream": "0.0.7",
     "request": "^2.69.0",
     "serve-favicon": "^2.3.0",
-    "sharp": "^0.13.1"
+    "sharp": "^0.17.3"
   },
   "devDependencies": {
-    "dotenv": "^2.0.0",
-    "grunt": "^0.4.5",
+    "dotenv": "^4.0.0",
+    "grunt": "^1.0.1",
     "grunt-contrib-jshint": "^1.0.0",
-    "grunt-mocha-test": "^0.12.7",
+    "grunt-mocha-test": "^0.13.2",
     "grunt-nodemon": "^0.4.1",
-    "jscs": "^2.11.0",
-    "mocha": "^2.4.5",
+    "jscs": "^3.0.7",
+    "mocha": "^3.3.0",
     "nodemon": "^1.9.1",
     "request": "^2.69.0",
     "v8-profiler": "^5.6.0"

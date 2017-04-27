@@ -19,6 +19,7 @@ In order to install `sharp` you will need to make sure all dependencies are sati
 
 ## Installation
 
+- Follow the sharp [installation guide](http://sharp.dimens.io/en/stable/install/),
 - Copy the `.env.example` to `.env` and fill in the required values,
 - clone this repository and navigate to its location,
 - install what is needed: `npm install`,

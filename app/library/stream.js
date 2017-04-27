@@ -1,10 +1,10 @@
 'use strict';
 
 
-let meta = require('./streams/meta'),
-    resize = require('./streams/resize'),
-    filter = require('./streams/filter'),
-    response = require('./streams/response');
+const meta = _require('library/streams/meta');
+const resize = _require('library/streams/resize');
+const filter = _require('library/streams/filter');
+const response = _require('library/streams/response');
 
 module.exports = {
 

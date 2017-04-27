@@ -1,45 +1,49 @@
 'use strict';
 
+const url = require('url');
+const path = require('path');
+
 
 module.exports = req => {
 
-    let supportedInput = ['webp', 'png', 'jpeg', 'jpg'],
-        supportedOutput = ['webp', 'png', 'jpeg'],
-        path = '',
-        provider = null,
-        outputFormat = 'jpeg',
-        outputQuality = parseInt(req.query.q || req.query.quality);
+    const supportedInput = ['webp', 'png', 'jpeg', 'jpg'];
+    const supportedOutput = ['webp', 'png', 'jpeg'];
+    const outputQuality = parseInt(req.query.q || req.query.quality);
+    let inputURL = '';
+    let provider = null;
 
     if (req.params[0]) {
-        path = req.params[0];
-        provider = 'S3'
+        inputURL = req.params[0];
+        provider = 'S3';
     } else if (req.query.url) {
-        path = req.query.url;
+        inputURL = req.query.url;
         provider = 'http';
     }
 
-    let imageParts = path.split('/').pop().split('.');
+    const imagePath = url.parse(inputURL);
+    const fileName = path.basename(imagePath.pathname).split('.');
+    let output = fileName.pop();
+    let input = fileName.pop();
 
-    if (supportedInput.indexOf(imageParts[1]) < 0) {
-        throw { status: 400, code: 10 };
-    }
-
-    if (supportedOutput.indexOf(imageParts[2]) >= 0) {
-        outputFormat = imageParts[2];
-        path = path.replace('.' + outputFormat, '');
+    if (supportedInput.indexOf(input) >= 0) {
+        let removedExtension = output;
+        output = (supportedOutput.indexOf(output) < 0) ? 'jpeg' : output;
+        inputURL = inputURL.replace('.' + removedExtension, '');
+    } else if (supportedInput.indexOf(output) >= 0) {
+        output = 'jpeg';
     } else {
-        path = path.replace('.' + imageParts[2], '');
+        throw { status: 400, code: 10 };
     }
 
     return {
         output: {
-            width: parseInt(req.query.w || req.query.width) || 0,
-            height: parseInt(req.query.h || req.query.height) || 0,
+            width: parseInt(req.query.w || req.query.width) || null,
+            height: parseInt(req.query.h || req.query.height) || null,
             filter: req.query.f || req.query.filter || null,
             quality: outputQuality > 0 && outputQuality <= 100 ? outputQuality : 80,
-            format: outputFormat
+            format: output
         },
-        imagePath: path || null,
+        inputURL: inputURL || null,
         provider: provider
     };
 };

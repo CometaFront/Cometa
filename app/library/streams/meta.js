@@ -1,8 +1,8 @@
 'use strict';
 
 
-let sharp = require('sharp'),
-    mapStream = require('map-stream');
+const sharp = require('sharp');
+const mapStream = require('map-stream');
 
 module.exports = () => {
 

@@ -1,8 +1,8 @@
 'use strict';
 
 
-let cluster = require('cluster'),
-    cores = require('os').cpus();
+const cluster = require('cluster');
+const cores = require('os').cpus();
 
 module.exports = (app, port) => {
 
@@ -12,7 +12,7 @@ module.exports = (app, port) => {
         }
 
         cluster.on('exit', (worker, code, signal) => {
-            console.log(`Worker ${worker.process.pid} died`);
+            console.log(`Worker ${worker.process.pid} died. Code/signal: ${code}/${signal}`);
             cluster.fork();
         });
 

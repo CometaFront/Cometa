@@ -1,22 +1,22 @@
 'use strict';
 
 
-let fs = require('fs'),
-    mapStream = require('map-stream'),
-    filters = (() => {
+const fs = require('fs');
+const mapStream = require('map-stream');
+const filters = (() => {
 
-        let filters = {},
-            filterPath = __dirname + '/../filters/';
+    const filters = {};
+    const filterPath = `${__dirname}/../filters/`;
 
-        fs.readdirSync(filterPath).forEach(filter => {
-            if (filter.match(/(.+)\.js(on)?$/)) {
-                let filterName = filter.replace('.js', '');
-                filters[filterName] = require(`${filterPath}/${filterName}`);
-            }
-        });
+    fs.readdirSync(filterPath).forEach(filter => {
+        if (filter.match(/(.+)\.js$/)) {
+            const filterName = filter.replace('.js', '');
+            filters[filterName] = require(`${filterPath}/${filterName}`);
+        }
+    });
 
-        return filters;
-    })();
+    return filters;
+})();
 
 module.exports = () => {
 

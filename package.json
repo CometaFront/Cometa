@@ -1,6 +1,6 @@
 {
   "name": "Cometa",
-  "version": "1.0.0",
+  "version": "0.9.62",
   "description": "Super fast on-demand, on-the-fly image processing.",
   "main": "app/index.js",
   "engines": {

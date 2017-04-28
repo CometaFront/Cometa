@@ -42,7 +42,6 @@ S3.prototype._read = function () {
 
         this.isComplete = true;
         this.push(this.image);
-        this.push(null);
         this.image = null;
     });
 };

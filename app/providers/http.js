@@ -1,8 +1,8 @@
 'use strict';
 
 
-const stream = require('stream');
 const config = _require('config');
+const stream = require('stream');
 const request = require('request').defaults({ encoding: null });
 const HTTP = function (params) {
     if (!(this instanceof HTTP)) {

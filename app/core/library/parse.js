@@ -1,8 +1,8 @@
 'use strict';
 
+
 const url = require('url');
 const path = require('path');
-
 
 module.exports = req => {
 
@@ -12,12 +12,12 @@ module.exports = req => {
     let inputURL = '';
     let provider = null;
 
-    if (req.params[0]) {
-        inputURL = req.params[0];
-        provider = 'S3';
-    } else if (req.query.url) {
+    if (req.query.url) {
         inputURL = req.query.url;
         provider = 'http';
+    } else {
+        inputURL = req.params[0];
+        provider = 'S3';
     }
 
     const imagePath = url.parse(inputURL);

@@ -6,7 +6,7 @@ module.exports = grunt => {
 
     process.env.NODE_ENV = grunt.option('env') || 'local';
     if (grunt.option('with') === 'app') {
-        require('./app')
+        require('./app/core/index.js')
     }
 
     grunt.initConfig({
@@ -32,7 +32,7 @@ module.exports = grunt => {
             }
         },
         nodemon: {
-            script: 'app/index.js',
+            script: './app/core/index.js',
             options: {
                 callback: nodemon => {
                     nodemon.on('log', event => {

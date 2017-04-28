@@ -2,7 +2,7 @@
 
 
 const fs = require('fs');
-const mapStream = require('map-stream');
+const Transform = require('stream').Transform;
 const filters = (() => {
 
     const filters = {};
@@ -18,21 +18,21 @@ const filters = (() => {
     return filters;
 })();
 
-module.exports = () => {
-
-    return mapStream((image, callback) => {
+module.exports = new Transform({
+    objectMode: true,
+    transform: (image, enc, cb) => {
 
         if (filters.hasOwnProperty(image.output.filter)) {
             filters[image.output.filter](image, (error, buffer) => {
                 if (error) {
-                    return callback(new Error(error));
+                    return cb(new Error(error));
                 }
 
                 image.body = buffer;
-                callback(null, image);
+                cb(null, image);
             });
         } else {
-            callback(null, image);
+            cb(null, image);
         }
-    });
-};
+    }
+});

@@ -1,22 +1,39 @@
 'use strict';
 
 
-global._require = module => require(`${__dirname}/${module}`);
+/**
+ * @TODO: Remove express, run it on plain Node.
+ */
+global._require = module => require(`${__dirname}/core/${module}`);
+const config = _require('config');
+const cluster = require('cluster');
+const cores = require('os').cpus();
 const express = require('express');
-const cluster = _require('library/cluster');
 const app = express();
 
 app.use(
     (req, res, next) => {
-        res.set('X-Powered-By', 'analogbird.com');
+        res.set('x-powered-by', 'analogbird.com');
         return next();
     },
-    require('serve-favicon')(__dirname + '/public/favicon.png'),
+    require('serve-favicon')(`${__dirname}/public/favicon.png`),
     _require('router')(express),
     (error, req, res, next) => {
-        res.status(error.status || 404).end();
+        error.forwardStatus = error.forwardStatus || null;
+        res.status(error.status || 404).send(error);
         next = null;
     }
 );
 
-cluster(app, process.env.PORT);
+if (config.port.cluster && cluster.isMaster) {
+    for (let cpu = 0; cpu < cores.length; ++cpu) {
+        cluster.fork();
+    }
+
+    cluster.on('exit', (worker, code, signal) => {
+        console.log(`Dead worker: ${worker.process.pid}; ${code}/${signal}`);
+        cluster.fork();
+    });
+} else {
+    app.listen(config.port, () => console.log(`Up: ${config.port}`));
+}

@@ -6,7 +6,7 @@ module.exports = grunt => {
 
     process.env.NODE_ENV = grunt.option('env') || 'local';
     if (grunt.option('with') === 'app') {
-        require('./app')
+        require('./app/index.js')
     }
 
     grunt.initConfig({
@@ -32,12 +32,20 @@ module.exports = grunt => {
             }
         },
         nodemon: {
-            script: 'app/index.js',
+            script: './app/index.js',
             options: {
+                nodeArgs: ['--trace-warnings'],
                 callback: nodemon => {
                     nodemon.on('log', event => {
                         console.log(event.colour);
                     });
+
+                    // Open the browser
+                    /*
+                    nodemon.on('config:update', () => {
+                        setTimeout(() => require('open')(`http://localhost:${process.env.PORT}`), 1500);
+                    });
+                    */
                 },
                 env: {
                     NODE_ENV: process.env.NODE_ENV || 'local',
@@ -46,7 +54,7 @@ module.exports = grunt => {
                 cwd: __dirname,
                 ignore: ['node_modules/**'],
                 ext: 'js',
-                delay: 1000
+                delay: 500
             }
         }
     });

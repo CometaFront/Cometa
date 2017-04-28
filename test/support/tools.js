@@ -4,7 +4,7 @@
 let apiURL = process.env.URL_API,
     async = require('async'),
     mongodb = require('mongodb'),
-    config = require('../../app/config'),
+    config = require('../../app/core/config'),
     request = require('./request')(apiURL),
     tools = {
 

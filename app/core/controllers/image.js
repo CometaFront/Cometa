@@ -2,7 +2,7 @@
 
 
 const provider = _require('library/provider');
-const stream = _require('library/stream');
+const streams = _require('library/streams');
 
 module.exports = {
 
@@ -10,10 +10,10 @@ module.exports = {
 
         try {
             provider.load(req)
-                .pipe(stream.meta)
-                .pipe(stream.resize)
+                .pipe(streams.meta)
+                .pipe(streams.resize)
                 //.pipe(stream.filter)
-                .pipe(stream.response(res));
+                .pipe(streams.response(res));
         } catch (error) {
             return next(error);
         }

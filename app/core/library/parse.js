@@ -6,8 +6,8 @@ const path = require('path');
 
 module.exports = req => {
 
-    const supportedInput = ['webp', 'png', 'jpeg', 'jpg'];
-    const supportedOutput = ['webp', 'png', 'jpeg'];
+    const supportedInput = ['webp', 'png', 'tiff', 'jpeg', 'jpg'];
+    const supportedOutput = ['webp', 'png', 'tiff', 'jpeg'];
     const outputQuality = parseInt(req.query.q || req.query.quality);
     let inputURL = '';
     let provider = null;
@@ -39,7 +39,7 @@ module.exports = req => {
         output: {
             width: parseInt(req.query.w || req.query.width) || null,
             height: parseInt(req.query.h || req.query.height) || null,
-            filter: req.query.f || req.query.filter || null,
+            filters: req.query.f || req.query.filters || null,
             quality: outputQuality > 0 && outputQuality <= 100 ? outputQuality : 80,
             format: output
         },

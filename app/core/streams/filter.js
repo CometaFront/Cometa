@@ -6,7 +6,7 @@ const Transform = require('stream').Transform;
 const filters = (() => {
 
     const filters = {};
-    const filterPath = `${__dirname}/../filters/`;
+    const filterPath = `${__dirname}/../../filters/`;
 
     fs.readdirSync(filterPath).forEach(filter => {
         if (filter.match(/(.+)\.js$/)) {

@@ -67,18 +67,18 @@ GET http://localhost:5050/noauth/?url=http%3A%2F%2Fimages.google.com%2Fcars.jpg
 - `w` || `width`: (*integer*) Output width,
 - `h` || `height`: (*integer*) Output height,
 - `q` || `quality`: (*integer*) Output image quality. Defaults to `80`, ignored on `png` output,
-- `f` || `filter`: (*string*) Apply a filter to the image: `sepia`, `grayscale`,
+- `f` || `filters`: (*string*) Apply filters to the image (`sepia`, `grayscale`, etc.),
 - `url`: (*string*) URL from which to fetch an image. Not needed when using with S3.
 
 
 #### Input formats
 
-Supported input formats are: `webp`, `png`, and `jpeg` (aka `jpg`).
+Supported input formats are: `webp`, `png`, `tiff` and `jpeg` (aka `jpg`).
 
 
 #### Output formats
 
-Supported output formats are: `webp`, `png`, and `jpeg`.
+Supported output formats are: `webp`, `png`, `tiff`, and `jpeg` (aka `jpg`).
 
 Simply append the required output format to URL:
 

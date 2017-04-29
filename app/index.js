@@ -2,9 +2,9 @@
 
 
 /**
- * @TODO: Remove express, run it on plain node.
+ * @TODO: Remove express, run it on plain Node.
  */
-global._require = module => require(`${__dirname}/${module}`);
+global._require = module => require(`${__dirname}/core/${module}`);
 const config = _require('config');
 const cluster = require('cluster');
 const cores = require('os').cpus();

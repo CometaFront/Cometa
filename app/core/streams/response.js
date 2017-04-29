@@ -16,9 +16,14 @@ const Response = function (res) {
 Response.prototype._write = async function (image) {
 
     try {
-        image.body = await sharp(image.body).jpeg({ quality: image.output.quality }).toBuffer();
+        let options = { quality: image.output.quality };
+        if (image.output.format === 'png') {
+            options = { compressionLevel: 5 };
+        }
+
+        image.body = await sharp(image.body)[image.output.format](options).toBuffer();
     } catch (error) {
-        console.log(error);
+        return this.res.statusCode(500).end();
     }
 
     const expirationDate = new Date();

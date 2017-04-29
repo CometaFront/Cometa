@@ -2,8 +2,8 @@
 
 
 const parse = _require('library/parse');
-const S3 = _require('../providers/s3');
-const HTTP = _require('../providers/http');
+const S3 = _require('providers/s3');
+const HTTP = _require('providers/http');
 
 module.exports = {
 

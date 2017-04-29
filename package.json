@@ -2,7 +2,7 @@
   "name": "Cometa",
   "version": "1.0.0",
   "description": "Super fast on demand and on the fly image resizing.",
-  "main": "app/core/index.js",
+  "main": "app/index.js",
   "engines": {
     "node": ">=7.9"
   },

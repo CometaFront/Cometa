@@ -1,49 +1,49 @@
 {
-    "name": "Cometa",
-    "version": "1.0.0",
-    "description": "Super fast on demand and on the fly image resizing.",
-    "main": "app/index.js",
-    "engines": {
-        "node": ">=6.2"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git@github.com:aichholzer/Cometa.git"
-    },
-    "contributors": [],
-    "maintainers": [],
-    "author": {
-        "name": "Stefan Aichholzer",
-        "email": "play@analogbird.com",
-        "url": "https://github.com/aichholzer"
-    },
-    "license": "MIT",
-    "homepage": "https://github.com/aichholzer/Cometa",
-    "dependencies": {
-        "aws-sdk": "^2.3.17",
-        "express": "^4.13.4",
-        "map-stream": "0.0.6",
-        "request": "^2.72.0",
-        "serve-favicon": "^2.3.0",
-        "sharp": "^0.16.0"
-    },
-    "devDependencies": {
-        "dotenv": "^2.0.0",
-        "grunt": "^1.0.1",
-        "grunt-contrib-jshint": "^1.0.0",
-        "grunt-mocha-test": "^0.13.2",
-        "grunt-nodemon": "^0.4.2",
-        "jscs": "^3.0.4",
-        "mocha": "^3.1.0",
-        "nodemon": "^1.9.1"
-    },
-    "directories": {
-        "test": "test"
-    },
-    "bugs": {
-        "url": "https://github.com/aichholzer/Cometa/issues"
-    },
-    "scripts": {
-        "test": "./node_modules/mocha/bin/mocha -R progress -t 5000"
-    }
+  "name": "Cometa",
+  "version": "0.9.62",
+  "description": "Super fast on-demand, on-the-fly image processing.",
+  "main": "app/index.js",
+  "engines": {
+    "node": ">=7.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:aichholzer/Cometa.git"
+  },
+  "contributors": [],
+  "maintainers": [],
+  "author": {
+    "name": "Stefan Aichholzer",
+    "email": "play@analogbird.com",
+    "url": "https://github.com/aichholzer"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/aichholzer/Cometa",
+  "dependencies": {
+    "aws-sdk": "^2.48.0",
+    "express": "^4.13.4",
+    "serve-favicon": "^2.3.0",
+    "sharp": "^0.17.3"
+  },
+  "devDependencies": {
+    "dotenv": "^4.0.0",
+    "grunt": "^1.0.1",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-mocha-test": "^0.13.2",
+    "grunt-nodemon": "^0.4.1",
+    "jscs": "^3.0.7",
+    "mocha": "^3.3.0",
+    "nodemon": "^1.9.1",
+    "open": "0.0.5",
+    "v8-profiler": "^5.6.0"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "bugs": {
+    "url": "https://github.com/aichholzer/Cometa/issues"
+  },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha -R progress -t 5000"
+  }
 }

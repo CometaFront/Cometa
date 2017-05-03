@@ -33,12 +33,12 @@ Defined in your `.env` file or locally exported:
 - `PORT`: Port on which your application will listen. `Defaults to 5050`.
 - `COMETA_KEY`: A unique key used for request signature validation.
 - `NOAUTH_ALLOWED`: Whether `noauth` requests are allowed or not.
-- CHECK! `REQUEST_TIMEOUT`: When using with an image URL, the time (in milliseconds) before timing out.
+- `REQUEST_TIMEOUT`: When using with an image URL, the time (in milliseconds) before timing out.
 
 ##### If using with S3:
 - `AWS_ACCESS_KEY`: Your AWS access key.
 - `AWS_ACCESS_SECRET`: Your AWS access secret.
-- CHECK! `AWS_REGION`: Region of your S3 bucket.
+- `AWS_REGION`: Region of your S3 bucket.
 - `AWS_BUCKET`: Name of your S3 bucket.
 
 

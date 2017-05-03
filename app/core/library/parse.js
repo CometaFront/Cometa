@@ -14,7 +14,7 @@ module.exports = req => {
 
     if (req.query.url) {
         inputURL = req.query.url;
-        provider = 'http';
+        provider = 'HTTP';
     } else {
         inputURL = req.params[0];
         provider = 'S3';
@@ -22,26 +22,27 @@ module.exports = req => {
 
     const imagePath = url.parse(inputURL);
     const fileName = path.basename(imagePath.pathname).split('.');
-    let output = fileName.pop();
-    let input = fileName.pop();
+    let outputExtension = fileName.pop();
+    let inputExtension = fileName.pop();
 
-    if (supportedInput.indexOf(input) >= 0) {
-        let removedExtension = output;
-        output = (supportedOutput.indexOf(output) < 0) ? 'jpeg' : output;
-        inputURL = inputURL.replace('.' + removedExtension, '');
-    } else if (supportedInput.indexOf(output) >= 0) {
-        output = 'jpeg';
-    } else {
-        throw { status: 400, code: 10 };
+    if (supportedInput.indexOf(outputExtension) >= 0) {
+        let removedExtension = outputExtension;
+        outputExtension = (supportedOutput.indexOf(outputExtension) < 0) ? 'jpeg' : outputExtension;
+        inputURL = supportedInput.indexOf(inputExtension) >= 0 ? inputURL.replace('.' + removedExtension, '') : inputURL;
+    } else if (supportedInput.indexOf(outputExtension) < 0) {
+        throw {
+            status: 400,
+            message: `I can't handle .${outputExtension} files.`
+        };
     }
 
     return {
         output: {
             width: parseInt(req.query.w || req.query.width) || null,
             height: parseInt(req.query.h || req.query.height) || null,
-            filters: req.query.f || req.query.filters || null,
+            filter: req.query.f || req.query.filter || null,
             quality: outputQuality > 0 && outputQuality <= 100 ? outputQuality : 80,
-            format: output
+            extension: outputExtension
         },
         inputURL: inputURL || null,
         provider: provider

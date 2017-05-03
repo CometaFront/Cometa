@@ -19,8 +19,10 @@ app.use(
     require('serve-favicon')(`${__dirname}/public/favicon.png`),
     _require('router')(express),
     (error, req, res, next) => {
-        console.log(error);
-        res.status(error.status || 404).end();
+        error.status = error.status || 404;
+        error.forwardStatus = error.forwardStatus || null;
+        res.status(error.status || 404).send(error);
+        next = null;
     }
 );
 

@@ -4,21 +4,23 @@
 const sharp = require('sharp');
 const Transform = require('stream').Transform;
 
-module.exports = new Transform({
+module.exports = next => new Transform({
     objectMode: true,
-    transform: async (image, encoding, callback) => {
+    transform: (image, encoding, callback) => {
 
         try {
-            if (image.output.width > 0 || image.output.height > 0) {
-                image.body = await sharp(image.body)
-                    .resize(image.output.width, image.output.height)
-                    .withoutEnlargement()
-                    .toBuffer();
-            }
+            setImmediate(async () => {
+                if (image.output.width > 0 || image.output.height > 0) {
+                    image.body = await sharp(image.body)
+                        .resize(image.output.width, image.output.height)
+                        .withoutEnlargement()
+                        .toBuffer();
+                }
 
-            callback(null, image);
+                callback(null, image);
+            });
         } catch (error) {
             callback(error);
         }
     }
-});
+}).once('error', next);

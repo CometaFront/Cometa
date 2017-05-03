@@ -4,16 +4,17 @@
 const sharp = require('sharp');
 const Transform = require('stream').Transform;
 
-module.exports = new Transform({
+module.exports = next => new Transform({
     objectMode: true,
-    transform: async (image, encoding, callback) => {
+    transform: (image, encoding, callback) => {
 
         try {
-            image.metadata = await sharp(image.body).metadata();
-            callback(null, image);
+            setImmediate(async () => {
+                image.metadata = await sharp(image.body).metadata();
+                callback(null, image);
+            });
         } catch (error) {
-            console.log('a');
             callback(error);
         }
     }
-});
+}).once('error', next);

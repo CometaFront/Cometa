@@ -5,18 +5,20 @@ const path = require('path');
 const Transform = require('stream').Transform;
 const filterImage = (image, filters) => {
 
-    filters = filters.replace(/[^0-9a-z,]/gi, '').split(/[,]+/);
+    filters = filters.replace(/[^0-9a-z:,-]/gi, '').split(/[,]+/);
     const fn = async (yes, no) => {
         let filter = filters.shift();
         if (filter) {
             try {
-                filter = filter.trim();
-                image.body = await require(path.resolve(`${__dirname}/../../filters/${filter}`))(image);
-                image.filters.push({ filter: filter, error: null });
+                let [name, param = null] = filter.split(/[:]+/);
+                name = name.trim();
+                let filterModule = require(path.resolve(`${__dirname}/../../filters/${name}`));
+                image.body = await filterModule(image, param);
+                image.filters.push({ filter: name, error: null });
                 return fn(yes, no);
             } catch (error) {
                 if (error.message.indexOf('Cannot find module') >= 0) {
-                    image.filters.push({ filter: filter, error: error.message });
+                    image.filters.push({ filter: name, error: error.message });
                     return fn(yes, no);
                 } else {
                     no(error);

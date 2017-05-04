@@ -1,7 +1,7 @@
 <img src="./app/public/cometa.png" width="350">
 
 # Cometa
-Super fast on-demand, on-the-fly image processing.
+Super fast on-demand, on-the-fly, image processing.
 
 ```
 WOP. Ask if you need help.

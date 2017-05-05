@@ -5,13 +5,12 @@ const http = require('http');
 const https = require('https');
 const url = require('url');
 class HTTP extends require('stream').Readable {
-    constructor (params, timeout) {
+
+    constructor (options) {
 
         super({ objectMode: true });
-        this.imageURL = params.inputURL;
-        this.output = params.output;
-        this.timeout = timeout;
-        this.res = params.res;
+
+        this.options = options;
         this.image = {};
         this.isComplete = false;
     }
@@ -21,15 +20,13 @@ class HTTP extends require('stream').Readable {
             return;
         }
 
+        const emitError = error => this.emit('error', { message: error.message });
         try {
-            const _url = url.parse(this.imageURL);
-            _url.timeout = this.timeout;
+            const _url = url.parse(this.options.inputURL);
+            _url.timeout = this.options.timeout;
             (_url.protocol === 'https:' ? https : http).get(_url, res => {
                 if (res.statusCode !== 200) {
-                    return this.emit('error', {
-                        forwardStatus: res.statusCode,
-                        message: 'The requested image could not be found.'
-                    });
+                    return emitError({ message: 'The requested image could not be found.' });
                 }
 
                 let data = [];
@@ -37,7 +34,7 @@ class HTTP extends require('stream').Readable {
                 res.on('data', chunk => data.push(chunk));
                 res.on('end', () => {
                     data = data.join('');
-                    this.image.output = this.output;
+                    this.image.output = this.options.output;
                     this.image.body = Buffer.from(data, 'binary');
                     this.image.originalSize = data.length;
 
@@ -49,9 +46,9 @@ class HTTP extends require('stream').Readable {
                         data = null;
                     });
                 });
-            });
+            }).on('error', emitError);
         } catch (error) {
-            return this.emit('error', { message: error.message });
+            return emitError(error);
         }
     }
 }

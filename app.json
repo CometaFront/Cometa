@@ -3,6 +3,8 @@
     "description": "Super fast on-demand, on-the-fly, image processing.",
     "repository": "https://github.com/aichholzer/Cometa.git",
     "logo": "https://github.com/aichholzer/Cometa/raw/master/app/public/cometa.png",
+    "website": "https://github.com/aichholzer/Cometa",
+    "success_url": "/noauth/?url=https://c1.staticflickr.com/6/5546/9660892548_4f72f7120a_b.jpg&w=320&h=320",
     "keywords": [
         "image",
         "images",

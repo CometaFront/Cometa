@@ -142,6 +142,10 @@ http://localhost:5050/a9c619705e8fcaa770885cac1837ae950f5c8ba5/cometa/superlight
 **Note:** Allowing `noauth` requests can be dangerous. *Use at your own discretion*
 
 
+### Take it for a spin
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+
 ### Contribute
 ```
 fork https://github.com/aichholzer/Cometa/

@@ -1,4 +1,7 @@
-<img src="./app/public/cometa.png" width="350">
+<p align="center">
+  <img src="https://raw.githubusercontent.com/CometaFront/Assets/master/Cover.png" alt="Cometa" />
+</p>
+
 
 # Cometa
 Super fast on-demand, on-the-fly, image processing.

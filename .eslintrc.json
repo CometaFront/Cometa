@@ -1,0 +1,22 @@
+{
+  "env": {
+    "es6": true,
+    "mocha": true
+  },
+  "extends": "airbnb-base",
+  "plugins": [
+    "import"
+  ],
+  "globals": {
+    "attract": true
+  },
+  "rules": {
+    "no-console": "error",
+    "no-underscore-dangle": 0,
+    "import/newline-after-import": 0,
+    "func-names": ["error", "always"],
+    "comma-dangle": ["error", "never"],
+    "no-param-reassign": ["error", { "props": false }],
+    "max-len": ["error", 120, { "ignoreRegExpLiterals": true }]
+  }
+}

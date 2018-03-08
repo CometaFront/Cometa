@@ -12,6 +12,9 @@
 const v = attract('core/lib/signature');
 
 module.exports = (router, control) => {
-  router.get('/:signature/*?', v, control.download);
+  // router.get('/:signature/*?', v, control.download);
+  router.get('/', control.home);
+  router.get('/a', control.home);
+  router.get('/b', control.home);
   return router;
 };

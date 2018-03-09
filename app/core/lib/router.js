@@ -1,6 +1,5 @@
+const ptr = require('path-to-regexp');
 const { parse } = require('url');
-
-const Trafico = attract('core/lib/trafico');
 
 class Handler {
   constructor(method) {
@@ -11,29 +10,27 @@ class Handler {
 class Response {
   constructor() {
     this.statusCode = 200;
-  };
+  }
 
   status() {
-    this.res.writeHead(this.statusCode, {
-      'Content-Type': 'application/json'
-    });
+    this.res.writeHead(this.statusCode, { 'Content-Type': 'application/json' });
   }
 
-  send() {
+  send(response) {
     this.status();
-    this.res.write(JSON.stringify({ error: 'YAY' }));
+    this.res.write(JSON.stringify({ error: response }));
     this.res.end();
   }
 
-  send() {
-    this.status();
-    this.res.write(JSON.stringify({ error: 'YAY' }));
-    this.res.end();
-  }
+  sendError(...args) {
+    this.statusCode = 404;
+    if (args.length && typeof args[0] === 'number') {
+      ({ 0: this.statusCode } = args);
+      args.shift();
+    }
 
-  notFound() {
-    this.status(404);
-    this.res.write(JSON.stringify({ error: 'Page no found' }));
+    this.status();
+    this.res.write(JSON.stringify({ error: args[0] }));
     this.res.end();
   }
 }
@@ -45,42 +42,53 @@ class Router extends Response {
     return this;
   }
 
-  use(options = {}) {
-    options.router = this;
-    const trafico = new Trafico(options);
-    trafico.on('error', (error) => { throw error; });
-    trafico.route();
-  }
-
   route(verb, url, method) {
     if (!this.routes[verb]) {
-      this.routes[verb] = {};
+      this.routes[verb] = [];
     }
 
-    this.routes[verb][url] = new Handler(method);
+    const keys = [];
+    const regex = ptr(url, keys);
+    this.routes[verb].push({ regex, keys, handler: new Handler(method) });
   }
 
   process(req, res) {
     this.req = req;
+    this.req.params = {};
+    this.req.query = {};
     this.res = res;
 
-    let { method, url } = this.req;
-    method = method.toLowerCase();
-    url = parse(url, true);
+    const method = this.req.method.toLowerCase();
+    this.req = Object.assign(this.req, parse(this.req.url, true));
+    for (let r = 0; r < this.routes[method].length; r += 1) {
+      const match = this.routes[method][r].regex.exec(this.req.pathname);
+      if (match) {
+        for (let m = 1; m < match.length; m += 1) {
+          const key = this.routes[method][r].keys[m - 1];
+          const prop = key.name;
+          const val = match[m];
 
-    const handler = this.routes[method][url.pathname];
-    if (handler) {
-      res.send = (...args) => this.send(...args);
-      return handler.run(req, res);
+          if (val !== undefined || !(hasOwnProperty.call(this.req.params, prop))) {
+            this.req.params[prop] = val;
+          }
+        }
+
+        const { handler } = this.routes[method][r];
+        if (handler) {
+          ({ 0: this.req.path } = this.req.params);
+          res.send = (...args) => this.send(...args);
+          return handler.run(req, res);
+        }
+      }
     }
 
-    return this.notFound();
+    return this.sendError('Page not found.');
   }
 }
 
 module.exports = new Proxy(new Router(), {
   get: (target, property) => {
-    if (['get', 'post', 'put', 'delete'].includes(property)) {
+    if (['get', 'post', 'put', 'delete'].includes(property.toString())) {
       return function applyRoute(...args) {
         args.unshift(property.toLowerCase());
         return target.route.apply(this, args);

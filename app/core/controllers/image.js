@@ -8,9 +8,5 @@ module.exports = {
       .pipe(stream.resize(next))
       .pipe(stream.filter(next))
       .pipe(stream.response(res, next));
-  },
-
-  home: (req, res) => {
-    res.send();
   }
 };

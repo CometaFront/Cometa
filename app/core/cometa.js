@@ -8,15 +8,11 @@ parse.on('error', error => router.sendError(409, error.message));
 
 class Cometa {
   constructor(setup = {}) {
-    let options = {};
-
-
     try {
       const Provider = attract(`core/providers/http`);
       // const provider = new Provider(setup.config).once('error', error => error);
-      const provider = new Provider({ requestTimeout: 2500 }).once('error', error => error);
-
       router.get('/:signature/(.*)', (req, res) => {
+        const provider = new Provider({ requestTimeout: 2500 }).once('error', error => error);
         provider.options = parse.process(req);
         provider.pipe(stream.response(res));
       });

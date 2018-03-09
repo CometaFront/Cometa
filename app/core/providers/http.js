@@ -12,19 +12,16 @@ class HTTP extends Readable {
 
   _read() {
     if (this.isComplete) {
-      console.log('Complete');
       return;
     }
 
     const emitError = error => this.emit('error', error);
     try {
       const _url = url.parse(this.options.input);
-      console.log('AAA');
       const protocol = require.call(null, _url.protocol.replace(':', ''));
       _url.timeout = this.requestTimeout;
       protocol.get(_url, (res) => {
         if (res.statusCode !== 200) {
-          console.log('sss');
           emitError(new Error('The requested image could not be found.'));
         } else {
           let data = [];
@@ -40,14 +37,11 @@ class HTTP extends Readable {
               this.isComplete = true;
               this.push(this.image);
               this.push(null);
-              this.image = null;
-              data = null;
             });
           });
         }
       }).on('error', emitError);
     } catch (error) {
-      console.log(error);
       emitError(error);
     }
   }

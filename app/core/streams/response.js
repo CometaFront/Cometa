@@ -11,6 +11,7 @@ module.exports = (res) => new Writable({
         options = { compressionLevel: 5 };
       }
 
+      console.log('Response stream');
       sharp(image.body)[image.output.extension](options).once('info', (info) => {
         const expirationDate = new Date();
         expirationDate.setDate(expirationDate.getDate() + 30);

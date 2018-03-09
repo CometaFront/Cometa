@@ -2,27 +2,30 @@ const url = require('url');
 const { Readable } = require('stream');
 
 class HTTP extends Readable {
-  constructor(options) {
+  constructor(config = {}) {
     super({ objectMode: true });
 
-    this.options = options;
+    this.requestTimeout = config.requestTimeout;
     this.image = {};
     this.isComplete = false;
   }
 
   _read() {
     if (this.isComplete) {
+      console.log('Complete');
       return;
     }
 
-    const emitError = error => this.emit('error', { message: error.message });
+    const emitError = error => this.emit('error', error);
     try {
-      const _url = url.parse(this.options.inputURL);
-      const protocol = require.call(null, _url.protocol);
-      _url.timeout = this.options.timeout;
+      const _url = url.parse(this.options.input);
+      console.log('AAA');
+      const protocol = require.call(null, _url.protocol.replace(':', ''));
+      _url.timeout = this.requestTimeout;
       protocol.get(_url, (res) => {
         if (res.statusCode !== 200) {
-          emitError({ message: 'The requested image could not be found.' });
+          console.log('sss');
+          emitError(new Error('The requested image could not be found.'));
         } else {
           let data = [];
           res.setEncoding('binary');
@@ -44,6 +47,7 @@ class HTTP extends Readable {
         }
       }).on('error', emitError);
     } catch (error) {
+      console.log(error);
       emitError(error);
     }
   }

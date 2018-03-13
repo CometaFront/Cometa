@@ -5,16 +5,11 @@ const cpus = require('os').cpus();
 
 const Cometa = attract('core/cometa');
 const log = attract('core/lib/log');
-const {
-  aws,
-  port,
-  useCluster
-} = attract('config');
+const { app, cometa: cometaConf } = attract('config');
 
 try {
-  const cometa = new Cometa({ provider: 's3', config: aws });
-
-  if (useCluster && cluster.isMaster) {
+  const cometa = new Cometa(cometaConf);
+  if (app.cluster && cluster.isMaster) {
     for (let cpu = 0; cpu < cpus.length; cpu += 1) {
       cluster.fork();
     }
@@ -24,7 +19,7 @@ try {
       cluster.fork();
     });
   } else {
-    const worker = useCluster ? `| Worker: ${cluster.worker.process.pid}` : '';
-    cometa.listen(port, () => log.info(`Up on port: ${port} ${worker}`));
+    const worker = app.cluster ? `| Worker: ${cluster.worker.process.pid}` : '';
+    cometa.listen(app.port, () => log.info(`Up on port: ${app.port} ${worker}`));
   }
 } catch (error) { log.error(error.message); }

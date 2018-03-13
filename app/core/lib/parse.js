@@ -12,7 +12,7 @@ class Parser extends EventEmitter {
 
   process(req) {
     const outputQuality = parseInt(req.query.q || req.query.quality, 10);
-    let input = req.query.url ? req.query.url : req.path;
+    let input = req.path;
 
     const fileName = path.basename(input).split('.');
     let firstExtension = fileName.pop();
@@ -34,6 +34,7 @@ class Parser extends EventEmitter {
         quality: outputQuality > 0 && outputQuality <= 100 ? outputQuality : 80,
         extension: firstExtension
       },
+      source: req.params.source ? req.params.source.toUpperCase() : null,
       input: input || null
     };
   }

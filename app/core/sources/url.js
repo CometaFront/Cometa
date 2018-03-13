@@ -1,13 +1,17 @@
 const url = require('url');
 const { Readable } = require('stream');
 
-class HTTP extends Readable {
+class URL extends Readable {
   constructor(config = {}) {
     super({ objectMode: true });
 
-    this.requestTimeout = config.requestTimeout;
+    this.config = config;
     this.image = {};
     this.isComplete = false;
+
+    this.on('end', () => {
+      this.image = null;
+    });
   }
 
   _read() {
@@ -15,21 +19,21 @@ class HTTP extends Readable {
       return;
     }
 
-    const emitError = error => this.emit('error', error);
     try {
-      const _url = url.parse(this.options.input);
+      const _url = url.parse(this.config.input);
       const protocol = require.call(null, _url.protocol.replace(':', ''));
-      _url.timeout = this.requestTimeout;
+      _url.timeout = this.config.requestTimeout;
+
       protocol.get(_url, (res) => {
         if (res.statusCode !== 200) {
-          emitError(new Error('The requested image could not be found.'));
+          this.emit('error', new Error('The requested image could not be found.'));
         } else {
           let data = [];
           res.setEncoding('binary');
           res.on('data', chunk => data.push(chunk));
           res.on('end', () => {
             data = data.join('');
-            this.image.output = this.options.output;
+            this.image.output = this.config.output;
             this.image.body = Buffer.from(data, 'binary');
             this.image.originalSize = data.length;
 
@@ -40,11 +44,11 @@ class HTTP extends Readable {
             });
           });
         }
-      }).on('error', emitError);
+      }).on('error', error => this.emit('error', error));
     } catch (error) {
-      emitError(error);
+      this.emit('error', error);
     }
   }
 }
 
-module.exports = HTTP;
+module.exports = URL;

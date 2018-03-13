@@ -19,7 +19,7 @@ class S3 extends Readable {
     }
 
     this.S3.getObject({ Bucket: this.bucket, Key: this.options.input }, (error, data) => {
-      console.log('SLOW');
+      console.log('SUPER SLOW S3');
       if (error) {
         this.emit('error', error);
       } else {

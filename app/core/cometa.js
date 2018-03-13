@@ -3,24 +3,32 @@ const http = require('http');
 const parse = attract('core/lib/parse');
 const router = attract('core/lib/router');
 const stream = attract('core/lib/streams');
-
-parse.on('error', error => router.sendError(409, error.message));
+const {
+  0: URL,
+  1: S3
+} = attract('core/sources/url', 'core/sources/s3');
 
 class Cometa {
-  constructor(setup = {}) {
-    try {
-      const Provider = attract(`core/providers/http`);
-      // const provider = new Provider(setup.config).once('error', error => error);
-      router.get('/:signature/(.*)', (req, res) => {
-        const provider = new Provider({ requestTimeout: 2500 }).once('error', error => error);
-        provider.options = parse.process(req);
-        provider.pipe(stream.response(res));
-      });
-    } catch (error) {
-      throw error;
-    }
+  constructor(config = {}) {
+    this.s3 = config.s3;
+    this.allowUnauthorized = config.allowUnauthorized;
+    this.requestTimeout = config.requestTimeout;
 
-    // router.get('/:signature/*?', v, control.download);
+    parse.on('error', error => router.sendError(409, error.message));
+    router.get('/:signature/:source/(.*)', (req, res) => {
+      const request = parse.process(req);
+      let source;
+
+      switch (request.source) {
+        case 'URL': source = new URL(Object.assign(request, { requestTimeout: this.requestTimeout }));
+          break;
+        case 'S3': source = new S3(Object.assign(request, { s3: this.s3 }));
+          break;
+        default: return router.sendError(409, 'A supported image source is required.');
+      }
+
+      return source.once('error', error => error).pipe(stream.response(res));
+    });
 
     return http.createServer((req, res) => router.process(req, res));
   }

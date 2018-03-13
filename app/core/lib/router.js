@@ -1,3 +1,4 @@
+// Modules
 const ptr = require('path-to-regexp');
 const { parse } = require('url');
 
@@ -8,20 +9,6 @@ class Handler {
 }
 
 class Response {
-  constructor() {
-    this.statusCode = 200;
-  }
-
-  status() {
-    this.res.writeHead(this.statusCode, { 'Content-Type': 'application/json' });
-  }
-
-  send(response) {
-    this.status();
-    this.res.write(JSON.stringify({ error: response }));
-    this.res.end();
-  }
-
   sendError(...args) {
     this.statusCode = 404;
     if (args.length && typeof args[0] === 'number') {
@@ -29,7 +16,7 @@ class Response {
       args.shift();
     }
 
-    this.status();
+    this.res.writeHead(this.statusCode, { 'Content-Type': 'application/json' });
     this.res.write(JSON.stringify({ error: args[0] }));
     this.res.end();
   }
@@ -53,13 +40,10 @@ class Router extends Response {
   }
 
   process(req, res) {
-    this.req = req;
-    this.req.params = {};
-    this.req.query = {};
+    this.req = Object.assign(req, { params: {}, query: {} }, parse(req.url, true));
     this.res = res;
 
     const method = this.req.method.toLowerCase();
-    this.req = Object.assign(this.req, parse(this.req.url, true));
     for (let r = 0; r < this.routes[method].length; r += 1) {
       const match = this.routes[method][r].regex.exec(this.req.pathname);
       if (match) {
@@ -76,8 +60,7 @@ class Router extends Response {
         const { handler } = this.routes[method][r];
         if (handler) {
           ({ 0: this.req.path } = this.req.params);
-          res.send = (...args) => this.send(...args);
-          return handler.run(req, res);
+          return handler.run(this.req, res);
         }
       }
     }

@@ -1,32 +1,40 @@
+// Modules
 const crypto = require('crypto');
 const sharp = require('sharp');
 const { Writable } = require('stream');
 
-module.exports = (res) => new Writable({
+// Libraries
+const log = attract('core/lib/log');
+
+module.exports = res => new Writable({
   objectMode: true,
   write: async (image, encoding, callback) => {
     try {
       let options = { quality: image.output.quality };
       if (image.output.extension === 'png') {
-        options = { compressionLevel: 5 };
+        options = { compressionLevel: 6 };
       }
 
-      console.log('Response stream');
-      sharp(image.body)[image.output.extension](options).once('info', (info) => {
+      sharp(image.body)[image.output.extension](options).on('info', (info) => {
         const expirationDate = new Date();
         expirationDate.setDate(expirationDate.getDate() + 30);
 
-        res.setHeader('Content-Type', `image/${image.output.extension}`);
-        res.setHeader('Cache-Control', 'max-age=2592000,public');
-        res.setHeader('Expires', expirationDate.toGMTString());
-        res.setHeader('Content-Length', info.size);
-        res.setHeader('Last-Modified', (new Date()).toGMTString());
-        res.setHeader('Etag', crypto.createHash('sha1').update(image.body, 'utf8').digest('hex'));
-        res.setHeader('Vary', 'Accept-Encoding');
+        res.writeHead(200, {
+          Etag: crypto.createHash('sha1').update(image.body, 'utf8').digest('hex'),
+          Expires: expirationDate.toGMTString(),
+          Vary: 'Accept-Encoding',
+          'Content-Type': `image/${image.output.extension}`,
+          'Cache-Control': 'max-age=2592000,public',
+          'Content-Length': info.size,
+          'Last-Modified': (new Date()).toGMTString(),
+          'X-Powered-by': 'https://github.com/aichholzer'
+        });
       }).pipe(res);
-      callback();
+
+      return callback();
     } catch (error) {
-      callback(error);
+      log.error(`Response error: ${error.message}`);
+      return callback(error);
     }
   }
-}).once('error', console.log);
+}).on('error', log.error);

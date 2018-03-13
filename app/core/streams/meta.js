@@ -1,7 +1,11 @@
+// Modules
 const sharp = require('sharp');
 const { Transform } = require('stream');
 
-module.exports = next => new Transform({
+// Libraries
+const log = attract('core/lib/log');
+
+module.exports = () => new Transform({
   objectMode: true,
   transform: (image, encoding, callback) => {
     try {
@@ -13,4 +17,4 @@ module.exports = next => new Transform({
       callback(error);
     }
   }
-}).once('error', next);
+}).on('error', log.error);

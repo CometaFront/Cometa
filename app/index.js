@@ -1,14 +1,52 @@
+// Modules
 require('attract')({ basePath: __dirname });
-
 const cluster = require('cluster');
 const cpus = require('os').cpus();
+const http = require('http');
 
-const Cometa = attract('core/cometa');
+// Libraries
+const parse = attract('core/lib/parse');
+const router = attract('core/lib/router');
+const stream = attract('core/lib/streams');
 const log = attract('core/lib/log');
-const { app, cometa: cometaConf } = attract('config');
+const { app, cometa } = attract('config');
+
+const sources = {};
+({ 0: sources.URL, 1: sources.S3 } = attract('core/sources/url', 'core/sources/s3'));
 
 try {
-  const cometa = new Cometa(cometaConf);
+  /**
+   * Define the HTTP GET request handler
+   */
+  router.get('/:signature/:source/(.*)', async (req, res) => {
+    try {
+      const request = Object.assign(await parse(req), cometa);
+      if (!Object.prototype.hasOwnProperty.call(sources, request.source)) {
+        return router.sendError(409, 'A supported image source is required.');
+      }
+
+      const source = new sources[request.source](request);
+      return source.on('error', (error) => {
+        source.unpipe();
+        throw error;
+      }).pipe(stream.meta())
+        .pipe(stream.resize())
+        .pipe(stream.filter())
+        .pipe(stream.response(res));
+    } catch (error) {
+      return router.sendError(409, error.message);
+    }
+  });
+
+  /**
+   * Create the server
+   */
+  const server = http.createServer((req, res) => router.process(req, res));
+
+  /**
+   * Get the server to listen on the given port.
+   * Run one process per CPU core, if enabled.
+   */
   if (app.cluster && cluster.isMaster) {
     for (let cpu = 0; cpu < cpus.length; cpu += 1) {
       cluster.fork();
@@ -20,6 +58,8 @@ try {
     });
   } else {
     const worker = app.cluster ? `| Worker: ${cluster.worker.process.pid}` : '';
-    cometa.listen(app.port, () => log.info(`Up on port: ${app.port} ${worker}`));
+    server.listen(app.port, () => log.info(`Up on port: ${app.port} ${worker}`));
   }
-} catch (error) { log.error(error.message); }
+} catch (error) {
+  log.error(error.message);
+}

@@ -1,4 +1,8 @@
+// Modules
 const { Transform } = require('stream');
+
+// Libraries
+const log = attract('core/lib/log');
 
 const filterImage = (image) => {
   const fn = async (yes, no) => {
@@ -28,7 +32,7 @@ const filterImage = (image) => {
   return new Promise((yes, no) => fn(yes, no));
 };
 
-module.exports = next => new Transform({
+module.exports = () => new Transform({
   objectMode: true,
   transform: async (image, encoding, callback) => {
     if (!image.output.filter) {
@@ -36,12 +40,12 @@ module.exports = next => new Transform({
     }
 
     try {
-      image.filters = []; // Only to collect meta data on applied filters.
+      image.filters = []; // Collect meta data on applied filters.
       image.output.filter = image.output.filter.replace(/[^0-9a-z:,-]/gi, '').split(/[,]+/);
       return callback(null, await filterImage(image));
     } catch (error) {
-      console.error(`Filter process error: ${error.message}`);
+      log.error(`Filter error: ${error.message}`);
       return callback(null, image);
     }
   }
-}).once('error', next);
+}).on('error', log.error);

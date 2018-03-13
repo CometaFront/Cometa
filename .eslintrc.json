@@ -12,7 +12,6 @@
   },
   "rules": {
     "no-console": "error",
-    "no-underscore-dangle": 0,
     "import/newline-after-import": 0,
     "func-names": ["error", "always"],
     "comma-dangle": ["error", "never"],

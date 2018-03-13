@@ -1,3 +1,4 @@
+// Modules
 const url = require('url');
 const { Readable } = require('stream');
 
@@ -20,31 +21,33 @@ class URL extends Readable {
     }
 
     try {
-      const _url = url.parse(this.config.input);
-      const protocol = require.call(null, _url.protocol.replace(':', ''));
-      _url.timeout = this.config.requestTimeout;
+      const inputUrl = url.parse(this.config.input);
+      const protocol = require.call(null, inputUrl.protocol.replace(':', ''));
+      inputUrl.timeout = this.config.requestTimeout;
 
-      protocol.get(_url, (res) => {
+      protocol.get(inputUrl, (res) => {
         if (res.statusCode !== 200) {
-          this.emit('error', new Error('The requested image could not be found.'));
-        } else {
-          let data = [];
-          res.setEncoding('binary');
-          res.on('data', chunk => data.push(chunk));
-          res.on('end', () => {
-            data = data.join('');
-            this.image.output = this.config.output;
-            this.image.body = Buffer.from(data, 'binary');
-            this.image.originalSize = data.length;
-
-            setImmediate(() => {
-              this.isComplete = true;
-              this.push(this.image);
-              this.push(null);
-            });
-          });
+          return this.emit('error', new Error('The requested image could not be found.'));
         }
-      }).on('error', error => this.emit('error', error));
+
+        let data = [];
+        res.setEncoding('binary');
+        res.on('data', chunk => data.push(chunk));
+        res.on('end', () => {
+          data = data.join('');
+          this.image.output = this.config.output;
+          this.image.body = Buffer.from(data, 'binary');
+          this.image.originalSize = data.length;
+
+          setImmediate(() => {
+            this.isComplete = true;
+            this.push(this.image);
+            this.push(null);
+          });
+        });
+
+        return true;
+      }).on('error', this.emit.bind(null, 'error'));
     } catch (error) {
       this.emit('error', error);
     }

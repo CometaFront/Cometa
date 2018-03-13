@@ -1,19 +1,17 @@
 module.exports = {
   app: {
-    env: process.env.NODE_ENV,
-    port: process.env.PORT || 5000,
-    key: process.env.COMETA_KEY,
-    useCluster: process.env.APP_CLUSTER === 'true' || false,
+    env: process.env.NODE_ENV || 'development',
+    port: parseInt(process.env.PORT, 10) || 9090,
+    key: process.env.COMETA_KEY || '',
+    useCluster: process.env.APP_CLUSTER === 'true'
   },
   cometa: {
-    allowUnauthorized: process.env.NOAUTH_ALLOWED === 'true' || false,
-    requestTimeout: parseInt(process.env.REQUEST_TIMEOUT, 10) || 2500,
+    allowUnauthorized: process.env.ALLOW_UNAUTHORIZED === 'true',
+    requestTimeout: parseInt(process.env.REQUEST_TIMEOUT, 10) || 2000,
     s3: {
       accessKeyId: process.env.AWS_ACCESS_KEY,
       secretAccessKey: process.env.AWS_ACCESS_SECRET,
-      region: process.env.AWS_REGION,
-      bucket: process.env.AWS_BUCKET,
-      signatureVersion: process.env.AWS_SIGNATURE || 'v4'
+      bucket: process.env.AWS_BUCKET
     }
   }
 };

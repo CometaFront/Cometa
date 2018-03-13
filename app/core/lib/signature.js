@@ -1,6 +1,9 @@
-const config = attract('config');
+// Modules
 const crypto = require('crypto');
 const query = require('querystring');
+
+// Libraries
+const config = attract('config');
 
 module.exports = (req, res, next) => {
   if (config.allowUnauthorized && req.params.signature === 'noauth') {

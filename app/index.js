@@ -5,20 +5,21 @@ const cpus = require('os').cpus();
 const http = require('http');
 
 // Libraries
-const parse = attract('core/lib/parse');
-const router = attract('core/lib/router');
-const stream = attract('core/lib/streams');
-const log = attract('core/lib/log');
+const parse = attract('lib/parse');
+const router = attract('lib/router');
+const signature = attract('lib/signature');
+const stream = attract('lib/streams');
+const pino = attract('lib/pino');
 const { app, cometa } = attract('config');
 
 const sources = {};
-({ 0: sources.URL, 1: sources.S3 } = attract('core/sources/url', 'core/sources/s3'));
+({ 0: sources.URL, 1: sources.S3 } = attract('sources/url', 'sources/s3'));
 
 try {
   /**
    * Define the HTTP GET request handler
    */
-  router.get('/:signature/:source/(.*)', async (req, res) => {
+  router.get('/:signature/:source/(.*)', signature, async (req, res) => {
     try {
       const request = Object.assign(await parse(req), cometa);
       if (!Object.prototype.hasOwnProperty.call(sources, request.source)) {
@@ -53,13 +54,13 @@ try {
     }
 
     cluster.on('exit', (worker, code, signal) => {
-      log.info(`Dead worker: ${worker.process.pid}; ${code} | ${signal}`);
+      pino.warn(`Dead worker: ${worker.process.pid}; ${code} | ${signal}`);
       cluster.fork();
     });
   } else {
     const worker = app.cluster ? `| Worker: ${cluster.worker.process.pid}` : '';
-    server.listen(app.port, () => log.info(`Up on port: ${app.port} ${worker}`));
+    server.listen(app.port, () => pino.info(`Up on port: ${app.port} ${worker}`));
   }
 } catch (error) {
-  log.error(error.message);
+  pino.fatal(error.message);
 }

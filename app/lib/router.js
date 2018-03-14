@@ -2,6 +2,9 @@
 const ptr = require('path-to-regexp');
 const { parse } = require('url');
 
+// Libraries
+const pino = attract('lib/pino');
+
 class Handler {
   constructor(method) {
     this.run = (...args) => method.apply(this, args);
@@ -19,6 +22,8 @@ class Response {
     this.res.writeHead(this.statusCode, { 'Content-Type': 'application/json' });
     this.res.write(JSON.stringify({ error: args[0] }));
     this.res.end();
+
+    pino.warn(args[0]);
   }
 }
 

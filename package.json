@@ -1,7 +1,7 @@
 {
   "name": "Cometa",
   "version": "1.0.0",
-  "description": "Super fast, on-demand and on-the-fly image processing.",
+  "description": "Super fast, on-demand and on-the-fly, image processing.",
   "main": "app/index.js",
   "engines": {
     "node": ">=8.9.4"
@@ -23,6 +23,7 @@
     "attract": "^2.0.5",
     "aws-sdk": "^2.207.0",
     "path-to-regexp": "^2.2.0",
+    "pino": "^4.13.0",
     "sharp": "^0.20.0"
   },
   "devDependencies": {

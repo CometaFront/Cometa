@@ -2,7 +2,7 @@
 const { Transform } = require('stream');
 
 // Libraries
-const log = attract('core/lib/log');
+const pino = attract('lib/pino');
 
 const filterImage = (image) => {
   const fn = async (yes, no) => {
@@ -44,8 +44,8 @@ module.exports = () => new Transform({
       image.output.filter = image.output.filter.replace(/[^0-9a-z:,-]/gi, '').split(/[,]+/);
       return callback(null, await filterImage(image));
     } catch (error) {
-      log.error(`Filter error: ${error.message}`);
+      pino.warn(`Filter error: ${error.message}`);
       return callback(null, image);
     }
   }
-}).on('error', log.error);
+}).on('error', pino.error);

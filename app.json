@@ -1,6 +1,6 @@
 {
     "name": "Cometa, image processing service.",
-    "description": "Super fast, on-demand, on-the-fly, image processing.",
+    "description": "Super fast, on-demand and on-the-fly, image processing.",
     "repository": "https://github.com/CometaFront/Cometa.git",
     "logo": "https://github.com/CometaFront/Cometa/raw/master/app/public/cometa.png",
     "website": "https://github.com/CometaFront/Cometa",

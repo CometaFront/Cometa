@@ -13,5 +13,10 @@ module.exports = {
       secretAccessKey: process.env.AWS_ACCESS_SECRET,
       bucket: process.env.AWS_BUCKET
     }
+  },
+  log: {
+    name: process.env.LOG_NAME,
+    prettyPrint: process.env.LOG_PRETTY === 'true',
+    level: process.env.LOG_LEVEL
   }
 };

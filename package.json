@@ -23,6 +23,7 @@
     "attract": "^2.0.5",
     "aws-sdk": "^2.207.0",
     "path-to-regexp": "^2.2.0",
+    "pino": "^4.13.0",
     "sharp": "^0.20.0"
   },
   "devDependencies": {

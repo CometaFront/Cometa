@@ -4,7 +4,7 @@ const sharp = require('sharp');
 const { Writable } = require('stream');
 
 // Libraries
-const log = attract('core/lib/log');
+const pino = attract('lib/pino');
 
 module.exports = res => new Writable({
   objectMode: true,
@@ -33,8 +33,8 @@ module.exports = res => new Writable({
 
       return callback();
     } catch (error) {
-      log.error(`Response error: ${error.message}`);
+      pino.error(`Response error: ${error.message}`);
       return callback(error);
     }
   }
-}).on('error', log.error);
+}).on('error', pino.error);

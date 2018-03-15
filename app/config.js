@@ -2,10 +2,10 @@ module.exports = {
   app: {
     env: process.env.NODE_ENV || 'development',
     port: parseInt(process.env.PORT, 10) || 9090,
-    key: process.env.COMETA_KEY || '',
     useCluster: process.env.APP_CLUSTER === 'true'
   },
   cometa: {
+    key: process.env.COMETA_KEY || '',
     allowUnauthorized: process.env.ALLOW_UNAUTHORIZED === 'true',
     requestTimeout: parseInt(process.env.REQUEST_TIMEOUT, 10) || 2000,
     s3: {

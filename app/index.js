@@ -7,6 +7,7 @@ const http = require('http');
 // Libraries
 const parse = attract('lib/parse');
 const router = attract('lib/router');
+const signature = attract('lib/signature');
 const stream = attract('lib/streams');
 const pino = attract('lib/pino');
 const { app, cometa } = attract('config');
@@ -18,7 +19,7 @@ try {
   /**
    * Define the HTTP GET request handler
    */
-  router.get('/:signature/:source/(.*)', async (req, res) => {
+  router.get('/:signature/:source/(.*)', signature, async (req, res) => {
     try {
       const request = Object.assign(await parse(req), cometa);
       if (!Object.prototype.hasOwnProperty.call(sources, request.source)) {

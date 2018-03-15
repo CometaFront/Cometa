@@ -7,8 +7,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/de955dab2112431e84ba/maintainability)](https://codeclimate.com/github/CometaFront/Cometa/maintainability)
 [![Build Status](https://travis-ci.org/CometaFront/Cometa.svg?branch=master)](https://travis-ci.org/CometaFront/Cometa)
 
-# Cometa
-Super fast on-demand, on-the-fly, image processing.
+Super fast, on-demand and on-the-fly, image processing.
 
 ```
 WOP. Ask if you need help.
@@ -17,7 +16,7 @@ WOP. Ask if you need help.
 
 ### Requirements
 
-**Cometa** uses [sharp](https://github.com/lovell/sharp) for image manipulation.<br />
+`Cometa` uses [sharp](https://github.com/lovell/sharp) for image manipulation.<br />
 In order to install `sharp` you will need to make sure all dependencies are satisfied. See its [installation instructions](http://sharp.dimens.io/en/stable/install/).
 
 

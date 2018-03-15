@@ -2,6 +2,10 @@
   <img src="https://raw.githubusercontent.com/CometaFront/Assets/master/Images/Cover.png" alt="Cometa" />
 </p>
 
+[![codebeat badge](https://codebeat.co/badges/f6086240-7e21-4dad-930b-51384ac1f69a)](https://codebeat.co/projects/github-com-cometafront-cometa-master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9813c362ec754cceb759888d891f3bf6)](https://www.codacy.com/app/aichholzer/Cometa?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CometaFront/Cometa&amp;utm_campaign=Badge_Grade)
+[![Maintainability](https://api.codeclimate.com/v1/badges/de955dab2112431e84ba/maintainability)](https://codeclimate.com/github/CometaFront/Cometa/maintainability)
+[![Build Status](https://travis-ci.org/CometaFront/Cometa.svg?branch=master)](https://travis-ci.org/CometaFront/Cometa)
 
 # Cometa
 Super fast on-demand, on-the-fly, image processing.

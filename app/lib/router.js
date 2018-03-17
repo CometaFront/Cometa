@@ -5,6 +5,24 @@ const { parse } = require('url');
 // Libraries
 const pino = attract('lib/pino');
 
+/**
+ * An `error` can be passed from the middleware by next(`error`);
+ * @param stack
+ * @param error
+ */
+const runStack = function runStack(stack, error = null) {
+  const immediate = stack.shift();
+  if (!immediate) {
+    return this.sendError('Nothing left in the stack.');
+  }
+
+  if (error) {
+    return this.sendError(error);
+  }
+
+  return immediate.run(this.req, this.res, runStack.bind(this, stack));
+};
+
 class Handler {
   constructor(method) {
     this.run = (...args) => method.apply(this, args);
@@ -34,14 +52,26 @@ class Router extends Response {
     return this;
   }
 
-  route(verb, url, method) {
-    if (!this.routes[verb]) {
-      this.routes[verb] = [];
+  route(args) {
+    const [method, url, ...functions] = [...args];
+    if (!this.routes[method]) {
+      this.routes[method] = [];
     }
 
     const keys = [];
     const regex = ptr(url, keys);
-    this.routes[verb].push({ regex, keys, handler: new Handler(method) });
+
+    /**
+     * The `stack` is basically a middleware support implementation.
+     * By passing back a stack-move-forward function, such as next(), we can allow
+     * multiple middleware to be used on the same route/path.
+     */
+    this.currentStack = [];
+    this.routes[method].push({
+      regex,
+      keys,
+      stack: functions.map(fn => new Handler(fn))
+    });
   }
 
   process(req, res) {
@@ -49,11 +79,12 @@ class Router extends Response {
     this.res = res;
 
     const method = this.req.method.toLowerCase();
-    for (let r = 0; r < this.routes[method].length; r += 1) {
-      const match = this.routes[method][r].regex.exec(this.req.pathname);
+    for (let route = 0; route < this.routes[method].length; route += 1) {
+      const currentRoute = this.routes[method][route];
+      const match = currentRoute.regex.exec(this.req.pathname);
       if (match) {
         for (let m = 1; m < match.length; m += 1) {
-          const key = this.routes[method][r].keys[m - 1];
+          const key = currentRoute.keys[m - 1];
           const prop = key.name;
           const val = match[m];
 
@@ -62,10 +93,10 @@ class Router extends Response {
           }
         }
 
-        const { handler } = this.routes[method][r];
-        if (handler) {
+        const { stack } = currentRoute;
+        if (stack.length) {
           ({ 0: this.req.path } = this.req.params);
-          return handler.run(this.req, res);
+          return runStack.bind(this, stack.slice())();
         }
       }
     }
@@ -79,7 +110,7 @@ module.exports = new Proxy(new Router(), {
     if (['get', 'post', 'put', 'delete'].includes(property.toString())) {
       return function applyRoute(...args) {
         args.unshift(property.toLowerCase());
-        return target.route.apply(this, args);
+        return target.route.apply(this, [args]);
       };
     }
 

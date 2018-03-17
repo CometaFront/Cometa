@@ -5,6 +5,24 @@ const { parse } = require('url');
 // Libraries
 const pino = attract('lib/pino');
 
+/**
+ * An `error` can be passed from the middleware by next(`error`);
+ * @param stack
+ * @param error
+ */
+const runStack = function runStack(stack, error = null) {
+  const immediate = stack.shift();
+  if (!immediate) {
+    return this.sendError('Nothing left in the stack.');
+  }
+
+  if (error) {
+    return this.sendError(error);
+  }
+
+  return immediate.run(this.req, this.res, runStack.bind(this, stack));
+};
+
 class Handler {
   constructor(method) {
     this.run = (...args) => method.apply(this, args);
@@ -48,6 +66,7 @@ class Router extends Response {
      * By passing back a stack-move-forward function, such as next(), we can allow
      * multiple middleware to be used on the same route/path.
      */
+    this.currentStack = [];
     this.routes[method].push({
       regex,
       keys,
@@ -60,17 +79,6 @@ class Router extends Response {
     this.res = res;
 
     const method = this.req.method.toLowerCase();
-
-    /**
-     * this.routes[method]
-     * this.routes['get'] = [
-     *   {
-     *     regex,
-     *     keys,
-     *     stack
-     *   }
-     * ]
-     */
     for (let route = 0; route < this.routes[method].length; route += 1) {
       const currentRoute = this.routes[method][route];
       const match = currentRoute.regex.exec(this.req.pathname);
@@ -88,9 +96,7 @@ class Router extends Response {
         const { stack } = currentRoute;
         if (stack.length) {
           ({ 0: this.req.path } = this.req.params);
-
-          // Take care of the stack/handler/next
-          return handler.run(this.req, res);
+          return runStack.bind(this, stack.slice())();
         }
       }
     }

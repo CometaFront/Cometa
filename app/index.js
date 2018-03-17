@@ -19,7 +19,7 @@ try {
   /**
    * Define the HTTP GET request handler
    */
-  router.get('/:signature/:source/(.*)', signature, async (req, res) => {
+  router.get('/:signature/:source/(.*)', (req, res, next) => { pino.info('FIRST STEP'); next(); }, async (req, res) => {
     try {
       const request = Object.assign(await parse(req), cometa);
       if (!Object.prototype.hasOwnProperty.call(sources, request.source)) {

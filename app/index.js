@@ -19,9 +19,9 @@ try {
   /**
    * Define the HTTP GET request handler
    */
-  router.get('/:source/(.*)', signature, async (req, res) => {
+  router.get('/:source/(.*)', signature, (req, res) => {
     try {
-      const request = Object.assign(await parse(req), cometa);
+      const request = Object.assign(parse(req), cometa);
       if (!Object.prototype.hasOwnProperty.call(sources, request.source)) {
         return router.sendError(409, 'A supported image source is required.');
       }

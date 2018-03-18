@@ -4,9 +4,9 @@ const path = require('path');
 const supportedInput = ['webp', 'png', 'tiff', 'jpeg', 'jpg'];
 const supportedOutput = ['webp', 'png', 'tiff', 'jpeg'];
 
-module.exports = req => new Promise((yes, no) => {
-  const outputQuality = parseInt(req.query.q || req.query.quality, 10);
+module.exports = (req) => {
   let input = req.path;
+  const { query } = req;
 
   const fileName = path.basename(input).split('.');
   let firstExtension = fileName.pop();
@@ -17,18 +17,20 @@ module.exports = req => new Promise((yes, no) => {
     firstExtension = !supportedOutput.includes(firstExtension) ? 'jpeg' : firstExtension;
     input = supportedInput.includes(secondExtension) ? input.replace(`.${removedExtension}`, '') : input;
   } else if (!supportedInput.includes(firstExtension)) {
-    return no(new Error(`I can't deal with .${firstExtension} files.`));
+    throw new Error(`.${firstExtension} files are not supported.`);
   }
 
-  return yes({
+  const { source } = req.params;
+  const outputQuality = parseInt(query.q || query.quality, 10);
+  return {
     output: {
-      width: parseInt(req.query.w || req.query.width, 10) || null,
-      height: parseInt(req.query.h || req.query.height, 10) || null,
-      filter: req.query.f || req.query.filter || null,
+      width: parseInt(query.w || query.width, 10),
+      height: parseInt(query.h || query.height, 10),
       quality: outputQuality > 0 && outputQuality <= 100 ? outputQuality : 80,
+      filter: query.f || query.filter || null,
       extension: firstExtension
     },
-    source: req.params.source ? req.params.source.toUpperCase() : null,
+    source: source ? source.toUpperCase() : null,
     input: input || null
-  });
-});
+  };
+};

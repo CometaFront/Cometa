@@ -34,18 +34,18 @@ const filterImage = (image) => {
 
 module.exports = () => new Transform({
   objectMode: true,
-  transform: async (image, encoding, callback) => {
+  transform: (image, encoding, callback) => setImmediate(() => {
     if (!image.output.filter) {
       return callback(null, image);
     }
 
-    try {
-      image.filters = []; // Collect meta data on applied filters.
-      image.output.filter = image.output.filter.replace(/[^0-9a-z:,-]/gi, '').split(/[,]+/);
-      return callback(null, await filterImage(image));
-    } catch (error) {
-      pino.warn(`Filter error: ${error.message}`);
-      return callback(null, image);
-    }
-  }
+    image.filters = []; // Collect meta data on applied filters.
+    image.output.filter = image.output.filter.replace(/[^0-9a-z:,-]/gi, '').split(/[,]+/);
+    return filterImage(image)
+      .then(filtered => callback(null, filtered))
+      .catch((error) => {
+        pino.warn(`Filter error: ${error.message}`);
+        return callback(null, image);
+      });
+  })
 }).on('error', pino.error);

@@ -66,7 +66,6 @@ class Router extends Response {
      * By passing back a stack-move-forward function, such as next(), we can allow
      * multiple middleware to be used on the same route/path.
      */
-    this.currentStack = [];
     this.routes[method].push({
       regex,
       keys,

@@ -20,37 +20,33 @@ class URL extends Readable {
       return;
     }
 
-    try {
-      const inputUrl = url.parse(this.config.input);
-      const protocol = require.call(null, inputUrl.protocol.replace(':', ''));
-      inputUrl.timeout = this.config.requestTimeout;
+    const inputUrl = url.parse(this.config.input);
+    const protocol = require.call(null, inputUrl.protocol.replace(':', ''));
+    inputUrl.timeout = this.config.requestTimeout;
 
-      protocol.get(inputUrl, (res) => {
-        if (res.statusCode !== 200) {
-          return this.emit('error', new Error('The requested image could not be found.'));
-        }
+    protocol.get(inputUrl, (res) => {
+      if (res.statusCode !== 200) {
+        return this.emit('error', new Error('The requested image could not be found.'));
+      }
 
-        let data = [];
-        res.setEncoding('binary');
-        res.on('data', chunk => data.push(chunk));
-        res.on('end', () => {
-          data = data.join('');
-          this.image.output = this.config.output;
-          this.image.body = Buffer.from(data, 'binary');
-          this.image.originalSize = data.length;
+      let data = [];
+      res.setEncoding('binary');
+      res.on('data', chunk => data.push(chunk));
+      res.on('end', () => {
+        data = data.join('');
+        this.image.output = this.config.output;
+        this.image.body = Buffer.from(data, 'binary');
+        this.image.originalSize = data.length;
 
-          setImmediate(() => {
-            this.isComplete = true;
-            this.push(this.image);
-            this.push(null);
-          });
+        setImmediate(() => {
+          this.isComplete = true;
+          this.push(this.image);
+          this.push(null);
         });
+      });
 
-        return true;
-      }).on('error', this.emit.bind(null, 'error'));
-    } catch (error) {
-      this.emit('error', error);
-    }
+      return true;
+    }).on('error', this.emit.bind(null, 'error'));
   }
 }
 

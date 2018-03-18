@@ -7,14 +7,12 @@ const pino = attract('lib/pino');
 
 module.exports = () => new Transform({
   objectMode: true,
-  transform: (image, encoding, callback) => {
-    try {
-      setImmediate(async () => {
-        image.metadata = await sharp(image.body).metadata();
+  transform: (image, encoding, callback) => setImmediate(() => {
+    sharp(image.body).metadata()
+      .then((metadata) => {
+        image.metadata = metadata;
         callback(null, image);
-      });
-    } catch (error) {
-      callback(error);
-    }
-  }
+      })
+      .catch(callback);
+  })
 }).on('error', pino.error);

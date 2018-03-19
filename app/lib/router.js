@@ -11,16 +11,12 @@ const pino = attract('lib/pino');
  * @param error
  */
 const runStack = function runStack(stack, error = null) {
-  const immediate = stack.shift();
-  if (!immediate) {
-    return this.sendError('Nothing left in the stack.');
+  const next = stack.shift();
+  if (error || !next) {
+    return this.sendError(error || 'Nothing left in the stack.');
   }
 
-  if (error) {
-    return this.sendError(error);
-  }
-
-  return immediate.run(this.req, this.res, runStack.bind(this, stack));
+  return next.run(this.req, this.res, runStack.bind(this, stack));
 };
 
 class Handler {

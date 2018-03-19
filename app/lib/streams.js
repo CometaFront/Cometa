@@ -1,11 +1,11 @@
-const meta = attract('streams/meta');
-const resize = attract('streams/resize');
-const filter = attract('streams/filter');
-const response = attract('streams/response');
+const meta = require('../streams/meta')
+const resize = require('../streams/resize')
+const filter = require('../streams/filter')
+const response = require('../streams/response')
 
 module.exports = {
   meta,
   resize,
   filter,
   response
-};
+}

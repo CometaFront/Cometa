@@ -1,2 +1,5 @@
-const sharp = require('sharp');
-module.exports = image => sharp(image.body).gamma().greyscale().toBuffer();
+const sharp = require('sharp')
+module.exports = image => sharp(image.body)
+  .gamma()
+  .greyscale()
+  .toBuffer()

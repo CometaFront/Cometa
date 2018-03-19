@@ -1,18 +1,19 @@
 // Modules
-const sharp = require('sharp');
-const { Transform } = require('stream');
+const sharp = require('sharp')
+const { Transform } = require('stream')
 
 // Libraries
-const pino = attract('lib/pino');
+const pino = require('../lib/pino')
 
 module.exports = () => new Transform({
   objectMode: true,
   transform: (image, encoding, callback) => setImmediate(() => {
-    sharp(image.body).metadata()
+    sharp(image.body)
+      .metadata()
       .then((metadata) => {
-        image.metadata = metadata;
-        callback(null, image);
+        image.metadata = metadata
+        callback(null, image)
       })
-      .catch(callback);
+      .catch(callback)
   })
-}).on('error', pino.error);
+}).on('error', pino.error)

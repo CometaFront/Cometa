@@ -1,27 +1,27 @@
 // Modules
-const path = require('path');
+const path = require('path')
 
-const supportedInput = ['webp', 'png', 'tiff', 'jpeg', 'jpg'];
-const supportedOutput = ['webp', 'png', 'tiff', 'jpeg'];
+const supportedInput = ['webp', 'png', 'tiff', 'jpeg', 'jpg']
+const supportedOutput = ['webp', 'png', 'tiff', 'jpeg']
 
 module.exports = (req) => {
-  let input = req.path;
-  const { query } = req;
+  let input = req.path
+  const { query } = req
 
-  const fileName = path.basename(input).split('.');
-  let firstExtension = fileName.pop();
-  const secondExtension = fileName.pop();
+  const fileName = path.basename(input).split('.')
+  let firstExtension = fileName.pop()
+  const secondExtension = fileName.pop()
 
   if (supportedInput.includes(firstExtension)) {
-    const removedExtension = firstExtension;
-    firstExtension = !supportedOutput.includes(firstExtension) ? 'jpeg' : firstExtension;
-    input = supportedInput.includes(secondExtension) ? input.replace(`.${removedExtension}`, '') : input;
+    const removedExtension = firstExtension
+    firstExtension = !supportedOutput.includes(firstExtension) ? 'jpeg' : firstExtension
+    input = supportedInput.includes(secondExtension) ? input.replace(`.${removedExtension}`, '') : input
   } else if (!supportedInput.includes(firstExtension)) {
-    throw new Error(`.${firstExtension} files are not supported.`);
+    throw new Error(`.${firstExtension} files are not supported.`)
   }
 
-  const { source } = req.params;
-  const outputQuality = parseInt(query.q || query.quality, 10);
+  const { source } = req.params
+  const outputQuality = parseInt(query.q || query.quality, 10)
   return {
     output: {
       width: parseInt(query.w || query.width, 10),
@@ -32,5 +32,5 @@ module.exports = (req) => {
     },
     source: source ? source.toUpperCase() : null,
     input: input || null
-  };
-};
+  }
+}

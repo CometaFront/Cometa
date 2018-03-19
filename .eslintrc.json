@@ -11,10 +11,12 @@
     "attract": true
   },
   "rules": {
+    "semi": "off",
     "no-console": "error",
     "import/newline-after-import": 0,
     "func-names": ["error", "always"],
     "comma-dangle": ["error", "never"],
+    "space-before-function-paren": "off",
     "no-param-reassign": ["error", { "props": false }],
     "max-len": ["error", 120, { "ignoreRegExpLiterals": true }]
   }

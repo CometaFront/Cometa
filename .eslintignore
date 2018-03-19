@@ -1,1 +1,2 @@
-# Lint ignore
+coverage
+.nyc_output

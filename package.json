@@ -30,7 +30,8 @@
     "dotenv": "^5.0.1",
     "eslint": "^4.19.0",
     "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.9.0"
+    "eslint-plugin-import": "^2.9.0",
+    "nodemon": "^1.17.2"
   },
   "directories": {
     "test": "test"

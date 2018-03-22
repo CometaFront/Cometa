@@ -10,7 +10,7 @@ module.exports = () => new Transform({
   transform: (image, encoding, callback) => setImmediate(() => {
     sharp(image)
       .metadata()
-      .then(metadata => callback(null, { image, metadata }))
+      .then(metadata => callback(null, metadata))
       .catch(callback);
   })
 }).on('error', pino.error);

@@ -30,8 +30,7 @@ try {
       return source.on('error', (error) => {
         source.unpipe();
         throw error;
-      }).pipe(stream.meta())
-        .pipe(stream.resize())
+      }).pipe(stream.resize())
         .pipe(stream.filter())
         .pipe(stream.response(res));
     } catch (error) {

@@ -1,6 +1,7 @@
 // Modules
 const url = require('url');
-const { Readable } = require('stream');
+const { Readable, PassThrough } = require('stream');
+const { meta } = attract('lib/streams');
 
 class URL extends Readable {
   constructor(config = {}) {
@@ -25,6 +26,27 @@ class URL extends Readable {
     inputUrl.timeout = this.config.requestTimeout;
 
     protocol.get(inputUrl, (res) => {
+      const bufferStream = new PassThrough({ objectMode: true });
+      res.pipe(meta()).pipe(bufferStream);
+      bufferStream.on('data', (response) => {
+        this.image.metadata = response.metadata;
+        this.image.output = this.config.output;
+        this.image.body = Buffer.from(response.image, 'binary');
+        this.image.originalSize = response.image.length;
+
+        console.log(this.image.body.length);
+      });
+      bufferStream.on('end', () => {
+        console.log('END');
+      });
+
+      bufferStream.on('error', () => {
+        console.log('ERROR');
+      });
+    });
+
+
+    /*protocol.get(inputUrl, (res) => {
       if (res.statusCode !== 200) {
         return this.emit('error', new Error('The requested image could not be found.'));
       }
@@ -38,7 +60,10 @@ class URL extends Readable {
         this.image.body = Buffer.from(data, 'binary');
         this.image.originalSize = data.length;
 
+        console.log(this.image.body.length);
+        // console.log(this.image.body.toString('hex'));
         setImmediate(() => {
+          console.log('passs');
           this.isComplete = true;
           this.push(this.image);
           this.push(null);
@@ -46,7 +71,7 @@ class URL extends Readable {
       });
 
       return true;
-    }).on('error', this.emit.bind(null, 'error'));
+    }).on('error', this.emit.bind(null, 'error'));*/
   }
 }
 

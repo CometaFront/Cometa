@@ -8,11 +8,9 @@ const pino = attract('lib/pino');
 module.exports = () => new Transform({
   objectMode: true,
   transform: (image, encoding, callback) => setImmediate(() => {
-    sharp(image.body).metadata()
-      .then((metadata) => {
-        image.metadata = metadata;
-        callback(null, image);
-      })
+    sharp(image)
+      .metadata()
+      .then(metadata => callback(null, { image, metadata }))
       .catch(callback);
   })
 }).on('error', pino.error);

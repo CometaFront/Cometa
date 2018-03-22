@@ -8,6 +8,7 @@ const pino = attract('lib/pino');
 module.exports = () => new Transform({
   objectMode: true,
   transform: (image, encoding, callback) => setImmediate(() => {
+    console.log('resize', image.body);
     if (image.output.width > 0 || image.output.height > 0) {
       return sharp(image.body)
         .resize(image.output.width, image.output.height)

@@ -78,25 +78,29 @@ class Router extends Response {
       const currentRoute = this.routes[method][route]
       const match = currentRoute.regex.exec(this.req.pathname)
       if (match) {
-        for (let m = 1; m < match.length; m += 1) {
-          const key = currentRoute.keys[m - 1]
-          const prop = key.name
-          const val = match[m]
-
-          if (val !== undefined || !hasOwnProperty.call(this.req.params, prop)) {
-            this.req.params[prop] = val
-          }
-        }
-
-        const { stack } = currentRoute
-        if (stack.length) {
-          ({ 0: this.req.path } = this.req.params)
-          return runStack.bind(this, stack.slice())()
-        }
+        return this.extractKeys(match, currentRoute)
       }
     }
 
     return this.sendError('Page not found.')
+  }
+
+  extractKeys (match, currentRoute) {
+    const { keys, stack } = currentRoute
+    for (let m = 1; m < match.length; m += 1) {
+      const key = keys[m - 1]
+      const property = key.name
+      const value = match[m]
+
+      if (value !== undefined || !{}.hasOwnProperty.call(this.req.params, property)) {
+        this.req.params[property] = value
+      }
+    }
+
+    if (stack.length) {
+      ({ 0: this.req.path } = this.req.params)
+      return runStack.bind(this, stack.slice())()
+    }
   }
 }
 

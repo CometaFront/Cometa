@@ -7,7 +7,7 @@ class S3 extends Readable {
     super({ objectMode: true })
 
     this.config = config
-    this.image = {}
+    this.image = { output: config.output }
     this.isComplete = false
 
     aws.config = this.config.s3
@@ -28,7 +28,6 @@ class S3 extends Readable {
         return this.emit('error', error)
       }
 
-      this.image.output = this.config.output
       this.image.body = data.Body
       this.image.originalSize = data.Body.length
 

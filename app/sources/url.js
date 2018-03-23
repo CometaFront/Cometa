@@ -1,15 +1,16 @@
 // Modules
-const url = require('url')
 const http = require('http')
 const https = require('https')
+const { parse } = require('url')
 const { Readable } = require('stream')
 
 class URL extends Readable {
   constructor (config = {}) {
     super({ objectMode: true })
 
-    this.config = config
-    this.image = {}
+    this.inputUrl = parse(config.input)
+    this.inputUrl.timeout = config.requestTimeout
+    this.image = { output: config.output }
     this.isComplete = false
 
     this.on('end', () => {
@@ -22,12 +23,9 @@ class URL extends Readable {
       return
     }
 
-    const inputUrl = url.parse(this.config.input)
-    inputUrl.timeout = this.config.requestTimeout
-    const protocol = /https/.test(inputUrl.protocol) ? https : http
-
+    const protocol = /https/.test(this.inputUrl.protocol) ? https : http
     protocol
-      .get(inputUrl, (res) => {
+      .get(this.inputUrl, (res) => {
         if (res.statusCode !== 200) {
           return this.emit('error', new Error('The requested image could not be found.'))
         }
@@ -37,7 +35,6 @@ class URL extends Readable {
         res.on('data', chunk => data.push(chunk))
         res.on('end', () => {
           data = data.join('')
-          this.image.output = this.config.output
           this.image.body = Buffer.from(data, 'binary')
           this.image.originalSize = data.length
 

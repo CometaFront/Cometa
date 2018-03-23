@@ -21,11 +21,11 @@ module.exports = (req) => {
   }
 
   const { source } = req.params
-  const outputQuality = parseInt(query.q || query.quality, 10)
+  const outputQuality = parseInt(query.q || query.quality, 10) || 80
   return {
     output: {
-      width: parseInt(query.w || query.width, 10),
-      height: parseInt(query.h || query.height, 10),
+      width: parseInt(query.w || query.width, 10) || null,
+      height: parseInt(query.h || query.height, 10) || null,
       quality: outputQuality > 0 && outputQuality <= 100 ? outputQuality : 80,
       filter: query.f || query.filter || null,
       extension: firstExtension

@@ -88,8 +88,7 @@ class Router extends Response {
   extractKeys (match, currentRoute) {
     const { keys, stack } = currentRoute
     for (let m = 1; m < match.length; m += 1) {
-      const key = keys[m - 1]
-      const property = key.name
+      const property = keys[m - 1].name
       const value = match[m]
 
       if (value !== undefined || !{}.hasOwnProperty.call(this.req.params, property)) {

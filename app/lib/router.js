@@ -90,18 +90,15 @@ class Router extends Response {
     for (let m = 1; m < match.length; m += 1) {
       const property = keys[m - 1].name;
       const value = match[m];
+      const hasProperty = !{}.hasOwnProperty.call(this.req.params, property);
 
-      if (value !== undefined || !{}.hasOwnProperty.call(this.req.params, property)) {
+      if (typeof value !== 'undefined' || hasProperty) {
         this.req.params[property] = value;
       }
     }
 
-    if (stack.length) {
-      ({ 0: this.req.path } = this.req.params);
-      return runStack.bind(this, stack.slice())();
-    }
-
-    return null;
+    ({ 0: this.req.path } = this.req.params);
+    return stack.length ? runStack.bind(this, stack.slice())() : null;
   }
 }
 

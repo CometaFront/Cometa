@@ -34,7 +34,6 @@ try {
         })
         .pipe(stream.meta())
         .pipe(stream.resize())
-        .pipe(stream.filter())
         .pipe(stream.response(res));
     } catch (error) {
       return router.sendError(409, error.message);

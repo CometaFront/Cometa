@@ -19,14 +19,14 @@ try {
   /**
    * Define the HTTP GET request handler
    */
-  router.get('/:source/(.*)', signature, (req, res) => {
+  router.get('/:provider/(.*)', signature, (req, res) => {
     try {
       const request = Object.assign(parse(req), cometa);
-      if (!{}.hasOwnProperty.call(providers, request.source)) {
+      if (!{}.hasOwnProperty.call(providers, request.provider)) {
         return router.sendError(409, 'A supported image source is required.');
       }
 
-      const source = new providers[request.source](request);
+      const source = new providers[request.provider](request);
       return source
         .on('error', (error) => {
           source.unpipe();
@@ -34,7 +34,6 @@ try {
         })
         .pipe(stream.meta())
         .pipe(stream.resize())
-        .pipe(stream.filter())
         .pipe(stream.response(res));
     } catch (error) {
       return router.sendError(409, error.message);

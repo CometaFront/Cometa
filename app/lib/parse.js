@@ -4,33 +4,44 @@ const path = require('path');
 const supportedInput = ['webp', 'png', 'tiff', 'jpeg', 'jpg'];
 const supportedOutput = ['webp', 'png', 'tiff', 'jpeg', 'jpg'];
 
-module.exports = (req) => {
-  let input = req.path;
-  const { query } = req;
+const output = (data = {}) => {
+  const { query } = data;
+  const outputQuality = parseInt(query.q, 10) || 80;
+  const validQuality = outputQuality * (outputQuality - 101) < 0;
 
-  const fileName = path.basename(input).split('.');
-  const outputExtension = fileName.pop();
-  const inputExtension = fileName.pop();
-
-  if (supportedInput.includes(inputExtension) && supportedOutput.includes(outputExtension)) {
-    input = input.replace(`.${outputExtension}`, '');
-  }
-
-  if (!supportedOutput.includes(outputExtension)) {
-    throw new Error(`.${outputExtension} files are not supported.`);
-  }
-
-  const { source } = req.params;
-  const outputQuality = parseInt(query.q || query.quality, 10) || 80;
   return {
     output: {
-      width: parseInt(query.w || query.width, 10) || null,
-      height: parseInt(query.h || query.height, 10) || null,
-      quality: outputQuality > 0 && outputQuality <= 100 ? outputQuality : 80,
-      filter: query.f || query.filter || null,
-      extension: outputExtension
+      width: parseInt(query.w, 10) || null,
+      height: parseInt(query.h, 10) || null,
+      quality: validQuality ? outputQuality : 80,
+      extension: data.extension
     },
-    source: source ? source.toUpperCase() : null,
-    input: input || null
+    provider: data.provider,
+    input: data.input
   };
+};
+
+module.exports = (req) => {
+  const { query } = req;
+  const fileName = path.basename(req.path).split('.');
+  const outputExtension = fileName.pop();
+  const supportedOutputExt = supportedOutput.includes(outputExtension);
+  const supportedInputExt = supportedInput.includes(fileName.pop());
+
+  let input = null;
+  if (supportedInputExt && supportedOutputExt) {
+    input = req.path.replace(`.${outputExtension}`, '');
+  }
+
+  if (supportedOutputExt) {
+    const { provider } = req.params;
+    return output({
+      query,
+      input,
+      provider: provider ? provider.toUpperCase() : null,
+      extension: outputExtension
+    });
+  }
+
+  throw new Error(`.${outputExtension} files are not supported.`);
 };

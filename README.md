@@ -4,6 +4,8 @@
 
 
 # Cometa
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/CometaFront/Cometa.svg)](https://greenkeeper.io/)
 Super fast on-demand, on-the-fly, image processing.
 
 ```

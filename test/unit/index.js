@@ -1,3 +1,3 @@
 describe('Unit testing', () => {
-  it('Start', done => done())
-})
+  it('Start', (done) => done());
+});

@@ -27,10 +27,12 @@
   },
   "devDependencies": {
     "dotenv": "^5.0.1",
+    "eslint": "^4.19.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.9.0",
     "mocha": "^5.0.5",
     "nodemon": "^1.17.2",
-    "nyc": "^11.6.0",
-    "standard": "^11.0.1"
+    "nyc": "^11.6.0"
   },
   "directories": {
     "test": "test"
@@ -39,10 +41,11 @@
     "url": "https://github.com/CometaFront/Cometa/issues"
   },
   "scripts": {
-    "test": "standard && npm run unit && nyc report --reporter=text",
+    "test": "npm run lint && npm run unit && nyc report --reporter=text",
     "unit": "nyc --reporter=lcov _mocha -R progress --timeout 1000 ./test/unit/index.js",
     "start": "nodemon -r dotenv/config --inspect",
-    "standard:fix": "standard --fix",
+    "lint": "eslint --quiet .",
+    "lint:fix": "eslint --fix .",
     "start:opt": "node -r dotenv/config --trace_opt --allow-natives-syntax app/index.js",
     "start:deopt": "node -r dotenv/config --trace_deopt --allow-natives-syntax app/index.js",
     "start:trace": "node -r dotenv/config --trace_opt --trace_deopt --allow-natives-syntax app/index.js"
@@ -52,10 +55,5 @@
       "test/*"
     ],
     "delay": "100"
-  },
-  "standard": {
-    "env": {
-      "mocha": true
-    }
   }
 }

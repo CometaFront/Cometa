@@ -1,9 +1,9 @@
 // Modules
-const sharp = require('sharp')
-const { Transform } = require('stream')
+const sharp = require('sharp');
+const { Transform } = require('stream');
 
 // Libraries
-const pino = require('../lib/pino')
+const pino = require('../lib/pino');
 
 module.exports = () => new Transform({
   objectMode: true,
@@ -14,12 +14,12 @@ module.exports = () => new Transform({
         .withoutEnlargement()
         .toBuffer()
         .then((body) => {
-          image.body = body
-          return callback(null, image)
+          image.body = body;
+          return callback(null, image);
         })
-        .catch(callback)
+        .catch(callback);
     }
 
-    return callback(null, image)
+    return callback(null, image);
   })
-}).on('error', pino.error)
+}).on('error', pino.error);

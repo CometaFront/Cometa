@@ -1,23 +1,24 @@
 // Modules
-const crypto = require('crypto')
-const sharp = require('sharp')
-const { Writable } = require('stream')
+const crypto = require('crypto');
+const sharp = require('sharp');
+const { Writable } = require('stream');
 
 // Libraries
-const pino = require('../lib/pino')
+const pino = require('../lib/pino');
 
-module.exports = res => new Writable({
+module.exports = (res) => new Writable({
   objectMode: true,
   write: async (image, encoding, callback) => setImmediate(() => {
-    let options = { quality: image.output.quality }
+    let options = { quality: image.output.quality };
     if (image.output.extension === 'png') {
-      options = { compressionLevel: 6 }
+      options = { compressionLevel: 6 };
     }
 
+    image.output.extension = image.output.extension === 'jpg' ? 'jpeg' : image.output.extension;
     sharp(image.body)[image.output.extension](options)
       .on('info', (info) => {
-        const expirationDate = new Date()
-        expirationDate.setDate(expirationDate.getDate() + 30)
+        const expirationDate = new Date();
+        expirationDate.setDate(expirationDate.getDate() + 30);
 
         res.writeHead(200, {
           Etag: crypto
@@ -31,10 +32,10 @@ module.exports = res => new Writable({
           'Content-Length': info.size,
           'Last-Modified': new Date().toGMTString(),
           'X-Powered-by': 'https://github.com/aichholzer'
-        })
+        });
       })
-      .pipe(res)
+      .pipe(res);
 
-    return callback()
+    return callback();
   })
-}).on('error', pino.error)
+}).on('error', pino.error);

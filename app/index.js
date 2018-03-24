@@ -1,19 +1,19 @@
 // Modules
-const cluster = require('cluster')
-const cpus = require('os').cpus()
-const http = require('http')
+const cluster = require('cluster');
+const cpus = require('os').cpus();
+const http = require('http');
 
 // Libraries
-const parse = require('./lib/parse')
-const router = require('./lib/router')
-const signature = require('./lib/signature')
-const stream = require('./lib/streams')
-const pino = require('./lib/pino')
-const { app, cometa } = require('./config')
+const parse = require('./lib/parse');
+const router = require('./lib/router');
+const signature = require('./lib/signature');
+const stream = require('./lib/streams');
+const pino = require('./lib/pino');
+const { app, cometa } = require('./config');
 
-const sources = {}
-sources.URL = require('./sources/url')
-sources.S3 = require('./sources/s3')
+const providers = {};
+providers.URL = require('./providers/url');
+providers.S3 = require('./providers/s3');
 
 try {
   /**
@@ -21,30 +21,30 @@ try {
    */
   router.get('/:source/(.*)', signature, (req, res) => {
     try {
-      const request = Object.assign(parse(req), cometa)
-      if (!Object.prototype.hasOwnProperty.call(sources, request.source)) {
-        return router.sendError(409, 'A supported image source is required.')
+      const request = Object.assign(parse(req), cometa);
+      if (!{}.hasOwnProperty.call(providers, request.source)) {
+        return router.sendError(409, 'A supported image source is required.');
       }
 
-      const source = new sources[request.source](request)
+      const source = new providers[request.source](request);
       return source
         .on('error', (error) => {
-          source.unpipe()
-          throw error
+          source.unpipe();
+          throw error;
         })
         .pipe(stream.meta())
         .pipe(stream.resize())
         .pipe(stream.filter())
-        .pipe(stream.response(res))
+        .pipe(stream.response(res));
     } catch (error) {
-      return router.sendError(409, error.message)
+      return router.sendError(409, error.message);
     }
-  })
+  });
 
   /**
    * Create the server
    */
-  const server = http.createServer((req, res) => router.process(req, res))
+  const server = http.createServer((req, res) => router.process(req, res));
 
   /**
    * Get the server to listen on the given port.
@@ -52,17 +52,17 @@ try {
    */
   if (app.cluster && cluster.isMaster) {
     for (let cpu = 0; cpu < cpus.length; cpu += 1) {
-      cluster.fork()
+      cluster.fork();
     }
 
     cluster.on('exit', (worker, code, signal) => {
-      pino.warn(`Dead worker: ${worker.process.pid}; ${code} | ${signal}`)
-      cluster.fork()
-    })
+      pino.warn(`Dead worker: ${worker.process.pid}; ${code} | ${signal}`);
+      cluster.fork();
+    });
   } else {
-    const worker = app.cluster ? `| Worker: ${cluster.worker.process.pid}` : ''
-    server.listen(app.port, () => pino.info(`Up on port: ${app.port} ${worker}`))
+    const worker = app.cluster ? `| Worker: ${cluster.worker.process.pid}` : '';
+    server.listen(app.port, () => pino.info(`Up on port: ${app.port} ${worker}`));
   }
 } catch (error) {
-  pino.fatal(error.message)
+  pino.fatal(error.message);
 }

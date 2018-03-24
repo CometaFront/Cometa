@@ -19,4 +19,4 @@ module.exports = {
     prettyPrint: process.env.LOG_PRETTY === 'true',
     level: process.env.LOG_LEVEL
   }
-}
+};

@@ -14,6 +14,10 @@ module.exports = {
       bucket: process.env.AWS_BUCKET
     }
   },
+  formats: {
+    input: ['webp', 'png', 'tiff', 'jpeg', 'jpg'],
+    output: ['webp', 'png', 'tiff', 'jpeg', 'jpg']
+  },
   log: {
     name: process.env.LOG_NAME,
     prettyPrint: process.env.LOG_PRETTY === 'true',

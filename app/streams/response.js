@@ -6,10 +6,10 @@ const { Writable } = require('stream');
 // Libraries
 const pino = require('../lib/pino');
 
-const writeHead = (res, body, size, extension) => {
+const writeHead = (res, image, size) => {
   const Etag = crypto
     .createHash('sha1')
-    .update(body, 'utf8')
+    .update(image.body, 'utf8')
     .digest('hex');
 
   const expirationDate = new Date();
@@ -19,7 +19,7 @@ const writeHead = (res, body, size, extension) => {
     Etag,
     Expires: expirationDate.toGMTString(),
     Vary: 'Accept-Encoding',
-    'Content-Type': `image/${extension}`,
+    'Content-Type': `image/${image.output.extension}`,
     'Cache-Control': 'max-age=2592000,public',
     'Content-Length': size,
     'Last-Modified': new Date().toGMTString(),
@@ -27,21 +27,22 @@ const writeHead = (res, body, size, extension) => {
   });
 };
 
-const writeStream = async (res, image, encoding, callback) => setImmediate(() => {
-  let options = { quality: image.output.quality };
-  if (image.output.extension === 'png') {
-    options = { compressionLevel: 6 };
-  }
+const writeStream = async (res, image) =>
+  setImmediate(() => {
+    let options = { quality: image.output.quality };
+    if (image.output.extension === 'png') {
+      options = { compressionLevel: 6 };
+    }
 
-  image.output.extension = image.output.extension === 'jpg' ? 'jpeg' : image.output.extension;
-  sharp(image.body)[image.output.extension](options)
-    .on('info', (info) => writeHead(res, image.body, info.size, image.output.extension))
-    .pipe(res);
+    image.output.extension = image.output.extension === 'jpg' ? 'jpeg' : image.output.extension;
+    sharp(image.body)
+      [image.output.extension](options)
+      .on('info', (info) => writeHead(res, image, info.size))
+      .pipe(res);
+  });
 
-  return callback();
-});
-
-module.exports = (res) => new Writable({
-  objectMode: true,
-  write: writeStream.bind(null, res)
-}).on('error', pino.error);
+module.exports = (res) =>
+  new Writable({
+    objectMode: true,
+    write: writeStream.bind(null, res)
+  }).on('error', pino.error);

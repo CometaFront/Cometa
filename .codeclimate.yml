@@ -1,13 +1,9 @@
-JavaScript: true
-
-engines:
+version: "2"
+plugins:
   eslint:
     enabled: true
-ratings:
-   paths:
-     - "app/**/*"
-     - "**.js"
-exclude_paths:
+    channel: "eslint-4"
+exclude_patterns:
   - "**.json"
   - "**.md"
   - "**.yml"

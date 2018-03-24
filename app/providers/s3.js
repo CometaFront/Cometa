@@ -3,8 +3,11 @@ const aws = require('aws-sdk');
 const { Readable } = require('stream');
 
 class S3 extends Readable {
-  constructor(config = {}) {
+  constructor(config = null) {
     super({ objectMode: true });
+    if (!config) {
+      throw new Error('Configuration is required.');
+    }
 
     this.config = config;
     this.image = { output: config.output };

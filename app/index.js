@@ -19,11 +19,15 @@ try {
   /**
    * Define the HTTP GET request handler
    */
-  router.get('/:provider/(.*)', signature, (req, res) => {
+  router.get('/:provider/(.*)', signature.bind(null, cometa), (req, res) => {
     try {
       const request = Object.assign(parse(req), cometa);
+      if (request.output.extension instanceof Error) {
+        return router.sendError(409, request.output.extension.message);
+      }
+
       if (!{}.hasOwnProperty.call(providers, request.provider)) {
-        return router.sendError(409, 'A supported image source is required.');
+        return router.sendError(409, `${request.provider} is not a supported image provider.`);
       }
 
       const source = new providers[request.provider](request);

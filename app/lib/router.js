@@ -37,7 +37,7 @@ class Response {
     this.res.write(JSON.stringify({ error: args[0] }));
     this.res.end();
 
-    pino.warn(args[0]);
+    return pino.warn(args[0]);
   }
 }
 
@@ -69,36 +69,45 @@ class Router extends Response {
     });
   }
 
+  /**
+   * @TODO -Only store a route once, per method.
+   * @TODO -Request body support, in parse()
+   */
   process(req, res) {
     this.req = Object.assign(req, { params: {}, query: {} }, parse(req.url, true));
     this.res = res;
 
     const method = this.req.method.toLowerCase();
-    for (let route = 0; route < this.routes[method].length; route += 1) {
-      const currentRoute = this.routes[method][route];
+    const methodRoutes = this.routes[method];
+    if (!methodRoutes || !methodRoutes.length) {
+      return this.sendError('No routes for this method were found.');
+    }
+
+    for (let route = 0; route < methodRoutes.length; route += 1) {
+      const currentRoute = methodRoutes[route];
       const match = currentRoute.regex.exec(this.req.pathname);
       if (match) {
-        return this.extractKeys(match, currentRoute);
+        return this.getParams(match, currentRoute);
       }
     }
 
     return this.sendError('Page not found.');
   }
 
-  extractKeys(match, currentRoute) {
+  getParams(match, currentRoute) {
     const { keys, stack } = currentRoute;
     for (let m = 1; m < match.length; m += 1) {
       const property = keys[m - 1].name;
       const value = match[m];
-      const hasProperty = !{}.hasOwnProperty.call(this.req.params, property);
+      const hasProperty = {}.hasOwnProperty.call(this.req.params, property);
 
-      if (typeof value !== 'undefined' || hasProperty) {
+      if (typeof value !== 'undefined' || !hasProperty) {
         this.req.params[property] = value;
       }
     }
 
     ({ 0: this.req.path } = this.req.params);
-    return stack.length ? runStack.bind(this, stack.slice())() : null;
+    return runStack.bind(this, stack.slice())();
   }
 }
 

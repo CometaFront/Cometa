@@ -7,6 +7,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/de955dab2112431e84ba/maintainability)](https://codeclimate.com/github/CometaFront/Cometa/maintainability)
 [![NSP Status](https://nodesecurity.io/orgs/cometa/projects/55b14b29-b6f7-4b99-be1a-39afc5c9ca05/badge)](https://nodesecurity.io/orgs/cometa/projects/55b14b29-b6f7-4b99-be1a-39afc5c9ca05)
 [![Build Status](https://travis-ci.org/CometaFront/Cometa.svg?branch=master)](https://travis-ci.org/CometaFront/Cometa)
+[![Greenkeeper badge](https://badges.greenkeeper.io/CometaFront/Cometa.svg)](https://greenkeeper.io/)
 
 
 Super fast, on-demand and on-the-fly, image processing.

@@ -4,7 +4,7 @@
   "repository": "https://github.com/CometaFront/Cometa.git",
   "logo": "https://raw.githubusercontent.com/CometaFront/Assets/master/Images/Cometa_logo_sm.png",
     "website": "https://github.com/CometaFront/Cometa",
-    "success_url": "/noauth/url/https://c1.staticflickr.com/6/5546/9660892548_4f72f7120a_b.jpg&w=320&h=320",
+    "success_url": "/url/https://c1.staticflickr.com/6/5546/9660892548_4f72f7120a_b.jpg&w=320&h=320",
     "keywords": [
       "image",
       "images",
@@ -21,7 +21,7 @@
       },
       "COMETA_KEY": {
         "description": "Your unique key used to sign requests. Change this to something hard to guess.",
-        "value": "442d9d0a76cdd49729c0f5cd38bd6f4468cafe54eb88fc837437bb98bb946c13"
+        "value": "4218979597eeab59e66b6bd25eb6bda21bace0aa"
       },
       "ALLOW_UNAUTHORIZED": {
         "description": "Allow unsigned requests. This should not be 'true'.",

@@ -78,7 +78,7 @@ module.exports = () => {
     try {
       provider = new URL();
     } catch (error) {
-      should(provider).be.equal(undefined);
+      should(!!provider).be.equal(false);
       should(error).be.an.Object();
       should(error).have.properties('message');
       should(error.message).be.equal('Configuration is required.');

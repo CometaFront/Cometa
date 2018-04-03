@@ -1,5 +1,3 @@
-/* eslint no-console: 0 */
-
 // Modules
 const crypto = require('crypto');
 const query = require('querystring');

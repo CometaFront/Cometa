@@ -5,7 +5,7 @@ const { Transform } = require('stream');
 // Libraries
 const pino = require('../lib/pino');
 
-const transformStream = async (image, encoding, callback) =>
+const transformStream = (image, encoding, callback) =>
   setImmediate(() => {
     sharp(image.body)
       .metadata()
@@ -20,4 +20,4 @@ module.exports = () =>
   new Transform({
     objectMode: true,
     transform: transformStream
-  }).on('error', pino.error);
+  }).on('error', (error) => pino.error(error));

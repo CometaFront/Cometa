@@ -1,5 +1,4 @@
-const { Readable } = require('stream');
-const { Transform } = require('stream');
+const { Readable, Transform } = require('stream');
 
 class Response extends Transform {
   constructor() {

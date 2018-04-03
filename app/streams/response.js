@@ -27,22 +27,28 @@ const writeHead = (res, image, size) => {
   });
 };
 
-const writeStream = async (res, image) =>
+const writeStream = function write(res, image, encoding, callback) {
   setImmediate(() => {
-    let options = { quality: image.output.quality };
-    if (image.output.extension === 'png') {
-      options = { compressionLevel: 6 };
-    }
+    try {
+      let options = { quality: image.output.quality };
+      if (image.output.extension === 'png') {
+        options = { compressionLevel: 6 };
+      }
 
-    image.output.extension = image.output.extension === 'jpg' ? 'jpeg' : image.output.extension;
-    sharp(image.body)
-      [image.output.extension](options)
-      .on('info', (info) => writeHead(res, image, info.size))
-      .pipe(res);
+      image.output.extension = image.output.extension === 'jpg' ? 'jpeg' : image.output.extension;
+      return sharp(image.body, { failOnError: true })
+        [image.output.extension](options)
+        .on('info', (info) => writeHead(res, image, info.size))
+        .on('error', (error) => callback(error))
+        .pipe(res);
+    } catch (error) {
+      return callback(error);
+    }
   });
+};
 
 module.exports = (res) =>
   new Writable({
     objectMode: true,
     write: writeStream.bind(null, res)
-  }).on('error', pino.error);
+  }).on('error', (error) => pino.error(error));

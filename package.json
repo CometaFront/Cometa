@@ -1,6 +1,6 @@
 {
   "name": "Cometa",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Super fast, on-demand and on-the-fly, image processing.",
   "main": "app/index.js",
   "engines": {
@@ -20,7 +20,7 @@
   "license": "MIT",
   "homepage": "https://github.com/CometaFront/Cometa",
   "dependencies": {
-    "aws-sdk": "^2.218.1",
+    "aws-sdk": "^2.219.1",
     "path-to-regexp": "^2.2.0",
     "pino": "^4.15.3",
     "sharp": "^0.20.1"

@@ -1,40 +1,71 @@
-'use strict';
-
-
-/**
- * @TODO: Remove express, run it on plain Node.
- */
-global._require = module => require(`${__dirname}/core/${module}`);
-const config = _require('config');
+// Modules
 const cluster = require('cluster');
-const cores = require('os').cpus();
-const express = require('express');
-const app = express();
+const cpus = require('os').cpus();
+const http = require('http');
 
-app.use(
-    (req, res, next) => {
-        res.set('x-powered-by', 'analogbird.com');
-        return next();
-    },
-    require('serve-favicon')(`${__dirname}/public/favicon.png`),
-    _require('router')(express),
-    (error, req, res, next) => {
-        error.status = error.status || 404;
-        error.forwardStatus = error.forwardStatus || null;
-        res.status(error.status || 404).send(error);
-        next = null;
+// Libraries
+const parse = require('./lib/parse');
+const router = require('./lib/router');
+const signature = require('./lib/signature');
+const stream = require('./lib/streams');
+const pino = require('./lib/pino');
+const { app, cometa } = require('./config');
+
+const providers = {};
+providers.URL = require('./providers/url');
+providers.S3 = require('./providers/s3');
+
+try {
+  /**
+   * Define the HTTP GET request handler
+   */
+  router.get('/:provider/(.*)', signature.bind(null, cometa), (req, res) => {
+    try {
+      const request = Object.assign(parse(req), cometa);
+      if (request.output.extension instanceof Error) {
+        return router.sendError(409, request.output.extension.message);
+      }
+
+      if (!{}.hasOwnProperty.call(providers, request.provider)) {
+        return router.sendError(409, `${request.provider} is not a supported image provider.`);
+      }
+
+      const source = new providers[request.provider](request);
+      return source
+        .on('error', (error) => {
+          source.unpipe();
+          throw error;
+        })
+        .pipe(stream.meta())
+        .pipe(stream.resize())
+        .pipe(stream.response(res));
+    } catch (error) {
+      return router.sendError(409, error.message);
     }
-);
+  });
 
-if (config.port.cluster && cluster.isMaster) {
-    for (let cpu = 0; cpu < cores.length; ++cpu) {
-        cluster.fork();
+  /**
+   * Create the server
+   */
+  const server = http.createServer((req, res) => router.process(req, res));
+
+  /**
+   * Get the server to listen on the given port.
+   * Run one process per CPU core, if enabled.
+   */
+  if (app.cluster && cluster.isMaster) {
+    for (let cpu = 0; cpu < cpus.length; cpu += 1) {
+      cluster.fork();
     }
 
     cluster.on('exit', (worker, code, signal) => {
-        console.log(`Dead worker: ${worker.process.pid}; ${code}/${signal}`);
-        cluster.fork();
+      pino.warn(`Dead worker: ${worker.process.pid}; ${code} | ${signal}`);
+      cluster.fork();
     });
-} else {
-    app.listen(config.port, () => console.log(`Up: ${config.port}`));
+  } else {
+    const worker = app.cluster ? `| Worker: ${cluster.worker.process.pid}` : '';
+    server.listen(app.port, () => pino.info(`Up on port: ${app.port} ${worker}`));
+  }
+} catch (error) {
+  pino.fatal(error.message);
 }

@@ -62,7 +62,7 @@ module.exports = () => {
       done();
     });
 
-    router.process(fake.req, fake.res);
+    router.process(fake.req(), fake.res());
   });
 
   it('Process (GET / Page not found)', (done) => {
@@ -87,12 +87,12 @@ module.exports = () => {
     });
 
     router.get('/', (req, res) => ({ req, res }));
-    router.process(fake.req, fake.res);
+    router.process(fake.req(), fake.res());
   });
 
   it('Process (GET)', (done) => {
     router.get('/:provider/(.*)', (req, res) => ({ req, res }));
-    router.process(fake.req, fake.res);
+    router.process(fake.req(), fake.res());
 
     sinon.assert.calledOnce(router.route);
     sinon.assert.calledOnce(router.process);
@@ -113,7 +113,7 @@ module.exports = () => {
 
   it('Process (GET / with next)', (done) => {
     router.get('/:provider/(.*)', (req, res, next) => next(), (req, res) => ({ req, res }));
-    router.process(fake.req, fake.res);
+    router.process(fake.req(), fake.res());
 
     sinon.assert.calledOnce(router.route);
     sinon.assert.calledOnce(router.process);
@@ -154,13 +154,13 @@ module.exports = () => {
     });
 
     router.get('/:provider/(.*)', (req, res, next) => next());
-    router.process(fake.req, fake.res);
+    router.process(fake.req(), fake.res());
   });
 
   it('Process (GET / multiple routes)', (done) => {
     router.get('/unit/test', (req, res) => ({ req, res }));
     router.get('/:provider/(.*)', (req, res) => ({ req, res }));
-    router.process(fake.req, fake.res);
+    router.process(fake.req(), fake.res());
 
     sinon.assert.calledTwice(router.route);
     sinon.assert.calledOnce(router.process);

@@ -23,7 +23,7 @@ module.exports = (cometa, req, res, next) => {
   queryString = queryString ? `?${queryString}` : queryString;
 
   const serverSignature = crypto
-    .createHmac('sha1', Buffer.from(cometa.key))
+    .createHmac('sha1', cometa.key)
     .update(`${host}${req.pathname}${queryString}`)
     .digest('hex');
 

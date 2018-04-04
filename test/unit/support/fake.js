@@ -8,6 +8,7 @@ class Response extends Transform {
     this.write = () => {};
     this.end = () => {};
     this.setEncoding = () => {};
+    this.statusCode = 200;
 
     Object.assign(
       this,
@@ -22,13 +23,13 @@ class Response extends Transform {
 }
 
 module.exports = {
-  req: {
+  req: () => ({
     headers: {
       host: 'localhost:9090',
       'accept-encoding': 'gzip, deflate'
     },
     url: '/url/http://localhost:9090/car.png',
     method: 'GET'
-  },
-  res: new Response()
+  }),
+  res: () => new Response()
 };

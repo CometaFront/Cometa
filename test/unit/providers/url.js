@@ -30,7 +30,9 @@ module.exports = () => {
     );
     const provider = new URL(cometa);
 
-    sandbox.stub(http, 'get').yields(Object.assign(fake.res, { statusCode: 200 }));
+    const res = fake.res();
+    sinon.stub(res, 'statusCode').value(200);
+    sandbox.stub(http, 'get').yields(res);
 
     provider.on('data', (image) => {
       should(provider).be.an.Object();
@@ -47,7 +49,7 @@ module.exports = () => {
     });
   });
 
-  it.skip('URL (https)', (done) => {
+  it('URL (https)', (done) => {
     const cometa = Object.assign(
       {},
       config.cometa,
@@ -56,7 +58,9 @@ module.exports = () => {
     );
     const provider = new URL(cometa);
 
-    sandbox.stub(https, 'get').yields(Object.assign(fake.res, { statusCode: 200 }));
+    const res = fake.res();
+    sinon.stub(res, 'statusCode').value(200);
+    sandbox.stub(https, 'get').yields(res);
 
     provider.on('data', (image) => {
       should(provider).be.an.Object();
@@ -87,13 +91,34 @@ module.exports = () => {
     }
   });
 
-  it('URL (error)', (done) => {
+  it('URL (error, http)', (done) => {
     const cometa = Object.assign({}, config.cometa, {
       input: 'http://localhost:9090/car.png'
     });
     const provider = new URL(cometa);
 
     sandbox.stub(http, 'get').yields({ statusCode: 404 });
+    provider.on('error', (error) => {
+      should(provider).be.an.Object();
+      should(provider).be.instanceOf(Readable);
+      should(provider).have.property('_read');
+      should(error).be.an.Object();
+      should(error).have.property('message');
+      should(error.message).be.equal('The requested image could not be found.');
+
+      done();
+    });
+
+    provider.pipe(process.stdout);
+  });
+
+  it('URL (error, https)', (done) => {
+    const cometa = Object.assign({}, config.cometa, {
+      input: 'https://localhost:9090/car.png'
+    });
+    const provider = new URL(cometa);
+
+    sandbox.stub(https, 'get').yields({ statusCode: 404 });
     provider.on('error', (error) => {
       should(provider).be.an.Object();
       should(provider).be.instanceOf(Readable);

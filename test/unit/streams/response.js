@@ -21,7 +21,8 @@ module.exports = () => {
   });
 
   it('response (write head, .png)', (done) => {
-    sandbox.stub(fake.res, 'writeHead').callsFake((status, headers) => {
+    const res = fake.res();
+    sandbox.stub(res, 'writeHead').callsFake((status, headers) => {
       should(status).be.a.Number();
       should(status).be.equal(200);
       should(headers).be.an.Object();
@@ -42,7 +43,7 @@ module.exports = () => {
     });
 
     fs.readFile('./test/unit/support/cometa.png', (error, data) => {
-      const stream = response(fake.res);
+      const stream = response(res);
       should(stream).be.an.Object();
       should(stream).have.properties('_write');
       stream.end({ body: data, output: { extension: 'png' } });
@@ -50,7 +51,8 @@ module.exports = () => {
   });
 
   it('response (write head, .jpg)', (done) => {
-    sandbox.stub(fake.res, 'writeHead').callsFake((status, headers) => {
+    const res = fake.res();
+    sandbox.stub(res, 'writeHead').callsFake((status, headers) => {
       should(status).be.a.Number();
       should(status).be.equal(200);
       should(headers).be.an.Object();
@@ -71,7 +73,7 @@ module.exports = () => {
     });
 
     fs.readFile('./test/unit/support/cometa.png', (error, data) => {
-      const stream = response(fake.res);
+      const stream = response(res);
       should(stream).be.an.Object();
       should(stream).have.properties('_write');
       stream.end({ body: data, output: { extension: 'jpg' } });
@@ -79,14 +81,15 @@ module.exports = () => {
   });
 
   it('response (write body, .png)', (done) => {
-    sandbox.stub(fake.res, 'write').callsFake((image) => {
+    const res = fake.res();
+    sandbox.stub(res, 'write').callsFake((image) => {
       should(image).be.an.Object();
       should(image.length).be.lessThan(55908);
       done();
     });
 
     fs.readFile('./test/unit/support/cometa.png', (error, data) => {
-      const stream = response(fake.res);
+      const stream = response(res);
       should(stream).be.an.Object();
       should(stream).have.properties('_write');
       stream.end({ body: data, output: { extension: 'png' } });
@@ -94,14 +97,15 @@ module.exports = () => {
   });
 
   it('response (write body, .jpg)', (done) => {
-    sandbox.stub(fake.res, 'write').callsFake((image) => {
+    const res = fake.res();
+    sandbox.stub(res, 'write').callsFake((image) => {
       should(image).be.an.Object();
       should(image.length).be.lessThan(55908);
       done();
     });
 
     fs.readFile('./test/unit/support/cometa.png', (error, data) => {
-      const stream = response(fake.res);
+      const stream = response(res);
       should(stream).be.an.Object();
       should(stream).have.properties('_write');
       stream.end({ body: data, output: { extension: 'jpg' } });
@@ -117,7 +121,7 @@ module.exports = () => {
       done();
     });
 
-    const stream = response(fake.res);
+    const stream = response(fake.res());
     should(stream).be.an.Object();
     stream.end({ body: 'Invalid image.', output: { extension: 'jpg' } });
   });
@@ -132,7 +136,7 @@ module.exports = () => {
     });
 
     fs.readFile('./test/unit/support/cometa.png', (error, data) => {
-      const stream = response(fake.res);
+      const stream = response(fake.res());
       should(stream).be.an.Object();
       stream.end({ body: data });
     });
@@ -148,7 +152,7 @@ module.exports = () => {
     });
 
     fs.readFile('./test/unit/support/cometa.png', (error, data) => {
-      const stream = response(fake.res);
+      const stream = response(fake.res());
       should(stream).be.an.Object();
       stream.end({ body: data, output: {} });
     });

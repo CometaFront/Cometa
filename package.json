@@ -49,17 +49,17 @@
   },
   "scripts": {
     "test": "npm run eslint && npm run unit && nyc report --reporter=text",
-    "unit": "nyc --reporter=lcov _mocha -R nyan --timeout 1000 ./test/unit/index.js",
+    "unit": "nyc --reporter=lcov _mocha --timeout 250 ./test/unit/index.js",
     "start": "nodemon -r dotenv/config --inspect",
     "eslint": "eslint --quiet .",
     "eslint:fix": "eslint --quiet --fix .",
     "start:opt": "node -r dotenv/config --trace_opt --allow-natives-syntax app/index.js",
     "start:deopt": "node -r dotenv/config --trace_deopt --allow-natives-syntax app/index.js",
     "start:trace": "node -r dotenv/config --trace_opt --trace_deopt --allow-natives-syntax app/index.js",
-    "report": "npm run report:codebeat && npm run report:codacy && npm run report:codeclimate",
-    "report:codebeat": "CODECLIMATE_API_HOST=https://codebeat.co/webhooks/code_coverage CODECLIMATE_REPO_TOKEN=$CODEBEAT_TOKEN codeclimate-test-reporter < ./coverage/lcov.info",
-    "report:codacy": "cat ./coverage/lcov.info | CODACY_PROJECT_TOKEN=$CODACY_TOKEN codacy-coverage",
-    "report:codeclimate": "CODECLIMATE_REPO_TOKEN=$CODECLIMATE_REPO_TOKEN codeclimate-test-reporter < ./coverage/lcov.info"
+    "report": "npm run report:codeclimate && npm run report:codebeat && npm run report:codacy",
+    "report:codeclimate": "CODECLIMATE_REPO_TOKEN=$CODECLIMATE_TOKEN codeclimate-test-reporter < ./coverage/lcov.info",
+    "report:codebeat": "CODECLIMATE_REPO_TOKEN=$CODEBEAT_TOKEN CODECLIMATE_API_HOST=$CODEBEAT_HOST codeclimate-test-reporter < ./coverage/lcov.info",
+    "report:codacy": "cat ./coverage/lcov.info | CODACY_PROJECT_TOKEN=$CODACY_TOKEN codacy-coverage"
   },
   "nodemonConfig": {
     "ignore": [

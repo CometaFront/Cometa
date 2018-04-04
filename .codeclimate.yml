@@ -2,7 +2,7 @@ version: "2"
 plugins:
   eslint:
     enabled: true
-    channel: "eslint-4"
+    channel: "eslint-3"
 exclude_patterns:
   - "**.json"
   - "**.md"

@@ -5,17 +5,14 @@
 [![codebeat badge](https://codebeat.co/badges/f6086240-7e21-4dad-930b-51384ac1f69a)](https://codebeat.co/projects/github-com-cometafront-cometa-master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9813c362ec754cceb759888d891f3bf6)](https://www.codacy.com/app/CometaFront/Cometa?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CometaFront/Cometa&amp;utm_campaign=Badge_Grade)
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/9813c362ec754cceb759888d891f3bf6)](https://www.codacy.com/app/CometaFront/Cometa?utm_source=github.com&utm_medium=referral&utm_content=CometaFront/Cometa&utm_campaign=Badge_Coverage)
-[![Maintainability](https://api.codeclimate.com/v1/badges/de955dab2112431e84ba/maintainability)](https://codeclimate.com/github/CometaFront/Cometa/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/55b5ec3caa3b9a8b441d/maintainability)](https://codeclimate.com/github/CometaFront/Cometa/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/55b5ec3caa3b9a8b441d/test_coverage)](https://codeclimate.com/github/CometaFront/Cometa/test_coverage)
 [![NSP Status](https://nodesecurity.io/orgs/cometa/projects/55b14b29-b6f7-4b99-be1a-39afc5c9ca05/badge)](https://nodesecurity.io/orgs/cometa/projects/55b14b29-b6f7-4b99-be1a-39afc5c9ca05)
 [![Build Status](https://travis-ci.org/CometaFront/Cometa.svg?branch=master)](https://travis-ci.org/CometaFront/Cometa)
 [![Greenkeeper badge](https://badges.greenkeeper.io/CometaFront/Cometa.svg)](https://greenkeeper.io/)
 
 
 Super fast, on-demand and on-the-fly, image processing.
-
-```
-WOP. Ask if you need help.
-```
 
 
 ### Requirements

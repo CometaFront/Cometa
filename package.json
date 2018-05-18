@@ -1,7 +1,7 @@
 {
   "name": "Cometa",
-  "version": "1.0.2",
-  "description": "Super fast, on-demand and on-the-fly, image processing.",
+  "version": "1.1.3",
+  "description": "Super fast, on-demand and on-the-fly, image processing server.",
   "main": "app/index.js",
   "engines": {
     "node": ">=8.11.1"
@@ -20,10 +20,10 @@
   "license": "MIT",
   "homepage": "https://github.com/CometaFront/Cometa",
   "dependencies": {
-    "aws-sdk": "^2.219.1",
-    "path-to-regexp": "^2.2.0",
+    "aws-sdk": "^2.242.1",
     "pino": "^4.15.3",
-    "sharp": "^0.20.1"
+    "rayo": "^0.5.7",
+    "sharp": "^0.20.2"
   },
   "devDependencies": {
     "codacy-coverage": "^3.0.0",
@@ -32,10 +32,10 @@
     "eslint": "^4.19.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-prettier": "^2.6.0",
     "mocha": "^5.0.5",
-    "nodemon": "^1.17.3",
+    "nodemon": "^1.17.4",
     "nyc": "^11.6.0",
     "prettier": "^1.11.1",
     "should": "^13.2.1",
@@ -50,7 +50,8 @@
   "scripts": {
     "test": "npm run eslint && npm run unit && nyc report --reporter=text",
     "unit": "nyc --reporter=lcov _mocha -R nyan --timeout 1000 ./test/unit/index.js",
-    "start": "nodemon -r dotenv/config --inspect",
+    "start": "node app/index.js",
+    "start:local": "nodemon -r dotenv/config --inspect",
     "eslint": "eslint --quiet .",
     "eslint:fix": "eslint --quiet --fix .",
     "start:opt": "node -r dotenv/config --trace_opt --allow-natives-syntax app/index.js",

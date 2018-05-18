@@ -9,9 +9,9 @@ const query = require('querystring');
  * @param next
  * @return {*}
  */
-module.exports = (cometa, req, res, next) => {
+module.exports = (cometa, req, res, step) => {
   if (cometa.allowUnauthorized) {
-    return next();
+    return step();
   }
 
   const { auth: queryAuth } = req.query;
@@ -28,5 +28,5 @@ module.exports = (cometa, req, res, next) => {
     .digest('hex');
 
   const response = serverSignature !== auth ? 'This request is not authorized.' : '';
-  return next(response);
+  return step(response);
 };

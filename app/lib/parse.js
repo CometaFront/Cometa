@@ -23,14 +23,14 @@ const output = (data) => {
 
 module.exports = (req) => {
   const { query } = req;
-  const fileName = path.basename(req.path).split('.');
+  let input = req.pathname.replace(`/${req.params.provider}/`, '');
+  const fileName = path.basename(input).split('.');
   let extension = fileName.pop();
   const supportedOutput = formats.output.includes(extension);
   const supportedInput = formats.input.includes(fileName.pop());
 
-  let input = req.path;
   if (supportedInput && supportedOutput) {
-    input = req.path.replace(`.${extension}`, '');
+    input = input.replace(`.${extension}`, '');
   } else if (!supportedOutput) {
     extension = new Error(`.${extension} files are not supported.`);
   }

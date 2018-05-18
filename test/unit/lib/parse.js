@@ -4,7 +4,7 @@ const parse = require('../../../app/lib/parse');
 module.exports = () => {
   it('Parse (with query)', (done) => {
     const result = parse({
-      path: 'http://localhost/img/test.jpg',
+      pathname: 'http://localhost/img/test.jpg',
       query: { w: 10, h: 10, q: 75 },
       params: { provider: 'url' }
     });
@@ -31,7 +31,7 @@ module.exports = () => {
 
   it('Parse (invalid quality)', (done) => {
     const result = parse({
-      path: 'http://localhost/img/test.jpg',
+      pathname: 'http://localhost/img/test.jpg',
       query: {
         w: 10,
         h: 10,
@@ -64,7 +64,7 @@ module.exports = () => {
 
   it('Parse (without query)', (done) => {
     const result = parse({
-      path: 'http://localhost/img/test.jpg',
+      pathname: 'http://localhost/img/test.jpg',
       query: {},
       params: {
         provider: 'url'
@@ -91,7 +91,7 @@ module.exports = () => {
 
   it('Parse (without query & without provider)', (done) => {
     const result = parse({
-      path: 'http://localhost/img/test.jpg',
+      pathname: 'http://localhost/img/test.jpg',
       query: {},
       params: {}
     });
@@ -115,7 +115,7 @@ module.exports = () => {
 
   it('Parse (input & output extensions)', (done) => {
     const result = parse({
-      path: 'http://localhost/img/test.jpg.webp',
+      pathname: 'http://localhost/img/test.jpg.webp',
       query: {},
       params: {}
     });
@@ -139,7 +139,7 @@ module.exports = () => {
 
   it('Parse (invalid extension)', (done) => {
     const result = parse({
-      path: 'http://localhost/img/test.jpg.xxx',
+      pathname: 'http://localhost/img/test.jpg.xxx',
       query: {},
       params: {}
     });

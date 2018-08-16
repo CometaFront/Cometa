@@ -1,8 +1,5 @@
-// Modules
 const sharp = require('sharp');
 const { Transform } = require('stream');
-
-// Libraries
 const pino = require('../lib/pino');
 
 const transformStream = (image, encoding, callback) =>
@@ -10,7 +7,7 @@ const transformStream = (image, encoding, callback) =>
     const { output = {} } = image;
     const { width = null, height = null } = output;
 
-    if (!width || !height) {
+    if (!width && !height) {
       return callback(null, image);
     }
 

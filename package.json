@@ -20,9 +20,9 @@
   "license": "MIT",
   "homepage": "https://github.com/CometaFront/Cometa",
   "dependencies": {
-    "aws-sdk": "^2.242.1",
-    "pino": "^4.15.3",
-    "rayo": "^1.0.2",
+    "aws-sdk": "^2.294.0",
+    "pino": "^5.1.0",
+    "rayo": "^1.2.2",
     "sharp": "^0.20.2"
   },
   "devDependencies": {
@@ -31,14 +31,16 @@
     "dotenv": "^6.0.0",
     "eslint": "^5.0.0",
     "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-prettier": "^3.0.1",
     "eslint-plugin-import": "^2.12.0",
-    "eslint-plugin-prettier": "^2.6.0",
-    "mocha": "^5.0.5",
+    "eslint-plugin-prettier": "^2.6.2",
+    "mocha": "^5.2.0",
     "nodemon": "^1.17.4",
+    "npm-check": "^5.8.0",
     "nyc": "^12.0.1",
-    "prettier": "^1.11.1",
-    "should": "^13.2.1",
+    "pino-pretty": "^2.0.1",
+    "prettier": "^1.14.2",
+    "should": "^13.2.3",
     "sinon": "^6.0.0"
   },
   "directories": {
@@ -48,8 +50,8 @@
     "url": "https://github.com/CometaFront/Cometa/issues"
   },
   "scripts": {
-    "test": "npm run eslint && npm run unit && nyc report --reporter=text",
-    "unit": "nyc --reporter=lcov _mocha -R nyan --timeout 1000 ./test/unit/index.js",
+    "test": "npm run eslint && npm run unit",
+    "unit": "nyc _mocha -R nyan --timeout 1000 ./test/unit/index.js",
     "start": "node app/index.js",
     "start:local": "nodemon -r dotenv/config --inspect",
     "eslint": "eslint --quiet .",
@@ -59,12 +61,25 @@
     "start:trace": "node -r dotenv/config --trace_opt --trace_deopt --allow-natives-syntax app/index.js",
     "report": "npm run report:codebeat && npm run report:codacy",
     "report:codebeat": "CODECLIMATE_API_HOST=https://codebeat.co/webhooks/code_coverage CODECLIMATE_REPO_TOKEN=$CODEBEAT_TOKEN codeclimate-test-reporter < ./coverage/lcov.info",
-    "report:codacy": "cat ./coverage/lcov.info | CODACY_PROJECT_TOKEN=$CODACY_TOKEN codacy-coverage"
+    "report:codacy": "cat ./coverage/lcov.info | CODACY_PROJECT_TOKEN=$CODACY_TOKEN codacy-coverage",
+    "update": "npm-check -u"
   },
   "nodemonConfig": {
     "ignore": [
       "test/*"
     ],
-    "delay": "100"
+    "delay": 100
+  },
+  "nyc": {
+    "check-coverage": true,
+    "cache": true,
+    "branches": 100,
+    "lines": 100,
+    "statements": 100,
+    "functions": 100,
+    "reporter": [
+      "lcov",
+      "text"
+    ]
   }
 }

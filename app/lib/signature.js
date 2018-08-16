@@ -1,23 +1,15 @@
-// Modules
 const crypto = require('crypto');
 const query = require('querystring');
 
-/**
- * @param cometa -Bound configuration object
- * @param req
- * @param res
- * @param next
- * @return {*}
- */
 module.exports = (cometa, req, res, step) => {
   if (cometa.allowUnauthorized) {
     return step();
   }
 
-  const { auth: queryAuth } = req.query;
-  const { auth: headersAuth, host } = req.headers;
+  const { authorization: queryAuth } = req.query;
+  const { authorization: headersAuth, host } = req.headers;
   const auth = queryAuth || headersAuth;
-  delete req.query.auth;
+  delete req.query.authorization;
 
   let queryString = query.stringify(req.query);
   queryString = queryString ? `?${queryString}` : queryString;
@@ -27,6 +19,5 @@ module.exports = (cometa, req, res, step) => {
     .update(`${host}${req.pathname}${queryString}`)
     .digest('hex');
 
-  const response = serverSignature !== auth ? 'This request is not authorized.' : '';
-  return step(response);
+  return serverSignature !== auth ? step('This request has not been authorized.', 401) : step();
 };

@@ -1,9 +1,6 @@
-// Modules
 const crypto = require('crypto');
 const sharp = require('sharp');
 const { Writable } = require('stream');
-
-// Libraries
 const pino = require('../lib/pino');
 
 const writeHead = (res, image, size) => {

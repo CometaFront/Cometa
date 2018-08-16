@@ -117,13 +117,13 @@ const signature = crypto
 You may pass the signature as a query parameter:
 
 ```
-GET /s3/cometa/superlight.jpg?width=200&height=200&auth=[signature]
+GET /s3/cometa/superlight.jpg?width=200&height=200&authorization=[signature]
 ```
 
 or as a HTTP header:
 ```js
 headers {
-  'auth': [signature]
+  'Authorization': [signature]
 }
 ```
 

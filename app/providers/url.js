@@ -1,10 +1,7 @@
-// Modules
-const http = require('http');
-const https = require('https');
 const { parse } = require('url');
 const { Readable } = require('stream');
 
-class URL extends Readable {
+module.exports = class URL extends Readable {
   constructor(config = null) {
     super({ objectMode: true });
     if (!config) {
@@ -14,30 +11,20 @@ class URL extends Readable {
     this.inputUrl = parse(config.input);
     this.inputUrl.timeout = config.requestTimeout;
     this.image = { output: config.output };
-    this.isComplete = false;
-
-    this.on('end', () => {
-      this.image = null;
-    });
+    this.on('end', () => this.emit('provided', 'Image received from URL provider.'));
   }
 
   _read() {
-    if (this.isComplete) {
-      return;
-    }
-
-    const protocol = /https/.test(this.inputUrl.protocol) ? https : http;
-    protocol.get(this.inputUrl, (res) => {
+    const protocol = /https/.test(this.inputUrl.protocol) ? 'https' : 'http';
+    require.call(null, protocol).get(this.inputUrl, (res) => {
       if (res.statusCode !== 200) {
         return this.emit('error', new Error('The requested image could not be found.'));
       }
 
-      let data = [];
-      res.setEncoding('binary');
-      return res.on('data', (chunk) => data.push(chunk)).on('end', () => {
-        data = data.join('');
-        this.image.body = Buffer.from(data, 'binary');
-        this.image.originalSize = data.length;
+      const image = [];
+      return res.on('data', (chunk) => image.push(chunk)).on('end', () => {
+        this.image.body = Buffer.concat(image);
+        this.image.originalSize = res.headers['content-length'] || this.image.body.length;
 
         setImmediate(() => {
           this.isComplete = true;
@@ -47,6 +34,4 @@ class URL extends Readable {
       });
     });
   }
-}
-
-module.exports = URL;
+};

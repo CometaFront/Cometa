@@ -8,10 +8,7 @@ const response = require('../../../app/streams/response');
 const sandbox = sinon.createSandbox();
 module.exports = () => {
   beforeEach(() => {});
-
-  afterEach(() => {
-    sandbox.restore();
-  });
+  afterEach(() => sandbox.restore());
 
   it('response', (done) => {
     should(response).be.a.Function();

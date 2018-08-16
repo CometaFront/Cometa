@@ -7,10 +7,7 @@ const resize = require('../../../app/streams/resize');
 const sandbox = sinon.createSandbox();
 module.exports = () => {
   beforeEach(() => {});
-
-  afterEach(() => {
-    sandbox.restore();
-  });
+  afterEach(() => sandbox.restore());
 
   it('resize', (done) => {
     should(resize).be.a.Function();

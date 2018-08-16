@@ -22,7 +22,13 @@ module.exports = {
   },
   log: {
     name: e.COMETA_LOG_NAME,
-    pretty: e.NODE_ENV !== 'production' && e.COMETA_LOG_PRETTY === 'true',
+    pretty:
+      e.NODE_ENV !== 'production' && e.COMETA_LOG_PRETTY === 'true'
+        ? {
+            translateTime: true,
+            levelFirst: true
+          }
+        : false,
     level: e.COMETA_LOG_LEVEL
   }
 };

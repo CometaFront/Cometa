@@ -14,10 +14,7 @@ const sign = (payload, key = config.cometa.key) =>
 const sandbox = sinon.createSandbox();
 module.exports = () => {
   beforeEach(() => {});
-
-  afterEach(() => {
-    sandbox.restore();
-  });
+  afterEach(() => sandbox.restore());
 
   it('Signature', (done) => {
     should(signature).be.a.Function();
@@ -40,7 +37,7 @@ module.exports = () => {
   it('Signature (valid query signature)', (done) => {
     const req = fake.req();
     req.pathname = '/url/http://localhost:9090/car.png';
-    req.query = { auth: sign('localhost:9090/url/http://localhost:9090/car.png') };
+    req.query = { authorization: sign('localhost:9090/url/http://localhost:9090/car.png') };
 
     const response = signature(config.cometa, req, fake.res(), (message) => message || 'Pass');
 
@@ -55,7 +52,7 @@ module.exports = () => {
     const req = fake.req();
     req.pathname = '/url/http://localhost:9090/car.png';
     req.query = {
-      auth: sign('localhost:9090/url/http://localhost:9090/car.png?w=10&h=10'),
+      authorization: sign('localhost:9090/url/http://localhost:9090/car.png?w=10&h=10'),
       w: 10,
       h: 10
     };
@@ -71,13 +68,13 @@ module.exports = () => {
 
   it('Signature (invalid query signature)', (done) => {
     const req = fake.req();
-    req.query = { auth: sign('localhost:9090/url/http://localhost:9090/car.png', '123') };
+    req.query = { authorization: sign('localhost:9090/url/http://localhost:9090/car.png', '123') };
 
     const response = signature(config.cometa, req, fake.res(), (message) => message || 'Pass');
 
     should(signature).be.a.Function();
     should(response).be.a.String();
-    should(response).be.equal('This request is not authorized.');
+    should(response).be.equal('This request has not been authorized.');
 
     done();
   });
@@ -86,7 +83,7 @@ module.exports = () => {
     const req = fake.req();
     req.query = {};
     req.pathname = '/url/http://localhost:9090/car.png';
-    req.headers.auth = sign('localhost:9090/url/http://localhost:9090/car.png');
+    req.headers.authorization = sign('localhost:9090/url/http://localhost:9090/car.png');
 
     const response = signature(config.cometa, req, fake.res(), (message) => message || 'Pass');
 
@@ -101,7 +98,7 @@ module.exports = () => {
     const req = fake.req();
     req.query = { w: 10, h: 10 };
     req.pathname = '/url/http://localhost:9090/car.png';
-    req.headers.auth = sign('localhost:9090/url/http://localhost:9090/car.png?w=10&h=10');
+    req.headers.authorization = sign('localhost:9090/url/http://localhost:9090/car.png?w=10&h=10');
 
     const response = signature(config.cometa, req, fake.res(), (message) => message || 'Pass');
 
@@ -115,13 +112,13 @@ module.exports = () => {
   it('Signature (invalid headers signature)', (done) => {
     const req = fake.req();
     req.query = {};
-    req.headers.auth = sign('localhost:9090/url/http://localhost:9090/car.png', '123');
+    req.headers.authorization = sign('localhost:9090/url/http://localhost:9090/car.png', '123');
 
     const response = signature(config.cometa, req, fake.res(), (message) => message || 'Pass');
 
     should(signature).be.a.Function();
     should(response).be.a.String();
-    should(response).be.equal('This request is not authorized.');
+    should(response).be.equal('This request has not been authorized.');
 
     done();
   });

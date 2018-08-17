@@ -15,7 +15,11 @@
       "cdn"
     ],
     "env": {
-      "PORT": {
+      "COMETA_CLUSTER": {
+        "description": "Run the application in a cluster.",
+        "value": "false"
+      },
+      "COMETA_PORT": {
         "description": "The port on which the application will listen.",
         "value": "9090"
       },
@@ -23,11 +27,11 @@
         "description": "Your unique key used to sign requests. Change this to something hard to guess.",
         "value": "4218979597eeab59e66b6bd25eb6bda21bace0aa"
       },
-      "ALLOW_UNAUTHORIZED": {
+      "COMETA_ALLOW_UNAUTHORIZED": {
         "description": "Allow unsigned requests. This should not be 'true'.",
         "value": "true"
       },
-      "REQUEST_TIMEOUT": {
+      "COMETA_REQUEST_TIMEOUT": {
         "description": "Request timeout when trying to download images from URLs.",
         "value": "2000"
       }

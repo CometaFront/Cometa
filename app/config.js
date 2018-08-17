@@ -1,17 +1,19 @@
+const { env: e } = process;
 module.exports = {
   app: {
-    env: process.env.NODE_ENV || 'development',
-    port: parseInt(process.env.PORT, 10) || 9090,
-    useCluster: process.env.APP_CLUSTER === 'true'
+    env: e.NODE_ENV || 'development',
+    port: parseInt(e.COMETA_PORT, 10) || 9090,
+    cluster: e.COMETA_CLUSTER === 'true'
   },
   cometa: {
-    key: process.env.COMETA_KEY || '',
-    allowUnauthorized: process.env.ALLOW_UNAUTHORIZED === 'true',
-    requestTimeout: parseInt(process.env.REQUEST_TIMEOUT, 10) || 2000,
-    s3: {
-      accessKeyId: process.env.AWS_ACCESS_KEY,
-      secretAccessKey: process.env.AWS_ACCESS_SECRET,
-      bucket: process.env.AWS_BUCKET
+    key: e.COMETA_KEY || 'YOU_SHOULD_SET_A_KEY!',
+    allowUnauthorized: e.COMETA_ALLOW_UNAUTHORIZED === 'true',
+    requestTimeout: parseInt(e.COMETA_REQUEST_TIMEOUT, 10) || 2000,
+    aws: {
+      accessKeyId: e.AWS_ACCESS_KEY,
+      secretAccessKey: e.AWS_ACCESS_SECRET,
+      region: e.AWS_REGION,
+      bucket: e.AWS_BUCKET
     }
   },
   formats: {
@@ -19,8 +21,14 @@ module.exports = {
     output: ['webp', 'png', 'tiff', 'jpeg', 'jpg']
   },
   log: {
-    name: process.env.LOG_NAME,
-    prettyPrint: process.env.LOG_PRETTY === 'true',
-    level: process.env.LOG_LEVEL
+    name: e.COMETA_LOG_NAME,
+    pretty:
+      e.NODE_ENV !== 'production' && e.COMETA_LOG_PRETTY === 'true'
+        ? {
+            translateTime: true,
+            levelFirst: true
+          }
+        : false,
+    level: e.COMETA_LOG_LEVEL
   }
 };

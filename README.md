@@ -1,14 +1,13 @@
-<p align="center">
+<div align="center">
   <img src="https://raw.githubusercontent.com/CometaFront/Assets/master/Images/Cover.png" alt="Cometa" />
-</p>
 
-[![codebeat badge](https://codebeat.co/badges/f6086240-7e21-4dad-930b-51384ac1f69a)](https://codebeat.co/projects/github-com-cometafront-cometa-master)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9813c362ec754cceb759888d891f3bf6)](https://www.codacy.com/app/CometaFront/Cometa?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CometaFront/Cometa&amp;utm_campaign=Badge_Grade)
+[![Codacy](https://api.codacy.com/project/badge/Grade/9813c362ec754cceb759888d891f3bf6)](https://www.codacy.com/app/CometaFront/Cometa?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CometaFront/Cometa&amp;utm_campaign=Badge_Grade)
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/9813c362ec754cceb759888d891f3bf6)](https://www.codacy.com/app/CometaFront/Cometa?utm_source=github.com&utm_medium=referral&utm_content=CometaFront/Cometa&utm_campaign=Badge_Coverage)
-[![NSP Status](https://nodesecurity.io/orgs/cometa/projects/55b14b29-b6f7-4b99-be1a-39afc5c9ca05/badge)](https://nodesecurity.io/orgs/cometa/projects/55b14b29-b6f7-4b99-be1a-39afc5c9ca05)
 [![Build Status](https://travis-ci.org/CometaFront/Cometa.svg?branch=master)](https://travis-ci.org/CometaFront/Cometa)
+[![Known Vulnerabilities](https://snyk.io/test/github/CometaFront/Cometa/badge.svg?targetFile=package.json)](https://snyk.io/test/github/CometaFront/Cometa?targetFile=package.json)
 [![Greenkeeper badge](https://badges.greenkeeper.io/CometaFront/Cometa.svg)](https://greenkeeper.io/)
 
+</div>
 
 Super fast, on-demand and on-the-fly, image processing.
 
@@ -117,13 +116,13 @@ const signature = crypto
 You may pass the signature as a query parameter:
 
 ```
-GET /s3/cometa/superlight.jpg?width=200&height=200&auth=[signature]
+GET /s3/cometa/superlight.jpg?width=200&height=200&authorization=[signature]
 ```
 
 or as a HTTP header:
 ```js
 headers {
-  'auth': [signature]
+  'Authorization': [signature]
 }
 ```
 

@@ -7,10 +7,7 @@ const meta = require('../../../app/streams/meta');
 const sandbox = sinon.createSandbox();
 module.exports = () => {
   beforeEach(() => {});
-
-  afterEach(() => {
-    sandbox.restore();
-  });
+  afterEach(() => sandbox.restore());
 
   it('meta', (done) => {
     should(meta).be.a.Function();

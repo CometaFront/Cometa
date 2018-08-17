@@ -5,10 +5,7 @@ const streams = require('../../../app/lib/streams');
 const sandbox = sinon.createSandbox();
 module.exports = () => {
   beforeEach(() => {});
-
-  afterEach(() => {
-    sandbox.restore();
-  });
+  afterEach(() => sandbox.restore());
 
   it('Streams', (done) => {
     should(streams).be.an.Object();

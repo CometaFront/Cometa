@@ -14,7 +14,7 @@ class Response extends Transform {
       this,
       new Readable({
         read() {
-          this.push('Image data.');
+          this.push('Binary image data will be here.');
           return this.push(null);
         }
       })

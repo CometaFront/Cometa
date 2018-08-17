@@ -8,41 +8,43 @@ const S3 = require('../../../app/providers/s3');
 const sandbox = sinon.createSandbox();
 module.exports = () => {
   beforeEach(() => {});
+  afterEach(() => sandbox.restore());
 
-  afterEach(() => {
-    sandbox.restore();
-  });
-
-  it('S3', (done) => {
+  it('Should be a function.', (done) => {
     should(S3).be.a.Function();
 
     done();
   });
 
-  it('S3', (done) => {
-    const cometa = Object.assign({}, config.cometa, { output: { extension: 'png' } });
-    const provider = new S3(cometa);
+  it('Sould return an image.', (done) => {
+    sandbox
+      .stub(aws.Request.prototype, 'send')
+      .yields(null, { Body: 'Binary image data will be here.' });
 
-    sandbox.stub(aws.Request.prototype, 'send').yields(null, {
-      Body: 'Image data.'
+    const provider = new S3({
+      ...config.cometa,
+      ...{ output: { extension: 'png' } }
     });
+    provider
+      .on('provided', (message) => {
+        should(message).be.equal('Image received from S3 provider.');
+      })
+      .on('data', (chunk) => {
+        should(provider).be.an.Object();
+        should(provider).be.instanceOf(Readable);
+        should(provider).have.property('_read');
+        should(chunk).be.an.Object();
+        should(chunk).have.properties('output', 'body', 'originalSize');
+        should(chunk.output).be.an.Object();
+        should(chunk.output.extension).be.equal('png');
+        should(chunk.body).be.equal('Binary image data will be here.');
+        should(chunk.originalSize).be.equal(31);
 
-    provider.on('data', (chunk) => {
-      should(provider).be.an.Object();
-      should(provider).be.instanceOf(Readable);
-      should(provider).have.property('_read');
-      should(chunk).be.an.Object();
-      should(chunk).have.properties('output', 'body', 'originalSize');
-      should(chunk.output).be.an.Object();
-      should(chunk.output.extension).be.equal('png');
-      should(chunk.body).be.equal('Image data.');
-      should(chunk.originalSize).be.equal(11);
-
-      done();
-    });
+        done();
+      });
   });
 
-  it('S3 (no config)', (done) => {
+  it('Should fail (no config)', (done) => {
     let provider;
     try {
       provider = new S3();
@@ -56,11 +58,10 @@ module.exports = () => {
     }
   });
 
-  it('S3 (error)', (done) => {
-    const cometa = Object.assign({}, config.cometa);
-    const provider = new S3(cometa);
-
+  it('Should fail (throw error)', (done) => {
     sandbox.stub(aws.Request.prototype, 'send').yields(new Error('Testing error.'));
+
+    const provider = new S3(config.cometa);
     provider.on('error', (error) => {
       should(provider).be.an.Object();
       should(provider).be.instanceOf(Readable);

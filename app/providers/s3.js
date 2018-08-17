@@ -1,32 +1,23 @@
-// Modules
-const aws = require('aws-sdk');
+const AWS = require('aws-sdk');
 const { Readable } = require('stream');
 
-class S3 extends Readable {
+module.exports = class S3 extends Readable {
   constructor(config = null) {
     super({ objectMode: true });
     if (!config) {
       throw new Error('Configuration is required.');
     }
 
-    this.config = config;
+    ({ aws: this.aws, input: this.input } = config);
     this.image = { output: config.output };
-    this.isComplete = false;
 
-    aws.config = this.config.s3;
-    this.S3 = new aws.S3();
-
-    this.on('end', () => {
-      this.image = null;
-    });
+    AWS.config = this.aws;
+    this.S3 = new AWS.S3({ apiVersion: '2006-03-01' });
+    this.on('end', () => this.emit('provided', 'Image received from S3 provider.'));
   }
 
   _read() {
-    if (this.isComplete) {
-      return;
-    }
-
-    this.S3.getObject({ Bucket: this.config.bucket, Key: this.config.input }, (error, data) => {
+    this.S3.getObject({ Bucket: this.aws.bucket, Key: this.input }, (error, data) => {
       if (error) {
         return this.emit('error', error);
       }
@@ -34,14 +25,9 @@ class S3 extends Readable {
       this.image.body = data.Body;
       this.image.originalSize = data.Body.length;
 
-      this.isComplete = true;
       this.push(this.image);
       this.push(null);
-      this.image = null;
-
       return true;
     });
   }
-}
-
-module.exports = S3;
+};

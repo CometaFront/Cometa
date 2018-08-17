@@ -1,7 +1,4 @@
-// Modules
 const path = require('path');
-
-// Libraries
 const { formats } = require('../config');
 
 const output = (data) => {

@@ -30,16 +30,20 @@ Super fast, on-demand and on-the-fly, image processing.
 
 #### Environment variables
 
-- `APP_CLUSTER`: Whether the application should make use of all available CPUs or not.
-- `PORT`: Port on which your application will listen. `Defaults to 9090`.
+- `COMETA_CLUSTER`: Whether the application should make use of all available CPUs or not.
+- `COMETA_PORT`: Port on which your application will listen. `Defaults to 9090`.
 - `COMETA_KEY`: A unique key used for request signature validation.
-- `ALLOW_UNAUTHORIZED`: Whether unsigned requests are allowed or not.
-- `REQUEST_TIMEOUT`: (milliseconds) before timing out URL image requests.
+- `COMETA_ALLOW_UNAUTHORIZED`: Whether unsigned requests are allowed or not.
+- `COMETA_REQUEST_TIMEOUT`: (milliseconds) before timing out URL image requests.
+- `COMETA_LOG_NAME`: The name for your logs (if enabled). `Defaults to 'Cometa'`.
+- `COMETA_LOG_LEVEL`: The minimal level at which to log. See [pino's log levels](https://github.com/pinojs/pino/blob/master/docs/api.md#level-string) `Defaults to 'info'`
+- `COMETA_LOG_PRETTY`: Whether logs should be pretty-printed or not.
 
 ##### If using with S3:
 - `AWS_ACCESS_KEY`: Your AWS access key.
 - `AWS_ACCESS_SECRET`: Your AWS access secret.
-- `AWS_BUCKET`: Name of your S3 bucket.
+- `AWS_BUCKET`: The name of your S3 bucket.
+- `AWS_REGION`: Your AWS service region. 
 
 
 ### Usage

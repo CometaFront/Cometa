@@ -20,7 +20,7 @@
   "license": "MIT",
   "homepage": "https://github.com/CometaFront/Cometa",
   "dependencies": {
-    "aws-sdk": "^2.294.0",
+    "aws-sdk": "^2.295.0",
     "pino": "^5.1.0",
     "rayo": "^1.2.2",
     "sharp": "^0.20.2"

@@ -37,13 +37,12 @@ Super fast, on-demand and on-the-fly, image processing.
 - `COMETA_REQUEST_TIMEOUT`: (milliseconds) before timing out URL image requests.
 - `COMETA_LOG_NAME`: The name for your logs (if enabled). `Defaults to 'Cometa'`.
 - `COMETA_LOG_LEVEL`: The minimal level at which to log. See [pino's log levels](https://github.com/pinojs/pino/blob/master/docs/api.md#level-string) `Defaults to 'info'`
-- `COMETA_LOG_PRETTY`: Whether logs should be pretty-printed or not.
 
 ##### If using with S3:
 - `AWS_ACCESS_KEY`: Your AWS access key.
 - `AWS_ACCESS_SECRET`: Your AWS access secret.
 - `AWS_BUCKET`: The name of your S3 bucket.
-- `AWS_REGION`: Your AWS service region. 
+- `AWS_REGION`: Your AWS service region.
 
 
 ### Usage

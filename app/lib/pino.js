@@ -3,8 +3,7 @@ const { log } = require('../config');
 
 const logger = pino({
   name: log.name || 'Cometa',
-  level: log.level || 'info',
-  prettyPrint: log.pretty
+  level: log.level || 'info'
 });
 
 module.exports = logger;

@@ -23,7 +23,7 @@
     "aws-sdk": "^2.296.0",
     "pino": "^5.1.0",
     "rayo": "^1.2.2",
-    "sharp": "^0.20.2"
+    "sharp": "^0.21.0"
   },
   "devDependencies": {
     "codacy-coverage": "^3.0.0",

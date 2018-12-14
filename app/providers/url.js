@@ -22,16 +22,18 @@ module.exports = class URL extends Readable {
       }
 
       const image = [];
-      return res.on('data', (chunk) => image.push(chunk)).on('end', () => {
-        this.image.body = Buffer.concat(image);
-        this.image.originalSize = res.headers['content-length'] || this.image.body.length;
+      return res
+        .on('data', (chunk) => image.push(chunk))
+        .on('end', () => {
+          this.image.body = Buffer.concat(image);
+          this.image.originalSize = res.headers['content-length'] || this.image.body.length;
 
-        setImmediate(() => {
-          this.isComplete = true;
-          this.push(this.image);
-          this.push(null);
+          setImmediate(() => {
+            this.isComplete = true;
+            this.push(this.image);
+            this.push(null);
+          });
         });
-      });
     });
   }
 };

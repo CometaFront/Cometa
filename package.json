@@ -20,7 +20,7 @@
   "license": "MIT",
   "homepage": "https://github.com/CometaFront/Cometa",
   "dependencies": {
-    "aws-sdk": "^2.376.0",
+    "aws-sdk": "^2.377.0",
     "pino": "^5.10.1",
     "rayo": "^1.2.6",
     "sharp": "^0.21.1"
@@ -35,7 +35,7 @@
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-prettier": "^3.0.0",
     "mocha": "^5.2.0",
-    "nodemon": "^1.18.8",
+    "nodemon": "^1.18.9",
     "npm-check": "^5.9.0",
     "nyc": "^13.1.0",
     "prettier": "^1.15.3",

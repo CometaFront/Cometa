@@ -34,7 +34,7 @@
     "eslint-config-prettier": "^3.3.0",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-prettier": "^3.0.0",
-    "mocha": "^5.2.0",
+    "mocha": "^6.0.0",
     "nodemon": "^1.18.9",
     "npm-check": "^5.9.0",
     "nyc": "^13.1.0",

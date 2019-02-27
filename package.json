@@ -25,8 +25,8 @@
     "sharp": "^0.21.3"
   },
   "devDependencies": {
-    "codacy-coverage": "^3.4.0",
-    "codeclimate-test-reporter": "^0.5.1",
+    "codecov": "^3.2.0",
+    "coveralls": "^3.0.2",
     "dotenv": "^6.2.0",
     "eslint": "^5.14.1",
     "eslint-config-airbnb-base": "^13.0.0",
@@ -48,15 +48,13 @@
     "url": "https://github.com/CometaFront/Cometa/issues"
   },
   "scripts": {
+    "eslint:fix": "eslint --quiet --fix .",
     "pretest": "eslint --quiet .",
     "test": "nyc _mocha -R spec --timeout 1000 ./test/unit/index.js",
     "unit": "_mocha -R spec --timeout 1000 ./test/unit/index.js",
+    "report": "codecov && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage ./.nyc_output",
     "start": "node app/index.js",
     "start:local": "nodemon -r dotenv/config --inspect",
-    "eslint:fix": "eslint --quiet --fix .",
-    "report": "npm run report:codebeat && npm run report:codacy",
-    "report:codebeat": "CODECLIMATE_API_HOST=https://codebeat.co/webhooks/code_coverage CODECLIMATE_REPO_TOKEN=$CODEBEAT_TOKEN codeclimate-test-reporter < ./coverage/lcov.info",
-    "report:codacy": "cat ./coverage/lcov.info | CODACY_PROJECT_TOKEN=$CODACY_TOKEN codacy-coverage",
     "update": "npm-check -u"
   },
   "nodemonConfig": {

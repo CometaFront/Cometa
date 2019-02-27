@@ -2,7 +2,6 @@ const fs = require('fs');
 const sinon = require('sinon');
 const should = require('should');
 const fake = require('../support/fake');
-const pino = require('../../../app/lib/pino');
 const response = require('../../../app/streams/response');
 
 const sandbox = sinon.createSandbox();
@@ -110,10 +109,9 @@ module.exports = () => {
   });
 
   it('resize (invalid body)', (done) => {
-    sandbox.stub(pino, 'error').callsFake((error) => {
-      should(error).be.an.Object();
-      should(error).have.properties('message');
-      should(error.message).be.equal('Input file is missing or of an unsupported image format');
+    sandbox.stub(process.stderr, 'write').callsFake((error) => {
+      const match = error.match(/(LOG)|(\[.*])|(Input file is missing)/g);
+      should(match.length).be.equal(3);
 
       done();
     });
@@ -124,10 +122,11 @@ module.exports = () => {
   });
 
   it('resize (invalid output)', (done) => {
-    sandbox.stub(pino, 'error').callsFake((error) => {
-      should(error).be.an.Object();
-      should(error).have.properties('message');
-      should(error.message).be.equal("Cannot read property 'quality' of undefined");
+    sandbox.stub(process.stderr, 'write').callsFake((error) => {
+      const match = error.match(
+        /(LOG)|(\[.*])|(TypeError: Cannot read property 'quality' of undefined)/g
+      );
+      should(match.length).be.equal(4);
 
       done();
     });
@@ -140,10 +139,9 @@ module.exports = () => {
   });
 
   it('resize (invalid output extension)', (done) => {
-    sandbox.stub(pino, 'error').callsFake((error) => {
-      should(error).be.an.Object();
-      should(error).have.properties('message');
-      should(error.message).be.equal('sharp(...)[image.output.extension] is not a function');
+    sandbox.stub(process.stderr, 'write').callsFake((error) => {
+      const match = error.match(/(LOG)|(\[.*])|(is not a function)/g);
+      should(match.length).be.equal(4);
 
       done();
     });

@@ -20,27 +20,26 @@
   "license": "MIT",
   "homepage": "https://github.com/CometaFront/Cometa",
   "dependencies": {
-    "aws-sdk": "^2.377.0",
-    "pino": "^5.10.1",
-    "rayo": "^1.2.6",
-    "sharp": "^0.21.1"
+    "aws-sdk": "^2.411.0",
+    "rayo": "^1.2.9",
+    "sharp": "^0.21.3"
   },
   "devDependencies": {
-    "codacy-coverage": "^3.3.0",
+    "codacy-coverage": "^3.4.0",
     "codeclimate-test-reporter": "^0.5.1",
     "dotenv": "^6.2.0",
-    "eslint": "^5.10.0",
+    "eslint": "^5.14.1",
     "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-config-prettier": "^3.3.0",
-    "eslint-plugin-import": "^2.12.0",
-    "eslint-plugin-prettier": "^3.0.0",
-    "mocha": "^5.2.0",
-    "nodemon": "^1.18.9",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "mocha": "^6.0.2",
+    "nodemon": "^1.18.10",
     "npm-check": "^5.9.0",
-    "nyc": "^13.1.0",
-    "prettier": "^1.15.3",
+    "nyc": "^13.3.0",
+    "prettier": "^1.16.4",
     "should": "^13.2.3",
-    "sinon": "^7.2.2"
+    "sinon": "^7.2.4"
   },
   "directories": {
     "test": "test"
@@ -51,6 +50,7 @@
   "scripts": {
     "pretest": "eslint --quiet .",
     "test": "nyc _mocha -R spec --timeout 1000 ./test/unit/index.js",
+    "unit": "_mocha -R spec --timeout 1000 ./test/unit/index.js",
     "start": "node app/index.js",
     "start:local": "nodemon -r dotenv/config --inspect",
     "eslint:fix": "eslint --quiet --fix .",

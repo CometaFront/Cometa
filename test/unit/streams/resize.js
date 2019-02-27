@@ -1,7 +1,6 @@
 const fs = require('fs');
 const sinon = require('sinon');
 const should = require('should');
-const pino = require('../../../app/lib/pino');
 const resize = require('../../../app/streams/resize');
 
 const sandbox = sinon.createSandbox();
@@ -33,10 +32,9 @@ module.exports = () => {
   });
 
   it('resize (invalid body)', (done) => {
-    sandbox.stub(pino, 'error').callsFake((error) => {
-      should(error).be.an.Object();
-      should(error).have.properties('message');
-      should(error.message).be.equal('Input file is missing or of an unsupported image format');
+    sandbox.stub(process.stderr, 'write').callsFake((error) => {
+      const match = error.match(/(LOG)|(\[.*])|(Input file is missing)/g);
+      should(match.length).be.equal(3);
 
       done();
     });

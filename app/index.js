@@ -1,8 +1,8 @@
 const rayo = require('rayo');
+const log = require('./lib/log');
 const parse = require('./lib/parse');
 const signature = require('./lib/signature');
 const stream = require('./lib/streams');
-const pino = require('./lib/pino');
 const { app, cometa } = require('./config');
 
 const providers = {
@@ -26,7 +26,7 @@ try {
 
         const source = new providers[request.provider](request);
         return source
-          .on('provided', (message) => pino.info(message))
+          .on('provided', (message) => log.info(message))
           .on('error', (error) => {
             source.unpipe();
             throw error;
@@ -38,7 +38,7 @@ try {
         return step(error.message, 409);
       }
     })
-    .start((address) => pino.info(`Up on port: ${address.port}`));
+    .start((address) => log.info(`Up on port: ${address.port}`));
 } catch (error) {
-  pino.fatal(error.message);
+  log.error(error.message);
 }

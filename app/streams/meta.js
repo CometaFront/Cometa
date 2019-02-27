@@ -1,6 +1,6 @@
 const sharp = require('sharp');
 const { Transform } = require('stream');
-const pino = require('../lib/pino');
+const log = require('../lib/log');
 
 const transformStream = (image, encoding, callback) =>
   setImmediate(() => {
@@ -17,4 +17,4 @@ module.exports = () =>
   new Transform({
     objectMode: true,
     transform: transformStream
-  }).on('error', (error) => pino.error(error));
+  }).on('error', log.error);

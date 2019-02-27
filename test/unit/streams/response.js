@@ -2,7 +2,6 @@ const fs = require('fs');
 const sinon = require('sinon');
 const should = require('should');
 const fake = require('../support/fake');
-const pino = require('../../../app/lib/pino');
 const response = require('../../../app/streams/response');
 
 const sandbox = sinon.createSandbox();
@@ -21,28 +20,31 @@ module.exports = () => {
     const res = fake.res();
     sandbox.stub(res, 'writeHead').callsFake((status, headers) => {
       should(status).be.a.Number();
-      should(status).be.equal(200);
-      should(headers).be.an.Object();
-      should(headers).with.properties(
-        'Etag',
-        'Expires',
-        'Vary',
-        'Content-Type',
-        'Cache-Control',
-        'Content-Length',
-        'Last-Modified',
-        'X-Powered-by'
-      );
+      should(status).equal(200);
+      should(headers)
+        .be.an.Object()
+        .with.properties(
+          'Etag',
+          'Expires',
+          'Vary',
+          'Content-Type',
+          'Cache-Control',
+          'Content-Length',
+          'Last-Modified',
+          'X-Powered-by'
+        );
       should(headers['Content-Length']).be.lessThan(55908);
-      should(headers['Content-Type']).be.equal('image/png');
+      should(headers['Content-Type']).equal('image/png');
 
       done();
     });
 
     fs.readFile('./test/unit/support/cometa.png', (error, data) => {
       const stream = response(res);
-      should(stream).be.an.Object();
-      should(stream).have.properties('_write');
+      should(stream)
+        .be.an.Object()
+        .with.property('_write');
+
       stream.end({ body: data, output: { extension: 'png' } });
     });
   });
@@ -51,28 +53,31 @@ module.exports = () => {
     const res = fake.res();
     sandbox.stub(res, 'writeHead').callsFake((status, headers) => {
       should(status).be.a.Number();
-      should(status).be.equal(200);
-      should(headers).be.an.Object();
-      should(headers).with.properties(
-        'Etag',
-        'Expires',
-        'Vary',
-        'Content-Type',
-        'Cache-Control',
-        'Content-Length',
-        'Last-Modified',
-        'X-Powered-by'
-      );
+      should(status).equal(200);
+      should(headers)
+        .be.an.Object()
+        .with.properties(
+          'Etag',
+          'Expires',
+          'Vary',
+          'Content-Type',
+          'Cache-Control',
+          'Content-Length',
+          'Last-Modified',
+          'X-Powered-by'
+        );
       should(headers['Content-Length']).be.lessThan(55908);
-      should(headers['Content-Type']).be.equal('image/jpeg');
+      should(headers['Content-Type']).equal('image/jpeg');
 
       done();
     });
 
     fs.readFile('./test/unit/support/cometa.png', (error, data) => {
       const stream = response(res);
-      should(stream).be.an.Object();
-      should(stream).have.properties('_write');
+      should(stream)
+        .be.an.Object()
+        .with.property('_write');
+
       stream.end({ body: data, output: { extension: 'jpg' } });
     });
   });
@@ -87,8 +92,10 @@ module.exports = () => {
 
     fs.readFile('./test/unit/support/cometa.png', (error, data) => {
       const stream = response(res);
-      should(stream).be.an.Object();
-      should(stream).have.properties('_write');
+      should(stream)
+        .be.an.Object()
+        .with.property('_write');
+
       stream.end({ body: data, output: { extension: 'png' } });
     });
   });
@@ -103,17 +110,19 @@ module.exports = () => {
 
     fs.readFile('./test/unit/support/cometa.png', (error, data) => {
       const stream = response(res);
-      should(stream).be.an.Object();
-      should(stream).have.properties('_write');
+      should(stream)
+        .be.an.Object()
+        .with.property('_write');
+
       stream.end({ body: data, output: { extension: 'jpg' } });
     });
   });
 
   it('resize (invalid body)', (done) => {
-    sandbox.stub(pino, 'error').callsFake((error) => {
-      should(error).be.an.Object();
-      should(error).have.properties('message');
-      should(error.message).be.equal('Input file is missing or of an unsupported image format');
+    sandbox.stub(process.stderr, 'write').callsFake((error) => {
+      const match = error.match(/(COMETA)|(\[.*])|(Input file is missing)/g);
+      should(match[0]).equal('COMETA');
+      should(match[2]).equal('Input file is missing');
 
       done();
     });
@@ -124,10 +133,12 @@ module.exports = () => {
   });
 
   it('resize (invalid output)', (done) => {
-    sandbox.stub(pino, 'error').callsFake((error) => {
-      should(error).be.an.Object();
-      should(error).have.properties('message');
-      should(error.message).be.equal("Cannot read property 'quality' of undefined");
+    sandbox.stub(process.stderr, 'write').callsFake((error) => {
+      const match = error.match(
+        /(COMETA)|(\[.*])|(TypeError: Cannot read property 'quality' of undefined)/g
+      );
+      should(match[0]).equal('COMETA');
+      should(match[2]).equal("TypeError: Cannot read property 'quality' of undefined");
 
       done();
     });
@@ -140,10 +151,10 @@ module.exports = () => {
   });
 
   it('resize (invalid output extension)', (done) => {
-    sandbox.stub(pino, 'error').callsFake((error) => {
-      should(error).be.an.Object();
-      should(error).have.properties('message');
-      should(error.message).be.equal('sharp(...)[image.output.extension] is not a function');
+    sandbox.stub(process.stderr, 'write').callsFake((error) => {
+      const match = error.match(/(COMETA)|(\[.*])|(is not a function)/g);
+      should(match[0]).equal('COMETA');
+      should(match[2]).equal('is not a function');
 
       done();
     });

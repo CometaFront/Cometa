@@ -33,18 +33,22 @@ module.exports = () => {
 
     provider
       .on('provided', (message) => {
-        should(message).be.equal('Image received from URL provider.');
+        should(message).equal('Image received from URL provider.');
       })
       .on('data', (image) => {
-        should(provider).be.an.Object();
-        should(provider).be.instanceOf(Readable);
-        should(provider).have.property('_read');
-        should(image).be.an.Object();
-        should(image).have.properties('output', 'body', 'originalSize');
+        should(provider)
+          .be.an.Object()
+          .and.instanceOf(Readable)
+          .with.property('_read');
+
+        should(image)
+          .be.an.Object()
+          .with.properties('output', 'body', 'originalSize');
+
         should(image.output).be.an.Object();
-        should(image.output.extension).be.equal('png');
-        should(image.body.toString()).be.equal('Binary image data will be here.');
-        should(image.originalSize).be.equal(31);
+        should(image.output.extension).equal('png');
+        should(image.body.toString()).equal('Binary image data will be here.');
+        should(image.originalSize).equal(31);
 
         done();
       });
@@ -65,18 +69,22 @@ module.exports = () => {
 
     provider
       .on('provided', (message) => {
-        should(message).be.equal('Image received from URL provider.');
+        should(message).equal('Image received from URL provider.');
       })
       .on('data', (image) => {
-        should(provider).be.an.Object();
-        should(provider).be.instanceOf(Readable);
-        should(provider).have.property('_read');
-        should(image).be.an.Object();
-        should(image).have.properties('output', 'body', 'originalSize');
+        should(provider)
+          .be.an.Object()
+          .and.instanceOf(Readable)
+          .with.property('_read');
+
+        should(image)
+          .be.an.Object()
+          .with.properties('output', 'body', 'originalSize');
+
         should(image.output).be.an.Object();
-        should(image.output.extension).be.equal('png');
-        should(image.body.toString()).be.equal('Binary image data will be here.');
-        should(image.originalSize).be.equal(31);
+        should(image.output.extension).equal('png');
+        should(image.body.toString()).equal('Binary image data will be here.');
+        should(image.originalSize).equal(31);
 
         done();
       });
@@ -87,10 +95,12 @@ module.exports = () => {
     try {
       provider = new URL();
     } catch (error) {
-      should(!!provider).be.equal(false);
-      should(error).be.an.Object();
-      should(error).have.properties('message');
-      should(error.message).be.equal('Configuration is required.');
+      should(!!provider).equal(false);
+      should(error)
+        .be.an.Object()
+        .with.property('message');
+
+      should(error.message).equal('Configuration is required.');
 
       done();
     }
@@ -104,12 +114,16 @@ module.exports = () => {
 
     sandbox.stub(http, 'get').yields({ statusCode: 404 });
     provider.on('error', (error) => {
-      should(provider).be.an.Object();
-      should(provider).be.instanceOf(Readable);
-      should(provider).have.property('_read');
-      should(error).be.an.Object();
-      should(error).have.property('message');
-      should(error.message).be.equal('The requested image could not be found.');
+      should(provider)
+        .be.an.Object()
+        .and.instanceOf(Readable)
+        .with.property('_read');
+
+      should(error)
+        .be.an.Object()
+        .with.property('message');
+
+      should(error.message).equal('The requested image could not be found.');
 
       done();
     });
@@ -125,12 +139,16 @@ module.exports = () => {
 
     sandbox.stub(https, 'get').yields({ statusCode: 404 });
     provider.on('error', (error) => {
-      should(provider).be.an.Object();
-      should(provider).be.instanceOf(Readable);
-      should(provider).have.property('_read');
-      should(error).be.an.Object();
-      should(error).have.property('message');
-      should(error.message).be.equal('The requested image could not be found.');
+      should(provider)
+        .be.an.Object()
+        .and.instanceOf(Readable)
+        .with.property('_read');
+
+      should(error)
+        .be.an.Object()
+        .with.property('message');
+
+      should(error.message).equal('The requested image could not be found.');
 
       done();
     });

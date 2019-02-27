@@ -8,8 +8,9 @@ module.exports = () => {
   afterEach(() => sandbox.restore());
 
   it('Streams', (done) => {
-    should(streams).be.an.Object();
-    should(streams).have.properties('meta', 'resize', 'response');
+    should(streams)
+      .be.an.Object()
+      .with.properties('meta', 'resize', 'response');
 
     done();
   });

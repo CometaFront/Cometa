@@ -21,7 +21,7 @@ module.exports = {
     output: ['webp', 'png', 'tiff', 'jpeg', 'jpg']
   },
   log: {
-    name: e.COMETA_LOG_NAME,
-    level: e.COMETA_LOG_LEVEL
+    name: e.COMETA_LOG_NAME || 'COMETA',
+    level: e.COMETA_LOG_LEVEL || 'warn'
   }
 };

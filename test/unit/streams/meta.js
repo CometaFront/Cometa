@@ -1,7 +1,6 @@
 const fs = require('fs');
 const sinon = require('sinon');
 const should = require('should');
-const pino = require('../../../app/lib/pino');
 const meta = require('../../../app/streams/meta');
 
 const sandbox = sinon.createSandbox();
@@ -19,13 +18,17 @@ module.exports = () => {
   it('meta (image)', (done) => {
     fs.readFile('./test/unit/support/cometa.png', (error, data) => {
       const stream = meta();
-      should(stream).be.an.Object();
-      should(stream).have.properties('_transform');
+      should(stream)
+        .be.an.Object()
+        .with.property('_transform');
+
       stream.end({ body: data });
       stream.on('data', (image) => {
-        should(image).be.an.Object();
-        should(image).have.properties('body', 'metadata');
-        should(image.body).be.equal(data);
+        should(image)
+          .be.an.Object()
+          .with.properties('body', 'metadata');
+
+        should(image.body).equal(data);
         should(image.metadata).be.an.Object();
         should(image.metadata).have.properties(
           'format',
@@ -43,17 +46,19 @@ module.exports = () => {
   });
 
   it('meta (error)', (done) => {
-    sandbox.stub(pino, 'error').callsFake((error) => {
-      should(error).be.an.Object();
-      should(error).have.properties('message');
-      should(error.message).be.equal('Input file is missing or of an unsupported image format');
+    sandbox.stub(process.stderr, 'write').callsFake((error) => {
+      const match = error.match(/(COMETA)|(\[.*])|(Input file is missing)/g);
+      should(match[0]).equal('COMETA');
+      should(match[2]).equal('Input file is missing');
 
       done();
     });
 
     const stream = meta();
-    should(stream).be.an.Object();
-    should(stream).have.properties('_transform');
+    should(stream)
+      .be.an.Object()
+      .with.property('_transform');
+
     stream.end({ body: 'Invalid image.' });
     stream.on('error', (error) => {
       should(error).be.an.Object();

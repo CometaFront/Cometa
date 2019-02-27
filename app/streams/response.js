@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const sharp = require('sharp');
 const { Writable } = require('stream');
-const pino = require('../lib/pino');
+const log = require('../lib/log');
 
 const writeHead = (res, image, size) => {
   const Etag = crypto
@@ -48,4 +48,4 @@ module.exports = (res) =>
   new Writable({
     objectMode: true,
     write: writeStream.bind(null, res)
-  }).on('error', (error) => pino.error(error));
+  }).on('error', log.error);

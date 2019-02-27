@@ -29,7 +29,7 @@ module.exports = () => {
 
     should(signature).be.a.Function();
     should(response).be.a.String();
-    should(response).be.equal('Pass');
+    should(response).equal('Pass');
 
     done();
   });
@@ -43,7 +43,7 @@ module.exports = () => {
 
     should(signature).be.a.Function();
     should(response).be.a.String();
-    should(response).be.equal('Pass');
+    should(response).equal('Pass');
 
     done();
   });
@@ -61,7 +61,7 @@ module.exports = () => {
 
     should(signature).be.a.Function();
     should(response).be.a.String();
-    should(response).be.equal('Pass');
+    should(response).equal('Pass');
 
     done();
   });
@@ -74,7 +74,7 @@ module.exports = () => {
 
     should(signature).be.a.Function();
     should(response).be.a.String();
-    should(response).be.equal('This request has not been authorized.');
+    should(response).equal('This request has not been authorized.');
 
     done();
   });
@@ -89,7 +89,7 @@ module.exports = () => {
 
     should(signature).be.a.Function();
     should(response).be.a.String();
-    should(response).be.equal('Pass');
+    should(response).equal('Pass');
 
     done();
   });
@@ -104,7 +104,7 @@ module.exports = () => {
 
     should(signature).be.a.Function();
     should(response).be.a.String();
-    should(response).be.equal('Pass');
+    should(response).equal('Pass');
 
     done();
   });
@@ -118,7 +118,7 @@ module.exports = () => {
 
     should(signature).be.a.Function();
     should(response).be.a.String();
-    should(response).be.equal('This request has not been authorized.');
+    should(response).equal('This request has not been authorized.');
 
     done();
   });

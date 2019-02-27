@@ -27,18 +27,22 @@ module.exports = () => {
     });
     provider
       .on('provided', (message) => {
-        should(message).be.equal('Image received from S3 provider.');
+        should(message).equal('Image received from S3 provider.');
       })
       .on('data', (chunk) => {
-        should(provider).be.an.Object();
-        should(provider).be.instanceOf(Readable);
-        should(provider).have.property('_read');
-        should(chunk).be.an.Object();
-        should(chunk).have.properties('output', 'body', 'originalSize');
+        should(provider)
+          .be.an.Object()
+          .and.be.instanceOf(Readable)
+          .with.property('_read');
+
+        should(chunk)
+          .be.an.Object()
+          .with.properties('output', 'body', 'originalSize');
+
         should(chunk.output).be.an.Object();
-        should(chunk.output.extension).be.equal('png');
-        should(chunk.body).be.equal('Binary image data will be here.');
-        should(chunk.originalSize).be.equal(31);
+        should(chunk.output.extension).equal('png');
+        should(chunk.body).equal('Binary image data will be here.');
+        should(chunk.originalSize).equal(31);
 
         done();
       });
@@ -49,10 +53,12 @@ module.exports = () => {
     try {
       provider = new S3();
     } catch (error) {
-      should(!!provider).be.equal(false);
-      should(error).be.an.Object();
-      should(error).have.properties('message');
-      should(error.message).be.equal('Configuration is required.');
+      should(!!provider).equal(false);
+      should(error)
+        .be.an.Object()
+        .with.property('message');
+
+      should(error.message).equal('Configuration is required.');
 
       done();
     }
@@ -63,12 +69,16 @@ module.exports = () => {
 
     const provider = new S3(config.cometa);
     provider.on('error', (error) => {
-      should(provider).be.an.Object();
-      should(provider).be.instanceOf(Readable);
-      should(provider).have.property('_read');
-      should(error).be.an.Object();
-      should(error).have.property('message');
-      should(error.message).be.equal('Testing error.');
+      should(provider)
+        .be.an.Object()
+        .and.instanceOf(Readable)
+        .with.property('_read');
+
+      should(error)
+        .be.an.Object()
+        .with.property('message');
+
+      should(error.message).equal('Testing error.');
 
       done();
     });

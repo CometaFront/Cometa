@@ -1,16 +1,11 @@
 const should = require('should');
+const config = require('../../../app/config');
 
 module.exports = () => {
-  beforeEach(() => {
-    delete require.cache[require.resolve('../../../app/config')];
-  });
+  beforeEach(() => {});
   afterEach(() => {});
 
   it('Basic.', (done) => {
-    process.env.COMETA_LOG_NAME = 'TEST_NAME';
-    process.env.COMETA_LOG_LEVEL = 'TEST_LEVEL';
-    const config = require.call(null, '../../../app/config');
-
     should(config).be.an.Object();
     const { app, cometa, formats, log } = config;
 
@@ -37,8 +32,8 @@ module.exports = () => {
     should(log)
       .be.an.Object()
       .with.properties('name', 'level');
-    should(log.name).be.equal('TEST_NAME');
-    should(log.level).be.equal('TEST_LEVEL');
+    should(log.name).equal('COMETA');
+    should(log.level).equal('warn');
 
     done();
   });

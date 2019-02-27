@@ -18,17 +18,17 @@ module.exports = () => {
       .with.properties('width', 'height', 'quality', 'extension');
 
     should(result.output.width).be.a.Number();
-    should(result.output.width).be.equal(10);
+    should(result.output.width).equal(10);
     should(result.output.height).be.a.Number();
-    should(result.output.height).be.equal(10);
+    should(result.output.height).equal(10);
     should(result.output.quality).be.a.Number();
-    should(result.output.quality).be.equal(75);
+    should(result.output.quality).equal(75);
     should(result.output.extension).be.a.String();
-    should(result.output.extension).be.equal('jpg');
+    should(result.output.extension).equal('jpg');
     should(result.provider).be.a.String();
-    should(result.provider).be.equal('URL');
+    should(result.provider).equal('URL');
     should(result.input).be.a.String();
-    should(result.input).be.equal('http://localhost/img/test.jpg');
+    should(result.input).equal('http://localhost/img/test.jpg');
 
     done();
   });
@@ -55,17 +55,17 @@ module.exports = () => {
       .with.properties('width', 'height', 'quality', 'extension');
 
     should(result.output.width).be.a.Number();
-    should(result.output.width).be.equal(10);
+    should(result.output.width).equal(10);
     should(result.output.height).be.a.Number();
-    should(result.output.height).be.equal(10);
+    should(result.output.height).equal(10);
     should(result.output.quality).be.a.Number();
-    should(result.output.quality).be.equal(80);
+    should(result.output.quality).equal(80);
     should(result.output.extension).be.a.String();
-    should(result.output.extension).be.equal('jpg');
+    should(result.output.extension).equal('jpg');
     should(result.provider).be.a.String();
-    should(result.provider).be.equal('URL');
+    should(result.provider).equal('URL');
     should(result.input).be.a.String();
-    should(result.input).be.equal('http://localhost/img/test.jpg');
+    should(result.input).equal('http://localhost/img/test.jpg');
 
     done();
   });
@@ -90,13 +90,13 @@ module.exports = () => {
     should(result.output.width).equal(null);
     should(result.output.height).equal(null);
     should(result.output.quality).be.a.Number();
-    should(result.output.quality).be.equal(80);
+    should(result.output.quality).equal(80);
     should(result.output.extension).be.a.String();
-    should(result.output.extension).be.equal('jpg');
+    should(result.output.extension).equal('jpg');
     should(result.provider).be.a.String();
-    should(result.provider).be.equal('URL');
+    should(result.provider).equal('URL');
     should(result.input).be.a.String();
-    should(result.input).be.equal('http://localhost/img/test.jpg');
+    should(result.input).equal('http://localhost/img/test.jpg');
 
     done();
   });
@@ -119,12 +119,12 @@ module.exports = () => {
     should(result.output.width).equal(null);
     should(result.output.height).equal(null);
     should(result.output.quality).be.a.Number();
-    should(result.output.quality).be.equal(80);
+    should(result.output.quality).equal(80);
     should(result.output.extension).be.a.String();
-    should(result.output.extension).be.equal('jpg');
+    should(result.output.extension).equal('jpg');
     should(result.provider).be.a.String();
-    should(result.provider).be.equal('');
-    should(result.input).be.equal('http://localhost/img/test.jpg');
+    should(result.provider).equal('');
+    should(result.input).equal('http://localhost/img/test.jpg');
 
     done();
   });
@@ -147,12 +147,12 @@ module.exports = () => {
     should(result.output.width).equal(null);
     should(result.output.height).equal(null);
     should(result.output.quality).be.a.Number();
-    should(result.output.quality).be.equal(80);
+    should(result.output.quality).equal(80);
     should(result.output.extension).be.a.String();
-    should(result.output.extension).be.equal('webp');
+    should(result.output.extension).equal('webp');
     should(result.provider).be.a.String();
-    should(result.provider).be.equal('');
-    should(result.input).be.equal('http://localhost/img/test.jpg');
+    should(result.provider).equal('');
+    should(result.input).equal('http://localhost/img/test.jpg');
 
     done();
   });
@@ -175,13 +175,13 @@ module.exports = () => {
     should(result.output.width).equal(null);
     should(result.output.height).equal(null);
     should(result.output.quality).be.a.Number();
-    should(result.output.quality).be.equal(80);
+    should(result.output.quality).equal(80);
     should(result.output.extension).be.an.Error();
     should(result.output.extension.message).be.a.String();
-    should(result.output.extension.message).be.equal('.xxx files are not supported.');
+    should(result.output.extension.message).equal('.xxx files are not supported.');
     should(result.provider).be.a.String();
-    should(result.provider).be.equal('');
-    should(result.input).be.equal('http://localhost/img/test.jpg.xxx');
+    should(result.provider).equal('');
+    should(result.input).equal('http://localhost/img/test.jpg.xxx');
 
     done();
   });

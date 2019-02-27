@@ -1,14 +1,27 @@
-const { LOG_NAME: name } = process.env;
-const log = (prop, args) => {
-  return `${name || 'LOG'} [${new Date().toLocaleString()}] ${args
-    .map((a) => {
-      if (a instanceof Error) {
-        return a.stack;
-      }
+const { log } = require('../config');
 
-      return typeof a === 'object' ? JSON.stringify(a, null, 2) : a;
-    })
-    .join('\n')}`;
+const levels = {
+  debug: 0,
+  info: 1,
+  warn: 2,
+  error: 3
+};
+
+const fn = (prop, args) => {
+  if ((levels[prop] || 0) >= levels[log.level]) {
+    const message = args
+      .map((a) => {
+        if (a instanceof Error) {
+          return a.stack;
+        }
+
+        return typeof a === 'object' ? JSON.stringify(a, null, 2) : a;
+      })
+      .join('\n');
+
+    const stream = ['warn', 'error'].includes(prop) ? process.stderr : process.stdout;
+    stream.write(`${log.name} [${new Date().toLocaleString()}] ${message}`);
+  }
 };
 
 /**
@@ -19,8 +32,5 @@ const log = (prop, args) => {
  * Use with caution.
  */
 module.exports = new Proxy(console, {
-  get: (target, prop) => (...args) => {
-    const stream = ['warn', 'error'].includes(prop) ? process.stderr : process.stdout;
-    return stream.write(log(prop, args));
-  }
+  get: (target, prop) => (...args) => fn(prop, args)
 });

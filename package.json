@@ -22,7 +22,7 @@
   "dependencies": {
     "aws-sdk": "^2.411.0",
     "rayo": "^1.2.9",
-    "sharp": "^0.21.3"
+    "sharp": "^0.22.0"
   },
   "devDependencies": {
     "codecov": "^3.2.0",

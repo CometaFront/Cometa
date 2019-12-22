@@ -39,7 +39,7 @@
     "nyc": "^14.1.1",
     "prettier": "^1.16.4",
     "should": "^13.2.3",
-    "sinon": "^7.2.5"
+    "sinon": "^8.0.0"
   },
   "directories": {
     "test": "test"

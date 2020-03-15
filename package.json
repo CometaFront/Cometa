@@ -1,6 +1,6 @@
 {
   "name": "Cometa",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Super fast, on-demand and on-the-fly, image processing server.",
   "main": "app/index.js",
   "engines": {
@@ -20,26 +20,26 @@
   "license": "MIT",
   "homepage": "https://github.com/CometaFront/Cometa",
   "dependencies": {
-    "aws-sdk": "^2.411.0",
-    "rayo": "^1.3.3",
-    "sharp": "^0.22.0"
+    "aws-sdk": "^2.639.0",
+    "rayo": "^1.3.5",
+    "sharp": "^0.25.1"
   },
   "devDependencies": {
-    "codecov": "^3.2.0",
-    "coveralls": "^3.0.2",
-    "dotenv": "^8.0.0",
-    "eslint": "^5.14.1",
-    "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-config-prettier": "^5.0.0",
-    "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-prettier": "^3.0.1",
-    "mocha": "^6.0.2",
-    "nodemon": "^1.18.10",
-    "npm-check": "^5.9.0",
-    "nyc": "^14.1.1",
-    "prettier": "^1.16.4",
+    "codecov": "^3.6.5",
+    "coveralls": "^3.0.9",
+    "dotenv": "^8.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "mocha": "^7.1.0",
+    "nodemon": "^2.0.2",
+    "npm-check": "^5.9.2",
+    "nyc": "^15.0.0",
+    "prettier": "^1.19.1",
     "should": "^13.2.3",
-    "sinon": "^7.2.5"
+    "sinon": "^9.0.1"
   },
   "directories": {
     "test": "test"

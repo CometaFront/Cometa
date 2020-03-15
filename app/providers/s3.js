@@ -16,6 +16,7 @@ module.exports = class S3 extends Readable {
     this.on('end', () => this.emit('provided', 'Image received from S3 provider.'));
   }
 
+  // eslint-disable-next-line no-underscore-dangle
   _read() {
     this.S3.getObject({ Bucket: this.aws.bucket, Key: this.input }, (error, data) => {
       if (error) {

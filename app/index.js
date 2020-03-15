@@ -15,7 +15,11 @@ try {
     .through(signature.bind(null, cometa))
     .get('/:provider/*', (req, res, step) => {
       try {
-        const request = Object.assign({}, parse(req), cometa);
+        const request = {
+          ...parse(req),
+          ...cometa
+        };
+
         if (request.output.extension instanceof Error) {
           return step(request.output.extension.message, 409);
         }

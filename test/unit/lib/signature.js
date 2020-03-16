@@ -23,7 +23,10 @@ module.exports = () => {
 
   it('Signature (allowUnauthorized)', (done) => {
     const req = fake.req();
-    const cometa = Object.assign({}, config.cometa, { allowUnauthorized: true });
+    const cometa = {
+      ...config.cometa,
+      ...{ allowUnauthorized: true }
+    };
 
     const response = signature(cometa, req, fake.res(), (message) => message || 'Pass');
 

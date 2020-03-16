@@ -14,6 +14,7 @@ module.exports = class URL extends Readable {
     this.on('end', () => this.emit('provided', 'Image received from URL provider.'));
   }
 
+  // eslint-disable-next-line no-underscore-dangle
   _read() {
     const protocol = /https/.test(this.inputUrl.protocol) ? 'https' : 'http';
     require.call(null, protocol).get(this.inputUrl, (res) => {

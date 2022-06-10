@@ -2,8 +2,6 @@
   <img src="https://raw.githubusercontent.com/CometaFront/Assets/master/Images/Cover.png" alt="Cometa" />
 
 [![CodeFactor](https://www.codefactor.io/repository/github/cometafront/cometa/badge)](https://www.codefactor.io/repository/github/cometafront/cometa)
-[![Codacy](https://api.codacy.com/project/badge/Grade/9813c362ec754cceb759888d891f3bf6)](https://www.codacy.com/app/CometaFront/Cometa?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=CometaFront/Cometa&amp;utm_campaign=Badge_Grade)
-[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/9813c362ec754cceb759888d891f3bf6)](https://www.codacy.com/app/CometaFront/Cometa?utm_source=github.com&utm_medium=referral&utm_content=CometaFront/Cometa&utm_campaign=Badge_Coverage)
 [![Build Status](https://travis-ci.org/CometaFront/Cometa.svg?branch=master)](https://travis-ci.org/CometaFront/Cometa)
 [![Known Vulnerabilities](https://snyk.io/test/github/CometaFront/Cometa/badge.svg?targetFile=package.json)](https://snyk.io/test/github/CometaFront/Cometa?targetFile=package.json)
 

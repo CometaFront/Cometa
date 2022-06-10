@@ -36,14 +36,9 @@ module.exports = () => {
         should(message).equal('Image received from URL provider.');
       })
       .on('data', (image) => {
-        should(provider)
-          .be.an.Object()
-          .and.instanceOf(Readable)
-          .with.property('_read');
+        should(provider).be.an.Object().and.instanceOf(Readable).with.property('_read');
 
-        should(image)
-          .be.an.Object()
-          .with.properties('output', 'body', 'originalSize');
+        should(image).be.an.Object().with.properties('output', 'body', 'originalSize');
 
         should(image.output).be.an.Object();
         should(image.output.extension).equal('png');
@@ -72,14 +67,9 @@ module.exports = () => {
         should(message).equal('Image received from URL provider.');
       })
       .on('data', (image) => {
-        should(provider)
-          .be.an.Object()
-          .and.instanceOf(Readable)
-          .with.property('_read');
+        should(provider).be.an.Object().and.instanceOf(Readable).with.property('_read');
 
-        should(image)
-          .be.an.Object()
-          .with.properties('output', 'body', 'originalSize');
+        should(image).be.an.Object().with.properties('output', 'body', 'originalSize');
 
         should(image.output).be.an.Object();
         should(image.output.extension).equal('png');
@@ -96,9 +86,7 @@ module.exports = () => {
       provider = new URL();
     } catch (error) {
       should(!!provider).equal(false);
-      should(error)
-        .be.an.Object()
-        .with.property('message');
+      should(error).be.an.Object().with.property('message');
 
       should(error.message).equal('Configuration is required.');
 
@@ -114,14 +102,9 @@ module.exports = () => {
 
     sandbox.stub(http, 'get').yields({ statusCode: 404 });
     provider.on('error', (error) => {
-      should(provider)
-        .be.an.Object()
-        .and.instanceOf(Readable)
-        .with.property('_read');
+      should(provider).be.an.Object().and.instanceOf(Readable).with.property('_read');
 
-      should(error)
-        .be.an.Object()
-        .with.property('message');
+      should(error).be.an.Object().with.property('message');
 
       should(error.message).equal('The requested image could not be found.');
 
@@ -139,14 +122,9 @@ module.exports = () => {
 
     sandbox.stub(https, 'get').yields({ statusCode: 404 });
     provider.on('error', (error) => {
-      should(provider)
-        .be.an.Object()
-        .and.instanceOf(Readable)
-        .with.property('_read');
+      should(provider).be.an.Object().and.instanceOf(Readable).with.property('_read');
 
-      should(error)
-        .be.an.Object()
-        .with.property('message');
+      should(error).be.an.Object().with.property('message');
 
       should(error.message).equal('The requested image could not be found.');
 

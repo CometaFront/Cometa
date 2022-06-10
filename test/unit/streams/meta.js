@@ -18,15 +18,11 @@ module.exports = () => {
   it('meta (image)', (done) => {
     fs.readFile('./test/unit/support/cometa.png', (error, data) => {
       const stream = meta();
-      should(stream)
-        .be.an.Object()
-        .with.property('_transform');
+      should(stream).be.an.Object().with.property('_transform');
 
       stream.end({ body: data });
       stream.on('data', (image) => {
-        should(image)
-          .be.an.Object()
-          .with.properties('body', 'metadata');
+        should(image).be.an.Object().with.properties('body', 'metadata');
 
         should(image.body).equal(data);
         should(image.metadata).be.an.Object();
@@ -55,9 +51,7 @@ module.exports = () => {
     });
 
     const stream = meta();
-    should(stream)
-      .be.an.Object()
-      .with.property('_transform');
+    should(stream).be.an.Object().with.property('_transform');
 
     stream.end({ body: 'Invalid image.' });
     stream.on('error', (error) => {

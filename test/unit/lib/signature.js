@@ -6,10 +6,7 @@ const fake = require('../support/fake');
 const signature = require('../../../app/lib/signature');
 
 const sign = (payload, key = config.cometa.key) =>
-  crypto
-    .createHmac('sha1', key)
-    .update(payload)
-    .digest('hex');
+  crypto.createHmac('sha1', key).update(payload).digest('hex');
 
 const sandbox = sinon.createSandbox();
 module.exports = () => {

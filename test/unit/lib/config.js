@@ -9,9 +9,7 @@ module.exports = () => {
     should(config).be.an.Object();
     const { app, cometa, formats, log } = config;
 
-    should(app)
-      .be.an.Object()
-      .with.properties('env', 'port', 'cluster');
+    should(app).be.an.Object().with.properties('env', 'port', 'cluster');
 
     should(cometa)
       .be.an.Object()
@@ -20,18 +18,14 @@ module.exports = () => {
       .be.an.Object()
       .with.properties('accessKeyId', 'secretAccessKey', 'region', 'bucket');
 
-    should(formats)
-      .be.an.Object()
-      .with.properties('input', 'output');
+    should(formats).be.an.Object().with.properties('input', 'output');
     should(formats.input).be.an.Array();
     should(formats.input).have.length(5);
 
     should(formats.output).be.an.Array();
     should(formats.output).have.length(5);
 
-    should(log)
-      .be.an.Object()
-      .with.properties('name', 'level');
+    should(log).be.an.Object().with.properties('name', 'level');
     should(log.name).equal('COMETA');
     should(log.level).equal('warn');
 

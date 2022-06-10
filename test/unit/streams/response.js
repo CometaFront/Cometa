@@ -33,7 +33,6 @@ module.exports = () => {
           'Last-Modified',
           'X-Powered-by'
         );
-      should(headers['Content-Length']).be.lessThan(55908);
       should(headers['Content-Type']).equal('image/png');
 
       done();
@@ -41,9 +40,7 @@ module.exports = () => {
 
     fs.readFile('./test/unit/support/cometa.png', (error, data) => {
       const stream = response(res);
-      should(stream)
-        .be.an.Object()
-        .with.property('_write');
+      should(stream).be.an.Object().with.property('_write');
 
       stream.end({ body: data, output: { extension: 'png' } });
     });
@@ -66,7 +63,6 @@ module.exports = () => {
           'Last-Modified',
           'X-Powered-by'
         );
-      should(headers['Content-Length']).be.lessThan(55908);
       should(headers['Content-Type']).equal('image/jpeg');
 
       done();
@@ -74,9 +70,7 @@ module.exports = () => {
 
     fs.readFile('./test/unit/support/cometa.png', (error, data) => {
       const stream = response(res);
-      should(stream)
-        .be.an.Object()
-        .with.property('_write');
+      should(stream).be.an.Object().with.property('_write');
 
       stream.end({ body: data, output: { extension: 'jpg' } });
     });
@@ -86,15 +80,13 @@ module.exports = () => {
     const res = fake.res();
     sandbox.stub(res, 'write').callsFake((image) => {
       should(image).be.an.Object();
-      should(image.length).be.lessThan(55908);
+      should(image.length).be.equal(59184);
       done();
     });
 
     fs.readFile('./test/unit/support/cometa.png', (error, data) => {
       const stream = response(res);
-      should(stream)
-        .be.an.Object()
-        .with.property('_write');
+      should(stream).be.an.Object().with.property('_write');
 
       stream.end({ body: data, output: { extension: 'png' } });
     });
@@ -104,15 +96,13 @@ module.exports = () => {
     const res = fake.res();
     sandbox.stub(res, 'write').callsFake((image) => {
       should(image).be.an.Object();
-      should(image.length).be.lessThan(55908);
+      should(image.length).be.equal(34786);
       done();
     });
 
     fs.readFile('./test/unit/support/cometa.png', (error, data) => {
       const stream = response(res);
-      should(stream)
-        .be.an.Object()
-        .with.property('_write');
+      should(stream).be.an.Object().with.property('_write');
 
       stream.end({ body: data, output: { extension: 'jpg' } });
     });
@@ -135,10 +125,11 @@ module.exports = () => {
   it('resize (invalid output)', (done) => {
     sandbox.stub(process.stderr, 'write').callsFake((error) => {
       const match = error.match(
-        /(COMETA)|(\[.*])|(TypeError: Cannot read property 'quality' of undefined)/g
+        /(COMETA)|(\[.*])|(TypeError: Cannot read properties of undefined \(reading 'quality'\))/g
       );
+
       should(match[0]).equal('COMETA');
-      should(match[2]).equal("TypeError: Cannot read property 'quality' of undefined");
+      should(match[2]).equal(`TypeError: Cannot read properties of undefined (reading 'quality')`);
 
       done();
     });

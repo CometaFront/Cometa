@@ -16,7 +16,8 @@
         "semi": true,
         "printWidth": 100,
         "singleQuote": true,
-        "arrowParens": "always"
+        "arrowParens": "always",
+        "trailingComma": "none"
       }
     ],
     "func-names": ["error", "always"],

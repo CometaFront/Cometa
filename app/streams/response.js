@@ -4,10 +4,7 @@ const { Writable } = require('stream');
 const log = require('../lib/log');
 
 const writeHead = (res, image, size) => {
-  const Etag = crypto
-    .createHash('sha1')
-    .update(image.body, 'utf8')
-    .digest('hex');
+  const Etag = crypto.createHash('sha1').update(image.body, 'utf8').digest('hex');
 
   const expirationDate = new Date();
   expirationDate.setDate(expirationDate.getDate() + 30);

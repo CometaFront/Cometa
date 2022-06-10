@@ -10,13 +10,10 @@ const levels = {
 const fn = (prop, args) => {
   if ((levels[prop] || 0) >= levels[log.level]) {
     const message = args
-      .map((a) => {
-        if (a instanceof Error) {
-          return a.stack;
-        }
-
-        return typeof a === 'object' ? JSON.stringify(a, null, 2) : a;
-      })
+      .map((a) =>
+        // eslint-disable-next-line no-nested-ternary
+        a instanceof Error ? a.stack : typeof a === 'object' ? JSON.stringify(a, null, 2) : a
+      )
       .join('\n');
 
     const stream = ['warn', 'error'].includes(prop) ? process.stderr : process.stdout;
@@ -32,5 +29,8 @@ const fn = (prop, args) => {
  * Use with caution.
  */
 module.exports = new Proxy(console, {
-  get: (target, prop) => (...args) => fn(prop, args)
+  get:
+    (target, prop) =>
+    (...args) =>
+      fn(prop, args)
 });

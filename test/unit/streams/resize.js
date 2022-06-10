@@ -18,9 +18,7 @@ module.exports = () => {
   it('resize (image)', (done) => {
     fs.readFile('./test/unit/support/cometa.png', (error, data) => {
       const stream = resize();
-      should(stream)
-        .be.an.Object()
-        .with.property('_transform');
+      should(stream).be.an.Object().with.property('_transform');
 
       stream.end({ body: data, output: { width: 50, height: 50 } });
       stream.on('data', (image) => {
@@ -43,9 +41,7 @@ module.exports = () => {
     });
 
     const stream = resize();
-    should(stream)
-      .be.an.Object()
-      .with.property('_transform');
+    should(stream).be.an.Object().with.property('_transform');
 
     stream.end({ body: 'Invalid image.', output: { width: 50, height: 50 } });
     stream.on('error', (error) => {
@@ -56,15 +52,11 @@ module.exports = () => {
   it('resize (no resize)', (done) => {
     fs.readFile('./test/unit/support/cometa.png', (error, data) => {
       const stream = resize();
-      should(stream)
-        .be.an.Object()
-        .with.property('_transform');
+      should(stream).be.an.Object().with.property('_transform');
 
       stream.end({ body: data });
       stream.on('data', (image) => {
-        should(image)
-          .be.an.Object()
-          .with.property('body');
+        should(image).be.an.Object().with.property('body');
 
         should(image.body).equal(data);
 

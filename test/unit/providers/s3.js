@@ -30,14 +30,9 @@ module.exports = () => {
         should(message).equal('Image received from S3 provider.');
       })
       .on('data', (chunk) => {
-        should(provider)
-          .be.an.Object()
-          .and.be.instanceOf(Readable)
-          .with.property('_read');
+        should(provider).be.an.Object().and.be.instanceOf(Readable).with.property('_read');
 
-        should(chunk)
-          .be.an.Object()
-          .with.properties('output', 'body', 'originalSize');
+        should(chunk).be.an.Object().with.properties('output', 'body', 'originalSize');
 
         should(chunk.output).be.an.Object();
         should(chunk.output.extension).equal('png');
@@ -54,9 +49,7 @@ module.exports = () => {
       provider = new S3();
     } catch (error) {
       should(!!provider).equal(false);
-      should(error)
-        .be.an.Object()
-        .with.property('message');
+      should(error).be.an.Object().with.property('message');
 
       should(error.message).equal('Configuration is required.');
 
@@ -69,14 +62,9 @@ module.exports = () => {
 
     const provider = new S3(config.cometa);
     provider.on('error', (error) => {
-      should(provider)
-        .be.an.Object()
-        .and.instanceOf(Readable)
-        .with.property('_read');
+      should(provider).be.an.Object().and.instanceOf(Readable).with.property('_read');
 
-      should(error)
-        .be.an.Object()
-        .with.property('message');
+      should(error).be.an.Object().with.property('message');
 
       should(error.message).equal('Testing error.');
 

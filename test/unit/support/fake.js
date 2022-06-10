@@ -28,7 +28,7 @@ module.exports = {
       host: 'localhost:9090',
       'accept-encoding': 'gzip, deflate'
     },
-    url: '/url/http://localhost:9090/car.png',
+    url: 'http://localhost:9090/car.png',
     method: 'GET'
   }),
   res: () => new Response()

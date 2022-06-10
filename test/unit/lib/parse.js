@@ -9,13 +9,9 @@ module.exports = () => {
       params: { provider: 'url' }
     });
 
-    should(result)
-      .be.an.Object()
-      .with.properties('output', 'provider', 'input');
+    should(result).be.an.Object().with.properties('output', 'provider', 'input');
 
-    should(result.output)
-      .be.an.Object()
-      .with.properties('width', 'height', 'quality', 'extension');
+    should(result.output).be.an.Object().with.properties('width', 'height', 'quality', 'extension');
 
     should(result.output.width).be.a.Number();
     should(result.output.width).equal(10);
@@ -46,13 +42,9 @@ module.exports = () => {
       }
     });
 
-    should(result)
-      .be.an.Object()
-      .with.properties('output', 'provider', 'input');
+    should(result).be.an.Object().with.properties('output', 'provider', 'input');
 
-    should(result.output)
-      .be.an.Object()
-      .with.properties('width', 'height', 'quality', 'extension');
+    should(result.output).be.an.Object().with.properties('width', 'height', 'quality', 'extension');
 
     should(result.output.width).be.a.Number();
     should(result.output.width).equal(10);
@@ -79,13 +71,9 @@ module.exports = () => {
       }
     });
 
-    should(result)
-      .be.an.Object()
-      .with.properties('output', 'provider', 'input');
+    should(result).be.an.Object().with.properties('output', 'provider', 'input');
 
-    should(result.output)
-      .be.an.Object()
-      .with.properties('width', 'height', 'quality', 'extension');
+    should(result.output).be.an.Object().with.properties('width', 'height', 'quality', 'extension');
 
     should(result.output.width).equal(null);
     should(result.output.height).equal(null);
@@ -108,13 +96,9 @@ module.exports = () => {
       params: {}
     });
 
-    should(result)
-      .be.an.Object()
-      .with.properties('output', 'provider', 'input');
+    should(result).be.an.Object().with.properties('output', 'provider', 'input');
 
-    should(result.output)
-      .be.an.Object()
-      .with.properties('width', 'height', 'quality', 'extension');
+    should(result.output).be.an.Object().with.properties('width', 'height', 'quality', 'extension');
 
     should(result.output.width).equal(null);
     should(result.output.height).equal(null);
@@ -136,13 +120,9 @@ module.exports = () => {
       params: {}
     });
 
-    should(result)
-      .be.an.Object()
-      .with.properties('output', 'provider', 'input');
+    should(result).be.an.Object().with.properties('output', 'provider', 'input');
 
-    should(result.output)
-      .be.an.Object()
-      .with.properties('width', 'height', 'quality', 'extension');
+    should(result.output).be.an.Object().with.properties('width', 'height', 'quality', 'extension');
 
     should(result.output.width).equal(null);
     should(result.output.height).equal(null);
@@ -164,13 +144,9 @@ module.exports = () => {
       params: {}
     });
 
-    should(result)
-      .be.an.Object()
-      .with.properties('output', 'provider', 'input');
+    should(result).be.an.Object().with.properties('output', 'provider', 'input');
 
-    should(result.output)
-      .be.an.Object()
-      .with.properties('width', 'height', 'quality', 'extension');
+    should(result.output).be.an.Object().with.properties('width', 'height', 'quality', 'extension');
 
     should(result.output.width).equal(null);
     should(result.output.height).equal(null);
